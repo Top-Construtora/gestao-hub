@@ -24,7 +24,7 @@
 }
 
 .section-title i {
-  color: #0e4528;
+  color: #09005C;
 }
 
 /* Loading State */
@@ -41,7 +41,7 @@
   width: 40px;
   height: 40px;
   border: 3px solid #e9ecef;
-  border-top: 3px solid #0e4528;
+  border-top: 3px solid #09005C;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
@@ -92,7 +92,7 @@
 }
 
 .attachment-card:hover {
-  border-color: #0e4528;
+  border-color: #09005C;
   box-shadow: 0 4px 12px rgba(111, 66, 193, 0.15);
   transform: translateY(-2px);
 }
@@ -113,7 +113,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background: #0e4528;
+  background: #09005C;
   color: white;
   font-size: 1.2rem;
 }
@@ -139,7 +139,7 @@
 }
 
 .action-btn:hover {
-  background: #0e4528;
+  background: #09005C;
   color: white;
 }
 
@@ -316,19 +316,19 @@
 
 .file-drop-zone:hover,
 .file-drop-zone.drag-over {
-  border-color: #0e4528;
+  border-color: #09005C;
   background: #f0f8f0;
 }
 
 .file-drop-zone.has-files {
-  border-color: #0e4528;
+  border-color: #09005C;
   background: #f0f8f0;
   padding: 1rem;
 }
 
 /* Upload Status */
 .file-drop-zone.uploading {
-  border-color: #0e4528;
+  border-color: #09005C;
   background: #f0f8f0;
   cursor: not-allowed;
 }
@@ -342,7 +342,7 @@
 
 .uploading-icon {
   font-size: 2.5rem;
-  color: #0e4528;
+  color: #09005C;
 }
 
 .upload-info {
@@ -387,7 +387,7 @@
 }
 
 .drop-text strong {
-  color: #0e4528;
+  color: #09005C;
 }
 
 .drop-subtitle {
@@ -475,7 +475,7 @@
 }
 
 .form-control:focus {
-  border-color: #0e4528;
+  border-color: #09005C;
   box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
   outline: 0;
 }
@@ -498,7 +498,7 @@
 
 .upload-status .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #0e4528, #28a745);
+  background: linear-gradient(90deg, #09005C, #28a745);
   border-radius: 4px;
   transition: width 0.3s ease;
   position: relative;
@@ -554,7 +554,7 @@
 }
 
 .attachments-header h4 i {
-  color: #0e4528;
+  color: #09005C;
 }
 
 /* Edit Modal Specific */
@@ -607,12 +607,12 @@
 }
 
 .btn-primary {
-  background: #0e4528;
+  background: #09005C;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #0e4528;
+  background: #09005C;
 }
 
 .btn-secondary {

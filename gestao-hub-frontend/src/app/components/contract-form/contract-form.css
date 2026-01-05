@@ -207,8 +207,8 @@
 }
 
 .form-section:hover {
-  box-shadow: 0 4px 16px rgba(0, 59, 43, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 59, 43, 0.3);
+  box-shadow: 0 4px 16px rgba(9, 0, 92, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-color: rgba(9, 0, 92, 0.3);
   transform: translateY(-2px);
 }
 
@@ -242,7 +242,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 59, 43, 0.08);
+  background: rgba(9, 0, 92, 0.08);
   border-radius: 10px;
 }
 
@@ -455,7 +455,7 @@
   font-weight: 600;
   text-align: center;
   padding: 0.25rem 0.375rem;
-  background: rgba(0, 59, 43, 0.08);
+  background: rgba(9, 0, 92, 0.08);
   border-radius: 4px;
   border: 1px dashed var(--naue-primary);
   grid-column: 3;
@@ -477,13 +477,13 @@
   font-weight: 600;
   font-size: 0.875rem;
   padding: 0.75rem 1rem;
-  background: rgba(0, 59, 43, 0.1);
+  background: rgba(9, 0, 92, 0.1);
   border-radius: 6px;
   border: 1px solid var(--naue-primary);
 }
 
 .total-value-display i {
-  color: #10b981;
+  color: #09005C;
   font-size: 1rem;
 }
 
@@ -512,7 +512,7 @@
   background: var(--primary-dark);
   border-color: var(--primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(14, 155, 113, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-add-payment:disabled {
@@ -528,8 +528,8 @@
 
 /* Novo sistema de pagamento (preview) */
 .new-payment-system-preview {
-  background: linear-gradient(135deg, rgba(14, 155, 113, 0.08), rgba(14, 155, 113, 0.12));
-  border: 1px solid rgba(14, 155, 113, 0.2);
+  background: linear-gradient(135deg, rgba(9, 0, 92, 0.08), rgba(9, 0, 92, 0.12));
+  border: 1px solid rgba(9, 0, 92, 0.2);
   border-radius: 12px;
   padding: 1.5rem;
   margin: 1.5rem 0;
@@ -653,7 +653,7 @@
   background: var(--primary-dark);
   border-color: var(--primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(14, 155, 113, 0.3);
+  box-shadow: 0 3px 8px rgba(9, 0, 92, 0.3);
 }
 
 .btn-add-payment-method:disabled {
@@ -744,7 +744,7 @@
 .payment-summary-simple .summary-label {
   font-size: 12px;
   font-weight: 600;
-  color: #059669;
+  color: #070048;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 8px;
@@ -762,13 +762,13 @@
 .payment-summary-simple .summary-value {
   font-size: 24px;
   font-weight: 700;
-  color: #065f46;
+  color: #09005C;
   display: block;
   line-height: 1;
 }
 
 :host-context(body.dark-mode) .payment-summary-simple .summary-value {
-  color: #10b981;
+  color: #09005C;
 }
 
 .payment-summary-simple .summary-value.warning {
@@ -833,7 +833,7 @@
 .small-date:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 1px rgba(14, 155, 113, 0.2);
+  box-shadow: 0 0 0 1px rgba(9, 0, 92, 0.2);
 }
 
 .installment-info {
@@ -1125,7 +1125,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 4px rgba(0, 59, 43, 0.08);
+  box-shadow: 0 0 0 4px rgba(9, 0, 92, 0.08);
   background: #ffffff;
 }
 
@@ -1332,7 +1332,7 @@ textarea.form-control {
 /* Hover effect mais sutil */
 .service-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 59, 43, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 6px 16px rgba(9, 0, 92, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
   border-color: var(--naue-primary);
 }
 
@@ -1448,7 +1448,7 @@ textarea.form-control {
 .price-input:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 2px rgba(0, 59, 43, 0.1);
+  box-shadow: 0 0 0 2px rgba(9, 0, 92, 0.1);
 }
 
 /* Valor total compacto */
@@ -1508,7 +1508,7 @@ textarea.form-control {
 
 .info-card.highlight {
   background: #ecfdf5;
-  border-color: #10b981;
+  border-color: #09005C;
 }
 
 .info-label {
@@ -1525,7 +1525,7 @@ textarea.form-control {
 }
 
 .info-card.highlight .info-value {
-  color: #10b981;
+  color: #09005C;
 }
 
 .help-text {
@@ -1599,7 +1599,7 @@ textarea.form-control {
   color: white;
   border-radius: 14px;
   padding: 18px 24px;
-  box-shadow: 0 6px 16px rgba(0, 59, 43, 0.2), 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(9, 0, 92, 0.2), 0 2px 8px rgba(0, 0, 0, 0.08);
   /* Posicionamento absoluto no rodapé da form-section */
   position: absolute;
   bottom: 24px;
@@ -1703,11 +1703,11 @@ textarea.form-control {
 .btn-primary {
   background: linear-gradient(135deg, var(--naue-primary) 0%, var(--naue-primary-hover) 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(0, 59, 43, 0.2);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  box-shadow: 0 6px 16px rgba(0, 59, 43, 0.3);
+  box-shadow: 0 6px 16px rgba(9, 0, 92, 0.3);
   transform: translateY(-2px);
 }
 
@@ -1888,7 +1888,7 @@ textarea.form-control {
 
 .service-option:hover {
   border-color: var(--naue-primary);
-  background: rgba(0, 59, 43, 0.02);
+  background: rgba(9, 0, 92, 0.02);
 }
 
 .service-option-info h4 {
@@ -2266,8 +2266,8 @@ textarea.form-control {
 }
 
 .payment-method-item:hover {
-  border-color: rgba(0, 59, 43, 0.4);
-  box-shadow: 0 4px 12px rgba(0, 59, 43, 0.08);
+  border-color: rgba(9, 0, 92, 0.4);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.08);
   transform: translateY(-1px);
 }
 
@@ -2299,7 +2299,7 @@ textarea.form-control {
   font-size: 11px;
   font-weight: 700;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 59, 43, 0.2);
+  box-shadow: 0 2px 4px rgba(9, 0, 92, 0.2);
 }
 
 .payment-name {

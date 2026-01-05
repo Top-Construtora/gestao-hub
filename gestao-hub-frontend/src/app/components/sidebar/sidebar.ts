@@ -44,15 +44,15 @@ export class SidebarComponent {
     {
       title: 'ANALISES',
       items: [
-        { id: 'relatorios', icon: 'fas fa-chart-bar', text: 'Relatorios', route: '/home/relatorios', adminOnly: true, adminOnlyNotGerencial: true },
+        { id: 'relatorios', icon: 'fas fa-chart-bar', text: 'Relatórios', route: '/home/relatorios', adminOnly: true, adminOnlyNotGerencial: true },
         { id: 'analytics', icon: 'fas fa-chart-pie', text: 'Analytics', route: '/home/analytics', adminOnly: true, adminOnlyNotGerencial: true }
       ]
     },
     {
       title: 'CONFIGURACOES',
       items: [
-        { id: 'usuarios', icon: 'fas fa-users-cog', text: 'Usuarios', route: '/home/usuarios', adminOnly: true, adminOnlyNotGerencial: true },
-        { id: 'configuracoes', icon: 'fas fa-cog', text: 'Configuracoes', route: '/home/configuracoes' }
+        { id: 'usuarios', icon: 'fas fa-users-cog', text: 'Usuários', route: '/home/usuarios', adminOnly: true, adminOnlyNotGerencial: true },
+        { id: 'configuracoes', icon: 'fas fa-cog', text: 'Configuraçoes', route: '/home/configuracoes' }
       ]
     },
     {

@@ -57,25 +57,25 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
   statCards: StatCard[] = [];
   recentActivities: Activity[] = [];
   quickActions: QuickAction[] = [
-    { id: 'routines', icon: 'fas fa-tasks', label: 'Rotinas', color: '#003b2b', action: 'routines' },
-    { id: 'new-service', icon: 'fas fa-briefcase', label: 'Novo Serviço', color: '#003b2b', action: 'newService' },
-    { id: 'new-client', icon: 'fas fa-users', label: 'Novo Cliente', color: '#003b2b', action: 'newClient' },
-    { id: 'new-proposal', icon: 'fas fa-file-alt', label: 'Nova Proposta', color: '#003b2b', action: 'newProposal' },
-    { id: 'new-contract', icon: 'fas fa-file-contract', label: 'Novo Contrato', color: '#003b2b', action: 'newContract' },
-    { id: 'generate-report', icon: 'fas fa-chart-bar', label: 'Gerar Relatório', color: '#003b2b', action: 'generateReport' }
+    { id: 'routines', icon: 'fas fa-tasks', label: 'Rotinas', color: '#09005C', action: 'routines' },
+    { id: 'new-service', icon: 'fas fa-briefcase', label: 'Novo Serviço', color: '#09005C', action: 'newService' },
+    { id: 'new-client', icon: 'fas fa-users', label: 'Novo Cliente', color: '#09005C', action: 'newClient' },
+    { id: 'new-proposal', icon: 'fas fa-file-alt', label: 'Nova Proposta', color: '#09005C', action: 'newProposal' },
+    { id: 'new-contract', icon: 'fas fa-file-contract', label: 'Novo Contrato', color: '#09005C', action: 'newContract' },
+    { id: 'generate-report', icon: 'fas fa-chart-bar', label: 'Gerar Relatório', color: '#09005C', action: 'generateReport' }
   ];
   monthlyContractsData = {
     labels: [] as string[],
     datasets: [{
       label: 'Contratos Criados',
       data: [] as number[],
-      borderColor: '#003b2b',
-      backgroundColor: 'rgba(0, 59, 43, 0.1)',
+      borderColor: '#00EDB1',
+      backgroundColor: 'rgba(0, 237, 177, 0.1)',
       fill: true,
       tension: 0.4,
       borderWidth: 3,
       pointBackgroundColor: '#ffffff',
-      pointBorderColor: '#003b2b',
+      pointBorderColor: '#00EDB1',
       pointBorderWidth: 2,
       pointRadius: 5,
       pointHoverRadius: 7,
@@ -83,13 +83,13 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
     }, {
       label: 'Contratos Ativos',
       data: [] as number[],
-      borderColor: '#0a8560',
-      backgroundColor: 'rgba(10, 133, 96, 0.1)',
+      borderColor: '#30ADFC',
+      backgroundColor: 'rgba(48, 173, 252, 0.1)',
       fill: false,
       tension: 0.4,
       borderWidth: 2,
       pointBackgroundColor: '#ffffff',
-      pointBorderColor: '#0a8560',
+      pointBorderColor: '#30ADFC',
       pointBorderWidth: 2,
       pointRadius: 4,
       pointHoverRadius: 6,
@@ -224,8 +224,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
           changeType: vagasAbertas > 0 ? 'positive' : 'negative',
           icon: 'fas fa-briefcase',
           progress: 100,
-          color: '#003b2b',
-          bgColor: 'rgba(0, 59, 43, 0.1)'
+          color: '#09005C',
+          bgColor: 'rgba(9, 0, 92, 0.1)'
         },
         {
           id: 'vagas-abertas',
@@ -235,8 +235,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
           changeType: 'positive',
           icon: 'fas fa-folder-open',
           progress: totalVagas > 0 ? (vagasAbertas / totalVagas) * 100 : 0,
-          color: '#003b2b',
-          bgColor: 'rgba(0, 59, 43, 0.1)'
+          color: '#09005C',
+          bgColor: 'rgba(9, 0, 92, 0.1)'
         },
         {
           id: 'vagas-processo',
@@ -246,8 +246,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
           changeType: 'positive',
           icon: 'fas fa-user-clock',
           progress: totalVagas > 0 ? (vagasEmProcesso / totalVagas) * 100 : 0,
-          color: '#003b2b',
-          bgColor: 'rgba(0, 59, 43, 0.1)'
+          color: '#09005C',
+          bgColor: 'rgba(9, 0, 92, 0.1)'
         },
         {
           id: 'vagas-fechadas',
@@ -257,8 +257,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
           changeType: vagasFechadas > 0 ? 'positive' : 'negative',
           icon: 'fas fa-check-circle',
           progress: totalVagas > 0 ? (vagasFechadas / totalVagas) * 100 : 0,
-          color: '#003b2b',
-          bgColor: 'rgba(0, 59, 43, 0.1)'
+          color: '#09005C',
+          bgColor: 'rgba(9, 0, 92, 0.1)'
         }
       ];
 
@@ -274,8 +274,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
           changeType: 'negative',
           icon: 'fas fa-briefcase',
           progress: 0,
-          color: '#003b2b',
-          bgColor: 'rgba(0, 59, 43, 0.1)'
+          color: '#09005C',
+          bgColor: 'rgba(9, 0, 92, 0.1)'
         }
       ];
     }
@@ -648,8 +648,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
     this.monthlyContractsData.datasets[0].label = 'Vagas Abertas';
     this.monthlyContractsData.datasets[1].data = vagasFechadasData;
     this.monthlyContractsData.datasets[1].label = 'Vagas Fechadas';
-    this.monthlyContractsData.datasets[1].borderColor = '#10b981';
-    this.monthlyContractsData.datasets[1].backgroundColor = 'rgba(16, 185, 129, 0.1)';
+    this.monthlyContractsData.datasets[1].borderColor = '#00EDB1';
+    this.monthlyContractsData.datasets[1].backgroundColor = 'rgba(0, 237, 177, 0.1)';
   }
 
   private generateMockChartData() {
@@ -679,8 +679,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: newContractsInfo.type, 
         icon: 'fas fa-file-contract', 
         progress: contractStats.total === 0 ? 0 : Math.min((contractStats.total / 30) * 100, 100),
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       },
       { 
         id: 'active-contracts',
@@ -690,8 +690,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: 'positive', 
         icon: 'fas fa-check-circle', 
         progress: contractStats.active === 0 ? 0 : Math.min((contractStats.active / contractStats.total) * 100, 100), 
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       },
       { 
         id: 'services-progress',
@@ -701,8 +701,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: 'positive', 
         icon: 'fas fa-list-check', 
         progress: servicesInProgress === 0 ? 0 : Math.min((servicesInProgress / 50) * 100, 100),
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       },
       { 
         id: 'total-clients',
@@ -712,8 +712,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: 'positive', 
         icon: 'fas fa-users', 
         progress: totalClients === 0 ? 0 : Math.min((totalClients / 100) * 100, 100),
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       }
     ];
   }
@@ -763,7 +763,7 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
 
     const isDarkMode = document.body.classList.contains('dark-mode');
     const textColor = isDarkMode ? '#e5e7eb' : '#374151';
-    const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 59, 43, 0.08)';
+    const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(9, 0, 92, 0.08)';
 
     const { Chart } = await import('chart.js');
     this.contractsChart = new Chart(ctx, {
@@ -793,7 +793,7 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
             backgroundColor: isDarkMode ? 'rgba(30, 30, 30, 0.95)' : 'rgba(255, 255, 255, 0.95)',
             titleColor: textColor,
             bodyColor: textColor,
-            borderColor: isDarkMode ? '#4b5563' : 'rgba(0, 59, 43, 0.2)',
+            borderColor: isDarkMode ? '#4b5563' : 'rgba(9, 0, 92, 0.2)',
             borderWidth: 1,
             padding: 12,
             cornerRadius: 8,
@@ -937,14 +937,14 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
 
   getActivityColor(type: string): string {
     const colors: { [key: string]: string } = { 
-      'service': '#003b2b',
-      'diagnostic': '#0a8560', 
-      'okr': '#003b2b', 
-      'mentoring': '#065f46', 
-      'hr': '#0f766e', 
+      'service': '#09005C',
+      'diagnostic': '#00EDB1', 
+      'okr': '#09005C', 
+      'mentoring': '#09005C', 
+      'hr': '#30ADFC', 
       'other': '#17915a' 
     };
-    return colors[type] || '#0a8560';
+    return colors[type] || '#00EDB1';
   }
   
   getStatusText(status: string): string {
@@ -959,7 +959,7 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
 
   getStatusColor(status: string): string {
     const colors: { [key: string]: string } = {
-      'completed': '#10b981',
+      'completed': '#00EDB1',
       'in_progress': '#f59e0b',
       'scheduled': '#3b82f6',
       'not_started': '#6b7280'
@@ -1050,8 +1050,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: 'positive', 
         icon: 'fas fa-file-contract', 
         progress: userStats.myContracts === 0 ? 0 : Math.min((userStats.myContracts / 10) * 100, 100),
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       },
       { 
         id: 'my-active-services',
@@ -1061,8 +1061,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: 'positive', 
         icon: 'fas fa-tasks', 
         progress: userStats.myActiveServices === 0 ? 0 : Math.min((userStats.myActiveServices / 20) * 100, 100), 
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       },
       { 
         id: 'my-completed-services',
@@ -1072,8 +1072,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: 'positive', 
         icon: 'fas fa-check-circle', 
         progress: userStats.myCompletedServices === 0 ? 0 : Math.min((userStats.myCompletedServices / 30) * 100, 100),
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       },
       { 
         id: 'my-progress',
@@ -1083,8 +1083,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
         changeType: 'positive', 
         icon: 'fas fa-chart-pie', 
         progress: userStats.myActiveServices + userStats.myCompletedServices === 0 ? 0 : Math.round((userStats.myCompletedServices / (userStats.myActiveServices + userStats.myCompletedServices)) * 100),
-        color: '#003b2b', 
-        bgColor: 'rgba(14, 155, 113, 0.15)' 
+        color: '#09005C', 
+        bgColor: 'rgba(9, 0, 92, 0.15)' 
       }
     ];
   }
@@ -1098,8 +1098,8 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
     // Se for Consultor R&S, mostrar ações específicas de R&S
     if (this.authService.isConsultorRS()) {
       this.quickActions = [
-        { id: 'nova-vaga', icon: 'fas fa-briefcase', label: 'Nova Vaga', color: '#003b2b', action: 'novaVaga' },
-        { id: 'vagas', icon: 'fas fa-list', label: 'Ver Vagas', color: '#003b2b', action: 'vagas' }
+        { id: 'nova-vaga', icon: 'fas fa-briefcase', label: 'Nova Vaga', color: '#09005C', action: 'novaVaga' },
+        { id: 'vagas', icon: 'fas fa-list', label: 'Ver Vagas', color: '#09005C', action: 'vagas' }
       ];
       return;
     }

@@ -341,9 +341,9 @@ export class AnalyticsPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     // Filtrar tipos com valores > 0 e excluir Recrutamento & Seleção
     const typeConfig: {[key: string]: {label: string, color: string}} = {
-      'Full': { label: 'Full', color: '#065f46' },
-      'Pontual': { label: 'Pontual', color: '#0A8060' },
-      'Individual': { label: 'Individual', color: '#10b981' }
+      'Full': { label: 'Full', color: '#09005C' },
+      'Pontual': { label: 'Pontual', color: '#30ADFC' },
+      'Individual': { label: 'Individual', color: '#00EDB1' }
     };
 
     const labels: string[] = [];
@@ -457,8 +457,8 @@ export class AnalyticsPageComponent implements OnInit, AfterViewInit, OnDestroy 
     const labels = data.map((service: any) => service.name);
     const values = data.map((service: any) => service.contractCount);
 
-    // Todas as barras com verde mais escuro do sistema
-    const colors = data.map(() => '#065f46');
+    // Todas as barras com azul primário do sistema
+    const colors = data.map(() => '#09005C');
 
     const Chart = (window as any).Chart;
     this.charts['topServicesChart'] = new Chart(ctx, {
@@ -750,9 +750,9 @@ export class AnalyticsPageComponent implements OnInit, AfterViewInit, OnDestroy 
         if (percentage < 40) {
           return '#6b7280'; // Cinza
         } else if (percentage >= 40 && percentage <= 80) {
-          return '#065f46'; // Verde mais escuro
+          return '#30ADFC'; // Azul claro (accent)
         } else {
-          return '#3b82f6'; // Azul
+          return '#09005C'; // Azul primário
         }
       });
 

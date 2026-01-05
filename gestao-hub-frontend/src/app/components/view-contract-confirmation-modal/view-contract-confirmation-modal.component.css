@@ -30,7 +30,7 @@
   justify-content: space-between;
   padding: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #09005C 0%, #070048 100%);
   color: white;
 }
 
@@ -75,7 +75,7 @@
 
 .success-icon i {
   font-size: 3rem;
-  color: #10b981;
+  color: #09005C;
 }
 
 .modal-message p {
@@ -141,13 +141,13 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #09005C 0%, #070048 100%);
   color: white;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  background: #070048;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }

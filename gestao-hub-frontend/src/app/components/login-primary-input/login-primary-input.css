@@ -27,7 +27,7 @@
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: var(--naue-dark-green);
+  color: var(--hub-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
@@ -45,10 +45,10 @@
   font-family: inherit;
   font-size: 15px;
   font-weight: 400;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(9, 0, 92, 0.1);
   border-radius: 16px;
   background-color: rgba(255, 255, 255, 0.05);
-  color: var(--naue-black);
+  color: var(--hub-black);
   transition: all 0.3s ease;
   outline: none;
   box-sizing: border-box;
@@ -56,21 +56,21 @@
 }
 
 .input-content input::placeholder {
-  color: var(--naue-text-gray);
+  color: var(--hub-text-gray);
   font-weight: 300;
 }
 
 .input-content input:focus {
-  border-color: var(--naue-neon-green);
-  box-shadow: 
-    0 0 0 4px rgba(10, 128, 96, 0.15),
-    0 4px 16px rgba(10, 128, 96, 0.1);
+  border-color: var(--hub-secondary);
+  box-shadow:
+    0 0 0 4px rgba(0, 237, 177, 0.15),
+    0 4px 16px rgba(0, 237, 177, 0.1);
   background-color: rgba(255, 255, 255, 0.08);
   transform: translateY(-1px);
 }
 
 .input-content input:hover:not(:focus) {
-  border-color: #cbd5e1;
+  border-color: var(--hub-accent);
 }
 
 .input-content .icon {
@@ -113,11 +113,11 @@
 .input-content input:focus ~ .icon svg rect,
 .input-content input:focus ~ .icon svg line,
 .input-content input:focus ~ .icon svg polyline {
-  stroke: var(--naue-neon-green);
+  stroke: var(--hub-secondary);
 }
 
 .input-content input:focus ~ .icon svg circle[fill] {
-  fill: var(--naue-neon-green);
+  fill: var(--hub-secondary);
 }
 
 /* Animação */

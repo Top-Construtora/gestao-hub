@@ -27,7 +27,7 @@
 
 .icon-container i {
   font-size: 4rem;
-  color: var(--primary-green, #0e9b71);
+  color: var(--primary-green, #09005C);
   animation: pulse 2s ease-in-out infinite;
 }
 
@@ -85,7 +85,7 @@
 }
 
 .btn-primary {
-  background: var(--primary-green, #0e9b71);
+  background: var(--primary-green, #09005C);
   color: var(--white, #ffffff);
 }
 

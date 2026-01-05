@@ -22,12 +22,12 @@
 }
 
 :host::-webkit-scrollbar-thumb {
-  background-color: rgba(10, 128, 96, 0.2);
+  background-color: rgba(9, 0, 92, 0.2);
   border-radius: 4px;
 }
 
 :host::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(10, 128, 96, 0.3);
+  background-color: rgba(9, 0, 92, 0.3);
 }
 
 /* Page Header */
@@ -95,7 +95,7 @@
 
 .card-header i {
   font-size: 1.125rem;
-  color: var(--naue-green, #0a8060);
+  color: var(--naue-green, #09005C);
 }
 
 .card-header h2 {
@@ -166,8 +166,8 @@
 
 .form-control:focus {
   outline: none;
-  border-color: var(--naue-primary, #0a8060);
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.1);
+  border-color: var(--naue-primary, #09005C);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .form-control:disabled {
@@ -225,14 +225,14 @@
 }
 
 .radio-option:hover {
-  border-color: var(--naue-primary, #0a8060);
+  border-color: var(--naue-primary, #09005C);
   background: #f7fafc;
 }
 
 .radio-option.selected {
-  border-color: var(--naue-primary, #0a8060);
-  background: linear-gradient(135deg, rgba(10, 128, 96, 0.04) 0%, rgba(10, 128, 96, 0.02) 100%);
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.05);
+  border-color: var(--naue-primary, #09005C);
+  background: linear-gradient(135deg, rgba(9, 0, 92, 0.04) 0%, rgba(9, 0, 92, 0.02) 100%);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.05);
 }
 
 .radio-option input[type="radio"] {
@@ -259,7 +259,7 @@
 
 .radio-title i {
   font-size: 0.875rem;
-  color: var(--naue-primary, #0a8060);
+  color: var(--naue-primary, #09005C);
 }
 
 .radio-description {
@@ -340,7 +340,7 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--naue-primary, #0a8060);
+  border: 3px solid var(--naue-primary, #09005C);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -385,7 +385,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background: var(--naue-primary, #0a8060);
+  background: var(--naue-primary, #09005C);
   color: white;
   border-radius: 8px;
   font-size: 0.875rem;
@@ -397,9 +397,9 @@
 }
 
 .upload-button:hover {
-  background: #0d8461;
+  background: #070048;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(10, 128, 96, 0.2);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.2);
 }
 
 .upload-hint {
@@ -438,7 +438,7 @@
 
 .info-list i {
   font-size: 0.875rem;
-  color: var(--naue-primary, #0a8060);
+  color: var(--naue-primary, #09005C);
   flex-shrink: 0;
   margin-top: 0.0625rem;
 }
@@ -478,14 +478,14 @@
 }
 
 .btn-primary {
-  background-color: var(--naue-primary, #0a8060);
+  background-color: var(--naue-primary, #09005C);
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #0d8461;
+  background-color: #070048;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(10, 128, 96, 0.2);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.2);
 }
 
 .btn-secondary {
@@ -624,7 +624,7 @@
 }
 
 :host-context(body.dark-mode) .form-control:focus {
-  border-color: var(--naue-primary, #0a8060);
+  border-color: var(--naue-primary, #09005C);
 }
 
 :host-context(body.dark-mode) .form-label {

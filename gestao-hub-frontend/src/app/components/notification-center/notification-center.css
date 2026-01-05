@@ -236,7 +236,7 @@
 
 .notification-icon.type-success {
   background: #ecfdf5;
-  color: #059669;
+  color: #070048;
 }
 
 .notification-icon.type-error {
@@ -339,7 +339,7 @@
 }
 
 .end-of-list {
-  color: #059669;
+  color: #070048;
 }
 
 /* Animations */

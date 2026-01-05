@@ -44,9 +44,7 @@ class ServiceModel {
         .from('services')
         .select(`
           id, name, duration_amount, duration_unit, category, description, subtitle, summary, is_active,
-          created_at, updated_at,
-          created_by_user:users!services_created_by_fkey(name),
-          updated_by_user:users!services_updated_by_fkey(name)
+          created_at, updated_at, created_by, updated_by
         `)
         .order('name', { ascending: true });
 

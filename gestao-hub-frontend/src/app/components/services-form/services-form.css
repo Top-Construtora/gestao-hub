@@ -141,7 +141,7 @@ input[type="number"].form-control {
 .form-control:focus {
   outline: none;
   border-color: var(--naue-green);
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .form-control:disabled {
@@ -260,7 +260,7 @@ textarea.form-control {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-  background-color: #047857;
+  background-color: #09005C;
 }
 
 .toggle-slider::after {
@@ -383,9 +383,9 @@ textarea.form-control {
 }
 
 .category-badge[data-category="Desenvolvimento"] {
-  background-color: #d1fae5;
-  color: #047857;
-  border-color: #a7f3d0;
+  background-color: rgba(0, 237, 177, 0.15);
+  color: #00EDB1;
+  border-color: rgba(0, 237, 177, 0.3);
 }
 
 .category-badge[data-category="Gestão"] {
@@ -411,9 +411,9 @@ textarea.form-control {
 }
 
 .status-badge.active {
-  background-color: #d1fae5;
-  color: #047857;
-  border: 1px solid #a7f3d0;
+  background-color: rgba(0, 237, 177, 0.15);
+  color: #00EDB1;
+  border: 1px solid rgba(0, 237, 177, 0.3);
 }
 
 .status-badge.inactive {
@@ -461,7 +461,7 @@ textarea.form-control {
   background-color: var(--naue-primary-hover);
   border-color: var(--naue-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 59, 43, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-secondary {
@@ -764,7 +764,7 @@ textarea.form-control {
   color: white;
   border-color: var(--naue-primary);
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 59, 43, 0.2);
+  box-shadow: 0 2px 6px rgba(9, 0, 92, 0.2);
 }
 
 .btn-tool i {
@@ -1600,7 +1600,7 @@ textarea.form-control {
 .stage-item:hover {
   transform: translateY(-2px);
   border-color: var(--naue-primary);
-  box-shadow: 0 4px 12px rgba(0, 59, 43, 0.1);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.1);
 }
 
 .stage-header {

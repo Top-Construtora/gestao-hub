@@ -31,7 +31,7 @@
     position: relative;
     overflow-x: hidden;
     background-color: #fafbfc;
-    border: 3px solid #003b2b;
+    border: 3px solid #09005C;
     border-radius: 20px 0 0 0;
   }
   
@@ -701,7 +701,7 @@
     }
     
     .table-wrapper::-webkit-scrollbar-thumb {
-      background: rgba(0, 59, 43, 0.3);
+      background: rgba(9, 0, 92, 0.3);
       border-radius: 2px;
     }
   }
@@ -772,7 +772,7 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, #003b2b 0%, #0a8560 100%);
+      background: linear-gradient(90deg, #09005C 0%, #30ADFC 100%);
     }
     
     .table-card:hover {
@@ -784,7 +784,7 @@
     .table-card-header {
       font-weight: 600;
       font-size: 1rem;
-      color: #003b2b;
+      color: #09005C;
       margin-bottom: 1rem;
       display: flex;
       justify-content: space-between;

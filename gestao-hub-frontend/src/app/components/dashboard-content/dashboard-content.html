@@ -29,23 +29,6 @@
     </div>
   </div>
 
-  <!-- Quick Actions - Grid Responsivo -->
-  <div class="quick-actions-section"
-       role="region"
-       aria-label="Ações rápidas">
-    <div class="quick-actions-grid" role="group">
-      <button
-        class="quick-action-btn"
-        *ngFor="let action of quickActions; trackBy: trackByActionId"
-        (click)="executeQuickAction(action.action)"
-        [attr.aria-label]="'Ação rápida: ' + action.label"
-        type="button">
-        <i [class]="action.icon" aria-hidden="true"></i>
-        <span>{{ action.label }}</span>
-      </button>
-    </div>
-  </div>
-
   <!-- Main Content Grid - Layout Adaptativo -->
   <div class="main-content-grid">
     <!-- Chart Section - Responsivo -->

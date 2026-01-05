@@ -67,7 +67,7 @@
 
 .radio-option.selected {
   border-color: var(--naue-primary);
-  background: rgba(0, 59, 43, 0.05);
+  background: rgba(9, 0, 92, 0.05);
 }
 
 .radio-option input[type="radio"] {
@@ -140,7 +140,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(0, 59, 43, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .form-control:disabled {
@@ -171,16 +171,16 @@
   gap: 0.5rem;
   margin-top: 0.5rem;
   padding: 0.75rem;
-  background: #e6fffa;
-  border: 1px solid #81e6d9;
+  background: rgba(0, 237, 177, 0.1);
+  border: 1px solid rgba(0, 237, 177, 0.3);
   border-radius: 6px;
   font-size: 0.875rem;
-  color: #065f46;
+  color: #09005C;
 }
 
 .calculated-value i,
 .calculated-percentage i {
-  color: #0d9488;
+  color: #00EDB1;
   font-size: 0.875rem;
 }
 

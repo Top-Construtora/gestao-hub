@@ -37,11 +37,10 @@ class UserModel {
     const { data, error } = await supabase
       .from('users')
       .select(`
-        id, email, name, password, is_active, email_verified, 
-        must_change_password, first_login_at, last_password_change,
-        last_login_at, last_activity_at, login_count,
-        created_at, role_id, profile_picture_path, profile_picture_uploaded_at,
-        cargo, show_in_team, roles!inner(name)
+        id, email, name, password, is_active,
+        must_change_password, last_login,
+        created_at, updated_at, role_id, cargo,
+        profile_picture_url, roles!inner(name)
       `)
       .eq('email', email)
       .single();
@@ -65,11 +64,10 @@ class UserModel {
     const { data, error } = await supabase
       .from('users')
       .select(`
-        id, email, name, password, is_active, email_verified,
-        must_change_password, first_login_at, last_password_change,
-        last_login_at, last_activity_at, login_count,
-        created_at, role_id, profile_picture_path, profile_picture_uploaded_at,
-        cargo, show_in_team, roles!inner(name)
+        id, email, name, password, is_active,
+        must_change_password, last_login,
+        created_at, updated_at, role_id, cargo,
+        profile_picture_url, roles!inner(name)
       `)
       .eq('id', id)
       .single();
@@ -91,51 +89,30 @@ class UserModel {
 
   async updateLastLogin(userId) {
     try {
-      console.log('🔍 Updating last login for user:', userId);
-      
       const { data, error } = await supabase
         .from('users')
         .update({
-          last_login_at: new Date().toISOString(),
-          last_activity_at: new Date().toISOString(),
-          login_count: 1 // Temporariamente simplificado
+          last_login: new Date().toISOString()
         })
         .eq('id', userId)
-        .select('last_login_at, login_count')
+        .select('last_login')
         .single();
-      
+
       if (error) {
         console.error('❌ Erro ao atualizar último login:', error);
-        throw error;
+        return null;
       }
-      
+
       return data;
     } catch (error) {
       console.error('❌ Erro no updateLastLogin:', error);
-      // Não falhar o login se não conseguir atualizar o tracking
       return null;
     }
   }
 
   async updateLastActivity(userId) {
-    try {
-      const { error } = await supabase
-        .from('users')
-        .update({
-          last_activity_at: new Date().toISOString()
-        })
-        .eq('id', userId);
-      
-      if (error) {
-        console.error('❌ Erro ao atualizar última atividade:', error);
-        return false;
-      }
-      
-      return true;
-    } catch (error) {
-      console.error('❌ Erro no updateLastActivity:', error);
-      return false;
-    }
+    // Simplificado - não rastreia atividade por enquanto
+    return true;
   }
 
   async update(id, data) {
@@ -217,10 +194,10 @@ class UserModel {
     let query = supabase
       .from('users')
       .select(`
-        id, email, name, is_active, email_verified, 
-        must_change_password, last_login_at, last_activity_at, login_count,
-        created_at, role_id, profile_picture_path, profile_picture_uploaded_at,
-        cargo, show_in_team, roles!inner(name)
+        id, email, name, is_active,
+        must_change_password, last_login,
+        created_at, updated_at, role_id, cargo,
+        profile_picture_url, roles!inner(name)
       `)
       .order('created_at', { ascending: false });
     
@@ -405,18 +382,16 @@ class UserModel {
       const { data, error } = await supabase
         .from('users')
         .select(`
-          id, name, cargo, profile_picture_path, profile_picture_uploaded_at,
-          show_in_team, is_active
+          id, name, cargo, profile_picture_url, is_active
         `)
-        .eq('show_in_team', true)
         .eq('is_active', true)
         .order('name');
-      
+
       if (error) {
         console.error('❌ Erro ao buscar membros da equipe:', error);
-        throw error;
+        return [];
       }
-      
+
       return data || [];
     } catch (error) {
       console.error('❌ Erro no findTeamMembers:', error);

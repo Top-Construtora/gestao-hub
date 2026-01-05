@@ -2,8 +2,8 @@
   background: var(--white);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 59, 43, 0.08);
-  border: 1px solid rgba(0, 59, 43, 0.06);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.08);
+  border: 1px solid rgba(9, 0, 92, 0.06);
 }
 
 :host-context(body.dark-mode) .payment-methods-section {
@@ -92,7 +92,7 @@
 
 .payment-method-item:hover {
   border-color: var(--primary-green);
-  box-shadow: 0 2px 8px rgba(14, 155, 113, 0.15);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.15);
 }
 
 .payment-info {
@@ -198,8 +198,8 @@
 /* Payment Method Form */
 .payment-method-form {
   padding: 1.5rem;
-  background: rgba(14, 155, 113, 0.05);
-  border: 1px solid rgba(14, 155, 113, 0.15);
+  background: rgba(9, 0, 92, 0.05);
+  border: 1px solid rgba(9, 0, 92, 0.15);
   border-radius: 8px;
   margin-top: 1rem;
 }
@@ -285,7 +285,7 @@
 .form-input:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .input-with-suffix,

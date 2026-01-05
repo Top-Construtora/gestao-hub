@@ -408,10 +408,10 @@ export class ProposalService {
     const colors: { [key: string]: string } = {
       'draft': '#6b7280', // Cinza
       'sent': '#3b82f6', // Azul
-      'signed': '#003b2b', // Verde escuro da marca (Fechada)
+      'signed': '#09005C', // Azul primário da marca (Fechada)
       'rejected': '#ef4444', // Vermelho
       'expired': '#f59e0b', // Amarelo
-      'converted': '#10b981', // Verde claro (Assinada)
+      'converted': '#00EDB1', // Turquesa (Assinada)
       'contraproposta': '#ef4444' // Vermelho para Assinada Parcialmente
     };
     return colors[status] || '#6b7280';

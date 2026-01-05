@@ -159,7 +159,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .form-control::placeholder {
@@ -216,12 +216,12 @@ textarea.form-control {
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
   color: var(--white);
-  box-shadow: 0 4px 12px rgba(14, 155, 113, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(14, 155, 113, 0.4);
+  box-shadow: 0 6px 16px rgba(9, 0, 92, 0.4);
 }
 
 .btn-secondary {
@@ -247,7 +247,7 @@ textarea.form-control {
 }
 
 .btn-success {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #09005C 0%, #070048 100%);
   color: var(--white);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
@@ -376,7 +376,7 @@ textarea.form-control {
   height: 100%;
   background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
   transition: width 0.5s ease;
-  box-shadow: 0 2px 8px rgba(14, 155, 113, 0.4);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.4);
 }
 
 .progress-labels {
@@ -429,7 +429,7 @@ textarea.form-control {
 
 .installment-item.editing {
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
   transform: none;
 }
 

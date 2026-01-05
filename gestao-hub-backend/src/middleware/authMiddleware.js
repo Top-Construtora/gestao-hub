@@ -26,14 +26,13 @@ const authMiddleware = async (req, res, next) => {
     }
 
     const decoded = authService.verifyToken(token);
-    
-    // Garantir que userId é um número
-    const userId = parseInt(decoded.userId);
-    
-    if (isNaN(userId)) {
+
+    const userId = decoded.userId;
+
+    if (!userId) {
       return res.status(401).json({ error: 'Token inválido - userId inválido' });
     }
-    
+
     const user = await User.findById(userId);
 
     if (!user) {
@@ -46,11 +45,11 @@ const authMiddleware = async (req, res, next) => {
 
     // Adicionar dados do usuário à requisição
     req.user = {
-      id: userId, // Garantir que é número
+      id: userId,
       email: user.email,
       name: user.name,
       role: decoded.role,
-      role_name: user.role_name, // Add role_name from user data
+      role_name: user.role_name,
       permissions: decoded.permissions
     };
 

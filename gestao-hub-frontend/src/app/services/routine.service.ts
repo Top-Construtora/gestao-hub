@@ -169,7 +169,7 @@ export class RoutineService {
       'not_started': '#6b7280',
       'scheduled': '#3b82f6',
       'in_progress': '#f59e0b',
-      'completed': '#10b981',
+      'completed': '#00EDB1',
       'cancelled': '#ef4444'
     };
     return colors[status] || '#6b7280';

@@ -32,7 +32,7 @@ input[type="datetime-local"]:focus,
 .date-input:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+    box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 /* Select Elements - Global Styles */
@@ -73,7 +73,7 @@ select:focus,
 .status-select:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+    box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 /* Form Groups - Responsive Layout */

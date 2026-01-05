@@ -452,3 +452,23 @@ button.delete .fa {
 .client-select option:not([value=""]):not([value="null"]):not([disabled]) {
   text-transform: uppercase !important;
 }
+
+/* ========================================
+   LOGIN PAGE BUTTON OVERRIDE
+   ======================================== */
+app-login button.btn-primary,
+app-login-layout button.btn-primary,
+app-login .btn-primary,
+app-login-layout .btn-primary {
+  background-color: #09005C !important;
+  background: #09005C !important;
+  color: #FFFFFF !important;
+}
+
+app-login button.btn-primary:hover,
+app-login-layout button.btn-primary:hover,
+app-login .btn-primary:hover,
+app-login-layout .btn-primary:hover {
+  background-color: #070048 !important;
+  background: #070048 !important;
+}

@@ -190,7 +190,7 @@
 
 .nav-item:focus-visible {
   outline: none; /* Remove the default browser outline */
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.5); /* Add a custom 'glow' effect */
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.5); /* Add a custom 'glow' effect */
 }
 
 

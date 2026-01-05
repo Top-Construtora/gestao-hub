@@ -49,7 +49,7 @@
 .action-btn:hover {
   border-color: var(--primary-green);
   color: var(--primary-green);
-  background-color: rgba(14, 155, 113, 0.05);
+  background-color: rgba(9, 0, 92, 0.05);
 }
 
 /* Stat Cards */
@@ -73,7 +73,7 @@
   height: 100px;
   background: linear-gradient(
     135deg,
-    rgba(14, 155, 113, 0.1) 0%,
+    rgba(9, 0, 92, 0.1) 0%,
     rgba(29, 216, 130, 0) 100%
   );
   border-radius: 50%;
@@ -91,8 +91,8 @@
   height: 48px;
   background: linear-gradient(
     135deg,
-    rgba(14, 155, 113, 0.2) 0%,
-    rgba(14, 155, 113, 0.1) 100%
+    rgba(9, 0, 92, 0.2) 0%,
+    rgba(9, 0, 92, 0.1) 100%
   );
   border-radius: 12px;
   display: flex;
@@ -176,7 +176,7 @@
 .search-input:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .search-input::placeholder {
@@ -247,13 +247,9 @@
 }
 
 .btn-primary {
-  background: linear-gradient(
-    135deg,
-    var(--primary-green) 0%,
-    var(--primary-green-dark) 100%
-  );
+  background: #09005C;
   color: var(--white);
-  box-shadow: 0 4px 12px rgba(14, 155, 113, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-primary i {
@@ -261,8 +257,9 @@
 }
 
 .btn-primary:hover {
+  background: #070048;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(14, 155, 113, 0.4);
+  box-shadow: 0 6px 16px rgba(9, 0, 92, 0.4);
 }
 
 .btn-secondary {
@@ -316,7 +313,7 @@ tr {
 }
 
 tr:hover {
-  background-color: rgba(14, 155, 113, 0.03);
+  background-color: rgba(9, 0, 92, 0.03);
 }
 
 tr:last-child td {
@@ -441,7 +438,7 @@ tr:last-child td {
 }
 
 .badge-primary {
-  background: rgba(14, 155, 113, 0.1);
+  background: rgba(9, 0, 92, 0.1);
   color: var(--primary-green);
 }
 
@@ -622,7 +619,7 @@ tr:last-child td {
 .dropdown-toggle:hover {
   border-color: var(--primary-green);
   color: var(--primary-green);
-  background-color: rgba(14, 155, 113, 0.05);
+  background-color: rgba(9, 0, 92, 0.05);
 }
 
 .dropdown-menu {

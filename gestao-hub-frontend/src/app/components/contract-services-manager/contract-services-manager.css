@@ -30,7 +30,7 @@
 }
 
 .progress-title i {
-  color: #065f46;
+  color: #09005C;
   font-size: 1rem;
 }
 
@@ -43,7 +43,7 @@
 .progress-text {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #065f46;
+  color: #09005C;
 }
 
 
@@ -63,11 +63,11 @@
 
 .tasks-progress-section .progress-fill {
   height: 100%;
-  background: linear-gradient(135deg, #065f46, #047857);
+  background: #09005C;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 8px;
   position: relative;
-  box-shadow: 0 1px 3px rgba(6, 95, 70, 0.4);
+  box-shadow: 0 1px 3px rgba(9, 0, 92, 0.4);
 }
 
 .tasks-progress-section .progress-fill::after {
@@ -162,17 +162,17 @@
 
 .progress-fill-small {
   height: 100%;
-  background: linear-gradient(135deg, #065f46, #047857);
+  background: #09005C;
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 4px;
   position: relative;
-  box-shadow: 0 1px 2px rgba(6, 95, 70, 0.3);
+  box-shadow: 0 1px 2px rgba(9, 0, 92, 0.3);
 }
 
 .progress-percentage {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #065f46;
+  color: #09005C;
   min-width: 35px;
   text-align: right;
   white-space: nowrap;
@@ -223,7 +223,7 @@
   background: var(--green-50);
   border-bottom: none;
   border-left: 3px solid var(--naue-primary);
-  box-shadow: inset 0 0 0 1px rgba(10, 128, 96, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(9, 0, 92, 0.1);
   grid-template-columns: 3fr 1.2fr 1.2fr 1fr;
 }
 
@@ -314,7 +314,7 @@
 .status-select:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .status-select:hover {
@@ -352,9 +352,9 @@
 }
 
 .status-select.status-completed {
-  background-color: #d1fae5;
-  color: #065f46;
-  border-color: #6ee7b7;
+  background-color: rgba(0, 237, 177, 0.15);
+  color: #00EDB1;
+  border-color: #00EDB1;
   font-weight: 600;
 }
 
@@ -428,7 +428,7 @@
 .date-input:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .date-input:hover {
@@ -490,7 +490,7 @@
   background: var(--naue-primary);
   border-color: var(--naue-primary);
   color: var(--white);
-  box-shadow: 0 2px 8px rgba(10, 128, 96, 0.3);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.3);
   transform: translateY(-1px);
 }
 
@@ -692,7 +692,7 @@
   font-weight: 600;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
 }
 
 .service-controls {
@@ -703,7 +703,7 @@
   padding: var(--spacing-lg);
   background: var(--green-50);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
 }
 
 .control-group {
@@ -723,7 +723,7 @@
 .status-select,
 .date-input {
   padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   background-color: var(--white);
@@ -763,7 +763,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: linear-gradient(135deg, var(--naue-primary) 0%, #10b981 100%);
+  background: linear-gradient(135deg, var(--naue-primary) 0%, #09005C 100%);
   border: none;
   color: var(--white);
   font-size: 13px;
@@ -784,7 +784,7 @@
 .tracking-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-  background: linear-gradient(135deg, #0a8060 0%, #059669 100%);
+  background: linear-gradient(135deg, #09005C 0%, #070048 100%);
 }
 
 .tracking-btn:active {
@@ -855,7 +855,7 @@
   padding: var(--spacing-lg);
   background: linear-gradient(135deg, var(--white) 0%, #fafbfc 100%);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   box-shadow: var(--shadow-sm);
 }
 
@@ -874,12 +874,12 @@
   padding: var(--spacing-xl);
   background: var(--green-50);
   border-radius: var(--radius-md);
-  border: 2px dashed rgba(10, 128, 96, 0.2);
+  border: 2px dashed rgba(9, 0, 92, 0.2);
 }
 
 .comment {
   padding: var(--spacing-md);
-  border-bottom: 1px solid rgba(10, 128, 96, 0.1);
+  border-bottom: 1px solid rgba(9, 0, 92, 0.1);
   position: relative;
   transition: background-color var(--transition-fast);
 }
@@ -939,7 +939,7 @@
 
 .btn-icon {
   background: var(--white);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   color: var(--naue-primary);
   cursor: pointer;
   padding: var(--spacing-xs) var(--spacing-sm);
@@ -968,7 +968,7 @@
 .edit-textarea {
   width: 100%;
   padding: var(--spacing-sm);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   resize: vertical;
@@ -1034,13 +1034,13 @@
   padding: var(--spacing-md);
   background: var(--green-50);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
 }
 
 .comment-input {
   flex: 1;
   padding: var(--spacing-sm);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   resize: vertical;
@@ -1135,7 +1135,7 @@
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-sm);
   background: var(--green-50);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   color: var(--naue-primary);
   border-radius: var(--radius-md);
   font-size: var(--text-xs);
@@ -1168,7 +1168,7 @@
   padding: var(--spacing-md);
   background: var(--green-50);
   border-radius: var(--radius-md);
-  border: 2px dashed rgba(10, 128, 96, 0.3);
+  border: 2px dashed rgba(9, 0, 92, 0.3);
 }
 
 .file-input {
@@ -1251,7 +1251,7 @@
 
 .attachment-item:hover {
   background: var(--green-50);
-  border-color: rgba(10, 128, 96, 0.3);
+  border-color: rgba(9, 0, 92, 0.3);
 }
 
 .attachment-item:last-child {
@@ -1402,7 +1402,7 @@
 
 .comment-input-section:focus-within {
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .comment-textarea {
@@ -1549,7 +1549,7 @@
   color: var(--white);
   border-color: var(--naue-primary);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(10, 128, 96, 0.2);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.2);
 }
 
 .btn-attach i {
@@ -1597,7 +1597,7 @@
 .btn-send-comment:hover:not(:disabled) {
   background: var(--naue-primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(10, 128, 96, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-send-comment:disabled {
@@ -1659,8 +1659,8 @@
 .comment-attachments-display {
   margin-top: var(--spacing-md);
   padding: var(--spacing-sm) var(--spacing-md);
-  background: rgba(10, 128, 96, 0.05);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  background: rgba(9, 0, 92, 0.05);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   border-radius: var(--radius-md);
   border-left: 3px solid var(--naue-primary);
 }
@@ -1695,13 +1695,13 @@
   padding: var(--spacing-sm);
   background: var(--white);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   transition: all var(--transition-fast);
 }
 
 .attachment-item-inline:hover {
   box-shadow: var(--shadow-sm);
-  border-color: rgba(10, 128, 96, 0.2);
+  border-color: rgba(9, 0, 92, 0.2);
 }
 
 
@@ -1753,7 +1753,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   background: var(--white);
   border-radius: var(--radius-sm);
   color: var(--naue-primary);
@@ -1809,8 +1809,8 @@
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   margin: var(--spacing-lg) -20px 0 -20px;
-  box-shadow: 0 4px 16px rgba(10, 128, 96, 0.08);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  box-shadow: 0 4px 16px rgba(9, 0, 92, 0.08);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   border-top: 4px solid var(--naue-primary);
   width: calc(100% + 40px);
 }
@@ -1822,7 +1822,7 @@
   align-items: center;
   margin-bottom: var(--spacing-xl);
   padding-bottom: var(--spacing-md);
-  border-bottom: 2px solid rgba(10, 128, 96, 0.1);
+  border-bottom: 2px solid rgba(9, 0, 92, 0.1);
 }
 
 .comments-title {
@@ -1837,7 +1837,7 @@
   padding: var(--spacing-sm);
   background: var(--green-50);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
 }
 
 .comments-title h4 {
@@ -1854,7 +1854,7 @@
   border-radius: var(--radius-full);
   font-size: var(--text-sm);
   font-weight: 600;
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
 }
 
 /* Add Comment Card */
@@ -1863,14 +1863,14 @@
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
-  box-shadow: 0 2px 12px rgba(10, 128, 96, 0.08);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  box-shadow: 0 2px 12px rgba(9, 0, 92, 0.08);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   transition: all 0.3s ease;
 }
 
 .add-comment-card:hover {
-  box-shadow: 0 4px 20px rgba(10, 128, 96, 0.12);
-  border-color: rgba(10, 128, 96, 0.2);
+  box-shadow: 0 4px 20px rgba(9, 0, 92, 0.12);
+  border-color: rgba(9, 0, 92, 0.2);
 }
 
 .add-comment-header {
@@ -1900,7 +1900,7 @@
   width: 100%;
   min-height: 80px;
   padding: var(--spacing-md);
-  border: 2px solid rgba(10, 128, 96, 0.1);
+  border: 2px solid rgba(9, 0, 92, 0.1);
   border-radius: var(--radius-md);
   font-family: var(--font-primary);
   font-size: var(--text-sm);
@@ -1914,7 +1914,7 @@
 
 .modern-textarea:focus {
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .modern-textarea.expanded {
@@ -1932,7 +1932,7 @@
   padding: var(--spacing-md);
   background: var(--green-25);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
 }
 
 .attachments-preview-header {
@@ -1958,7 +1958,7 @@
   background: var(--white);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
 }
 
 .attachment-preview-item i {
@@ -2003,7 +2003,7 @@
   align-items: center;
   margin-top: var(--spacing-md);
   padding-top: var(--spacing-md);
-  border-top: 1px solid rgba(10, 128, 96, 0.1);
+  border-top: 1px solid rgba(9, 0, 92, 0.1);
 }
 
 .actions-left,
@@ -2016,7 +2016,7 @@
 .btn-attach-modern {
   background: var(--green-50);
   color: var(--naue-primary);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
@@ -2115,7 +2115,7 @@
   padding: var(--spacing-2xl);
   background: var(--green-25);
   border-radius: var(--radius-lg);
-  border: 2px dashed rgba(10, 128, 96, 0.2);
+  border: 2px dashed rgba(9, 0, 92, 0.2);
 }
 
 .no-comments-icon {
@@ -2143,12 +2143,12 @@
   background: var(--white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   position: relative;
 }
 
 .comment-card:hover {
-  border-color: rgba(10, 128, 96, 0.2);
+  border-color: rgba(9, 0, 92, 0.2);
 }
 
 .comment-card::before {
@@ -2218,7 +2218,7 @@
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   color: var(--text-gray);
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -2257,7 +2257,7 @@
   padding: var(--spacing-md);
   background: var(--green-25);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
 }
 
 .attachments-section-header {
@@ -2283,13 +2283,13 @@
   background: var(--white);
   padding: var(--spacing-md);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(10, 128, 96, 0.1);
+  border: 1px solid rgba(9, 0, 92, 0.1);
   transition: all 0.2s ease;
 }
 
 .attachment-card:hover {
-  box-shadow: 0 2px 8px rgba(10, 128, 96, 0.1);
-  border-color: rgba(10, 128, 96, 0.2);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.1);
+  border-color: rgba(9, 0, 92, 0.2);
 }
 
 .attachment-icon {
@@ -2338,7 +2338,7 @@
   align-items: center;
   justify-content: center;
   background: var(--green-50);
-  border: 1px solid rgba(10, 128, 96, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
   color: var(--naue-primary);
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -2370,7 +2370,7 @@
   width: 100%;
   min-height: 100px;
   padding: var(--spacing-md);
-  border: 2px solid rgba(10, 128, 96, 0.1);
+  border: 2px solid rgba(9, 0, 92, 0.1);
   border-radius: var(--radius-md);
   font-family: var(--font-primary);
   font-size: var(--text-sm);
@@ -2384,7 +2384,7 @@
 
 .edit-textarea-modern:focus {
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .edit-actions-modern {

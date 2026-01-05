@@ -92,13 +92,13 @@
   gap: 0.75rem;
 }
 .user-option:hover {
-  border-color: #003b2b;
+  border-color: #09005C;
   background-color: #f7fafc;
 }
 .user-option.selected {
-  border-color: #003b2b;
+  border-color: #09005C;
   background-color: #e8f5f1;
-  box-shadow: 0 0 0 2px #003b2b40;
+  box-shadow: 0 0 0 2px #09005C40;
 }
 .user-info {
   flex: 1;
@@ -119,7 +119,7 @@
   color: #d1d5db;
 }
 .user-option.selected .user-option-action {
-  color: #003b2b;
+  color: #09005C;
 }
 .modal-footer {
   padding: 1.5rem;
@@ -141,7 +141,7 @@
   border: none;
 }
 .btn-primary {
-  background-color: #003b2b;
+  background-color: #09005C;
   color: white;
   border: none;
 }
@@ -151,7 +151,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0a8560 0%, #065f46 100%);
+  background: #09005C;
   color: white;
   display: flex;
   align-items: center;
@@ -167,5 +167,5 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 2px solid #0a8560;
+  border: 2px solid #09005C;
 }

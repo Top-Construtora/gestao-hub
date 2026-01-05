@@ -67,7 +67,7 @@
   }
   
   .clear-btn:hover:not(:disabled) {
-    background: rgba(10, 128, 96, 0.1);
+    background: rgba(9, 0, 92, 0.1);
   }
   
   .clear-btn:disabled {
@@ -140,7 +140,7 @@
   }
   
   .notification-item.unread {
-    background: rgba(10, 128, 96, 0.05);
+    background: rgba(9, 0, 92, 0.05);
     position: relative;
   }
   
@@ -185,7 +185,7 @@
   
   .notification-icon.type-success {
     background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
+    color: #09005C;
   }
   
   .notification-icon.type-error {
@@ -229,8 +229,8 @@
   }
 
   .notification-icon.type-service_status_change {
-    background: rgba(10, 128, 96, 0.1);
-    color: #0a8060;
+    background: rgba(9, 0, 92, 0.1);
+    color: #09005C;
   }
 
   .notification-icon.type-new_contract {

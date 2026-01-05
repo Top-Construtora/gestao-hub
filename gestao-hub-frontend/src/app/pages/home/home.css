@@ -1,5 +1,5 @@
 :root {
-    --primary-green: #003b2b;
+    --primary-green: #09005C;
     --primary-green-dark: #002419;
     --primary-green-light: #004c35;
     --dark-gray: #1a1d23;
@@ -9,7 +9,7 @@
     --border-gray: #e5e7eb;
     --text-gray: #6b7280;
     --text-dark: #111827;
-    --success: #10b981;
+    --success: #09005C;
     --warning: #f59e0b;
     --danger: #ef4444;
     --info: #3b82f6;
@@ -113,7 +113,7 @@
     font-weight: bold;
     color: var(--white);
     font-size: 22px;
-    box-shadow: 0 4px 12px rgba(14, 155, 113, 0.3);
+    box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -177,7 +177,7 @@
     outline: none;
     border-color: var(--primary-green);
     background-color: var(--white);
-    box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+    box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 :host-context(body.dark-mode) .search-input:focus {
@@ -322,22 +322,22 @@
 
 .nav-item:hover {
     color: var(--text-dark);
-    background-color: rgba(14, 155, 113, 0.05);
+    background-color: rgba(9, 0, 92, 0.05);
 }
 
 :host-context(body.dark-mode) .nav-item:hover {
     color: var(--dark-text);
-    background-color: rgba(14, 155, 113, 0.1);
+    background-color: rgba(9, 0, 92, 0.1);
 }
 
 .nav-item.active {
     color: var(--primary-green);
-    background-color: rgba(14, 155, 113, 0.1);
+    background-color: rgba(9, 0, 92, 0.1);
     font-weight: 600;
 }
 
 :host-context(body.dark-mode) .nav-item.active {
-    background-color: rgba(14, 155, 113, 0.15);
+    background-color: rgba(9, 0, 92, 0.15);
 }
 
 .nav-item.active::before {
@@ -448,7 +448,7 @@
     right: 0;
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, rgba(14, 155, 113, 0.1) 0%, rgba(29, 216, 130, 0) 100%);
+    background: linear-gradient(135deg, rgba(9, 0, 92, 0.1) 0%, rgba(29, 216, 130, 0) 100%);
     border-radius: 50%;
     transform: translate(30px, -30px);
 }
@@ -473,7 +473,7 @@
 .stat-icon {
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, rgba(14, 155, 113, 0.2) 0%, rgba(14, 155, 113, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(9, 0, 92, 0.2) 0%, rgba(9, 0, 92, 0.1) 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -586,11 +586,11 @@
 .chart-action:hover {
     border-color: var(--primary-green);
     color: var(--primary-green);
-    background-color: rgba(14, 155, 113, 0.05);
+    background-color: rgba(9, 0, 92, 0.05);
 }
 
 :host-context(body.dark-mode) .chart-action:hover {
-    background-color: rgba(14, 155, 113, 0.1);
+    background-color: rgba(9, 0, 92, 0.1);
 }
 
 .chart-action.active {
@@ -674,12 +674,12 @@
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
     color: var(--white);
-    box-shadow: 0 4px 12px rgba(14, 155, 113, 0.3);
+    box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(14, 155, 113, 0.4);
+    box-shadow: 0 6px 16px rgba(9, 0, 92, 0.4);
 }
 
 .btn-secondary {
@@ -720,11 +720,11 @@
 .btn-icon:hover {
     border-color: var(--primary-green);
     color: var(--primary-green);
-    background-color: rgba(14, 155, 113, 0.05);
+    background-color: rgba(9, 0, 92, 0.05);
 }
 
 :host-context(body.dark-mode) .btn-icon:hover {
-    background-color: rgba(14, 155, 113, 0.1);
+    background-color: rgba(9, 0, 92, 0.1);
 }
 
 /* Table Styles */
@@ -780,11 +780,11 @@ tr {
 }
 
 tr:hover {
-    background-color: rgba(14, 155, 113, 0.03);
+    background-color: rgba(9, 0, 92, 0.03);
 }
 
 :host-context(body.dark-mode) tr:hover {
-    background-color: rgba(14, 155, 113, 0.05);
+    background-color: rgba(9, 0, 92, 0.05);
 }
 
 tr:last-child td {
@@ -860,7 +860,7 @@ tr:last-child td {
 .form-control:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+    box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .form-control::placeholder {
@@ -1595,11 +1595,11 @@ input[type="radio"] {
 }
 
 .notification-item.unread {
-    background-color: rgba(14, 155, 113, 0.05);
+    background-color: rgba(9, 0, 92, 0.05);
 }
 
 :host-context(body.dark-mode) .notification-item.unread {
-    background-color: rgba(14, 155, 113, 0.1);
+    background-color: rgba(9, 0, 92, 0.1);
 }
 
 .notification-item:hover {

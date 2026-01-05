@@ -64,14 +64,10 @@ class ClientModel {
           email: emailsToCreate[0] || null, // Manter compatibilidade - usar o primeiro email
           phone: phone || null,
           street,
-          number,
-          complement: complement || null,
-          neighborhood,
           city,
           state,
           zipcode,
-          created_by: userId,
-          updated_by: userId
+          created_by: userId
         }])
         .select('*')
         .single();
@@ -147,15 +143,11 @@ class ClientModel {
       let query = supabase
         .from('clients')
         .select(`
-          id, email, phone, street, number, complement,
-          neighborhood, city, state, zipcode, 
-          logo_path, logo_original_name, logo_mime_type, logo_size, logo_uploaded_at,
-          created_at, updated_at,
-          created_by_user:users!clients_created_by_fkey(name),
-          updated_by_user:users!clients_updated_by_fkey(name),
+          id, email, phone, street, city, state, zipcode,
+          logo_url, created_at, updated_at, created_by,
           clients_pf(cpf, full_name),
-          clients_pj(cnpj, company_name, trade_name, employee_count, business_segment, legal_representative),
-          client_emails(id, email, is_primary, is_active)
+          clients_pj(cnpj, company_name, trade_name, employee_count, business_segment),
+          client_emails(id, email, is_primary)
         `)
         .order('created_at', { ascending: false });
 
@@ -228,10 +220,9 @@ class ClientModel {
         const name = isPF 
           ? (client.clients_pf?.full_name || '') 
           : (client.clients_pj?.trade_name || client.clients_pj?.company_name || '');
-        
+
         // Processar emails
         const emails = (client.client_emails || [])
-          .filter(email => email.is_active)
           .sort((a, b) => {
             // Primary emails first
             if (a.is_primary && !b.is_primary) return -1;
@@ -272,15 +263,11 @@ class ClientModel {
       const { data, error } = await supabase
         .from('clients')
         .select(`
-          id, email, phone, street, number, complement,
-          neighborhood, city, state, zipcode, 
-          logo_path, logo_original_name, logo_mime_type, logo_size, logo_uploaded_at,
-          created_at, updated_at,
-          created_by_user:users!clients_created_by_fkey(name),
-          updated_by_user:users!clients_updated_by_fkey(name),
+          id, email, phone, street, city, state, zipcode,
+          logo_url, created_at, updated_at, created_by,
           clients_pf(cpf, full_name),
-          clients_pj(cnpj, company_name, trade_name, employee_count, business_segment, legal_representative),
-          client_emails(id, email, is_primary, is_active)
+          clients_pj(cnpj, company_name, trade_name, employee_count, business_segment),
+          client_emails(id, email, is_primary)
         `)
         .eq('id', id)
         .single();
@@ -297,10 +284,9 @@ class ClientModel {
       const name = isPF 
         ? (data.clients_pf ? data.clients_pf.full_name : '') 
         : (data.clients_pj ? (data.clients_pj.trade_name || data.clients_pj.company_name) : '');
-      
+
       // Processar emails
       const emails = (data.client_emails || [])
-        .filter(email => email.is_active)
         .sort((a, b) => {
           // Primary emails first
           if (a.is_primary && !b.is_primary) return -1;
@@ -392,13 +378,9 @@ class ClientModel {
           email: emailsToUpdate[0] || email,
           phone: phone || null,
           street,
-          number,
-          complement: complement || null,
-          neighborhood,
           city,
           state,
-          zipcode,
-          updated_by: userId
+          zipcode
         })
         .eq('id', id);
 

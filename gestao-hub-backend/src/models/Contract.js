@@ -52,7 +52,6 @@ class ContractModel {
           unit_value: unitValue,
           total_value: unitValue,
           quantity: 1,
-          scheduled_start_date: service.scheduled_start_date || null,
           status: service.status || 'not_started'
         });
         
@@ -221,7 +220,6 @@ class ContractModel {
           service_id: service.id,
           unit_value: 0,
           total_value: 0,
-          scheduled_start_date: null,
           status: 'not_started'
         }));
 
@@ -249,7 +247,6 @@ class ContractModel {
           service_id: service.service_id,
           unit_value: parseFloat(service.unit_value) || 0,
           total_value: parseFloat(service.unit_value) || 0,
-          scheduled_start_date: service.scheduled_start_date || null,
           status: service.status || 'not_started'
         }));
         
@@ -507,10 +504,9 @@ class ContractModel {
         total_value, payment_method, expected_payment_date, payment_status,
         installment_count, notes, created_at, updated_at,
         client:clients!inner(
-          id, email, phone, street, number, complement,
-          neighborhood, city, state, zipcode,
+          id, email, phone, street, city, state, zipcode,
           clients_pf(full_name, cpf),
-          clients_pj(company_name, trade_name, cnpj, legal_representative)
+          clients_pj(company_name, trade_name, cnpj)
         )
       `)
       .in('id', contractIds)
@@ -601,10 +597,9 @@ class ContractModel {
         total_value, payment_method, expected_payment_date, payment_status,
         installment_count, notes, created_at, updated_at,
         client:clients!inner(
-          id, email, phone, street, number, complement,
-          neighborhood, city, state, zipcode,
+          id, email, phone, street, city, state, zipcode,
           clients_pf(full_name, cpf),
-          clients_pj(company_name, trade_name, cnpj, legal_representative)
+          clients_pj(company_name, trade_name, cnpj)
         )
       `)
       .eq('is_active', true)
@@ -776,8 +771,7 @@ class ContractModel {
       .select(`
         *,
         client:clients(
-          id, email, phone, street, number, complement,
-          neighborhood, city, state, zipcode,
+          id, email, phone, street, city, state, zipcode,
           clients_pf(*),
           clients_pj(*)
         ),
@@ -1079,7 +1073,6 @@ class ContractModel {
             service_id: service.service_id,
             unit_value: service.unit_value,
             total_value: service.unit_value,
-            scheduled_start_date: service.scheduled_start_date || null,
             status: service.status || 'not_started',
             is_addendum: true,  // Marcar como aditivo
             addendum_date: new Date().toISOString()  // Data do aditivo
@@ -1134,7 +1127,6 @@ class ContractModel {
               .update({
                 unit_value: service.unit_value,
                 total_value: service.unit_value,
-                scheduled_start_date: service.scheduled_start_date || null,
                 status: service.status || 'not_started'
                 // NÃO atualizar is_addendum para manter o status original
               })
@@ -1274,9 +1266,9 @@ class ContractModel {
 
   async updateContractService(contractServiceId, updateData) {
     try {
-      const allowedFields = ['status', 'scheduled_start_date'];
+      const allowedFields = ['status'];
       const filteredData = {};
-      
+
       for (const field of allowedFields) {
         if (updateData[field] !== undefined) {
           filteredData[field] = updateData[field];
@@ -1364,7 +1356,7 @@ class ContractModel {
       // Buscar todos os contract_services deste contrato que não têm rotina
       const { data: contractServices, error: queryError } = await supabase
         .from('contract_services')
-        .select('id, service_id, status, scheduled_start_date')
+        .select('id, service_id, status')
         .eq('contract_id', contractId);
 
       if (queryError) throw queryError;
@@ -1378,7 +1370,6 @@ class ContractModel {
       const routinesToCreate = contractServices.map(cs => ({
         contract_service_id: cs.id,
         status: cs.status || 'not_started',
-        scheduled_date: cs.scheduled_start_date,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }));
@@ -1554,10 +1545,9 @@ class ContractModel {
   async getAllWithDetails() {
     const { data, error } = await supabase
       .from('contracts').select(`*, client:clients(
-        id, email, phone, street, number, complement,
-        neighborhood, city, state, zipcode,
+        id, email, phone, street, city, state, zipcode,
         clients_pf(full_name),
-        clients_pj(company_name, trade_name, legal_representative)
+        clients_pj(company_name, trade_name)
       )`)
       .eq('is_active', true).order('created_at', { ascending: false });
     if (error) throw error;
@@ -1572,10 +1562,9 @@ class ContractModel {
     const contractIds = assignments.map(a => a.contract_id);
     const { data, error } = await supabase
       .from('contracts').select(`*, client:clients(
-        id, email, phone, street, number, complement,
-        neighborhood, city, state, zipcode,
+        id, email, phone, street, city, state, zipcode,
         clients_pf(full_name),
-        clients_pj(company_name, trade_name, legal_representative)
+        clients_pj(company_name, trade_name)
       )`)
       .in('id', contractIds).eq('is_active', true).order('created_at', { ascending: false });
     if (error) throw error;
@@ -1656,14 +1645,13 @@ class ContractModel {
           id,
           status,
           updated_at,
-          scheduled_start_date,
           total_value,
           contract:contracts!contract_services_contract_id_fkey(
             id,
             contract_number,
             client:clients(
               clients_pf(full_name),
-              clients_pj(company_name, trade_name, legal_representative)
+              clients_pj(company_name, trade_name)
             )
           ),
           service:services!contract_services_service_id_fkey(
@@ -1711,7 +1699,6 @@ class ContractModel {
           title: item.service.name,
           description: `${item.contract.contract_number} - ${clientName}`,
           time: this.formatRelativeTime(item.updated_at),
-          scheduledStartDate: item.scheduled_start_date,
           value: item.total_value,
           category: item.service.category,
           duration: item.service.duration_amount && item.service.duration_unit 
@@ -1892,7 +1879,6 @@ class ContractModel {
         name: item.service?.name || 'Serviço não identificado',
         category: item.service?.category || 'Geral',
         status: item.status,
-        scheduled_start_date: item.scheduled_start_date,
         unit_value: item.unit_value,
         total_value: item.total_value,
         duration_amount: item.service?.duration_amount,

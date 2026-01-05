@@ -40,12 +40,12 @@
 
 .payment-method-card:hover:not(.disabled) {
   border-color: var(--naue-primary);
-  box-shadow: 0 2px 8px rgba(0, 59, 43, 0.1);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.1);
 }
 
 .payment-method-card.selected {
   border-color: var(--naue-primary);
-  background: rgba(0, 59, 43, 0.05);
+  background: rgba(9, 0, 92, 0.05);
   box-shadow: 0 0 0 1px var(--naue-primary);
 }
 

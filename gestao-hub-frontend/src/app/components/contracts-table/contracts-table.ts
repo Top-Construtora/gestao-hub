@@ -495,7 +495,7 @@ export class ContractsTableComponent implements OnInit, OnDestroy {
       {
         name: 'Individual',
         count: this.stats.typeStats.Individual,
-        color: '#10b981',
+        color: '#00EDB1',
       },
     ];
   }

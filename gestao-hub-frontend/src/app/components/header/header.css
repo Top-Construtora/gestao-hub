@@ -69,7 +69,7 @@
 
 .logo:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(10, 128, 96, 0.4);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.4);
 }
 
 .logo:hover {

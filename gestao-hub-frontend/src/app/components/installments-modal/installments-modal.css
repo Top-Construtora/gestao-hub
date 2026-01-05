@@ -172,7 +172,7 @@
 }
 
 .summary-card.paid {
-  border-left-color: #10b981;
+  border-left-color: #09005C;
   background: linear-gradient(135deg, #f0fdf4 0%, rgba(240, 253, 244, 0.5) 100%);
 }
 
@@ -210,7 +210,7 @@
 }
 
 .summary-card.paid .summary-value {
-  color: #10b981;
+  color: #09005C;
 }
 
 .summary-card.pending .summary-value {
@@ -270,7 +270,7 @@
   height: 100%;
   background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
   transition: width 0.5s ease;
-  box-shadow: 0 2px 8px rgba(14, 155, 113, 0.4);
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.4);
 }
 
 /* Table Container */
@@ -330,11 +330,11 @@
 }
 
 .installments-table tbody tr:hover {
-  background: rgba(14, 155, 113, 0.05);
+  background: rgba(9, 0, 92, 0.05);
 }
 
 :host-context(body.dark-mode) .installments-table tbody tr:hover {
-  background: rgba(14, 155, 113, 0.1);
+  background: rgba(9, 0, 92, 0.1);
 }
 
 .installments-table tbody tr.paid {
@@ -403,7 +403,7 @@
 .status-select:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .date-input:disabled,
@@ -538,12 +538,12 @@
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
   color: var(--white);
-  box-shadow: 0 4px 12px rgba(14, 155, 113, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(14, 155, 113, 0.4);
+  box-shadow: 0 6px 16px rgba(9, 0, 92, 0.4);
 }
 
 .btn-secondary {

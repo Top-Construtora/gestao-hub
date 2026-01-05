@@ -114,14 +114,14 @@
 }
 
 .tab-button:hover {
-  background: rgba(0, 59, 43, 0.05);
+  background: rgba(9, 0, 92, 0.05);
   color: var(--naue-primary);
 }
 
 .tab-button.active {
   background: var(--naue-primary);
   color: white;
-  box-shadow: 0 2px 4px rgba(0, 59, 43, 0.2);
+  box-shadow: 0 2px 4px rgba(9, 0, 92, 0.2);
 }
 
 .tab-button i {
@@ -183,7 +183,7 @@
 .card-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(0, 59, 43, 0.1) 100%);
+  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(9, 0, 92, 0.1) 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -262,7 +262,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(0, 59, 43, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .form-control:disabled {
@@ -289,9 +289,9 @@
 
 .notification-master {
   padding: 20px;
-  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(0, 59, 43, 0.05) 100%);
+  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(9, 0, 92, 0.05) 100%);
   border-radius: 12px;
-  border: 1px solid rgba(0, 59, 43, 0.2);
+  border: 1px solid rgba(9, 0, 92, 0.2);
 }
 
 .notification-toggle {
@@ -382,7 +382,7 @@
 
 .notification-item:hover:not(.disabled) {
   border-color: var(--naue-primary);
-  background: rgba(0, 59, 43, 0.02);
+  background: rgba(9, 0, 92, 0.02);
 }
 
 .notification-item.disabled {
@@ -400,7 +400,7 @@
 .notification-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(0, 59, 43, 0.1) 100%);
+  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(9, 0, 92, 0.1) 100%);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -499,7 +499,7 @@
 .info-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(0, 59, 43, 0.1) 100%);
+  background: linear-gradient(135deg, var(--naue-primary-light) 0%, rgba(9, 0, 92, 0.1) 100%);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -619,7 +619,7 @@
 .btn-primary:hover:not(:disabled) {
   background-color: var(--naue-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 59, 43, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-secondary {

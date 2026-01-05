@@ -50,9 +50,7 @@ class AuthService {
       role_id: user.role_id,
       permissions,
       must_change_password: mustChangePassword,
-      first_login: !user.first_login_at,
-      last_login_at: user.last_login_at,
-      login_count: user.login_count
+      last_login: user.last_login
     };
 
     // Gerar token

@@ -37,11 +37,11 @@
   
   /* Tipos de notificação */
   .notification-toast.success {
-    border-left-color: #10b981;
+    border-left-color: #09005C;
   }
   
   .notification-toast.success .notification-icon {
-    color: #10b981;
+    color: #09005C;
     background: rgba(16, 185, 129, 0.1);
   }
   
@@ -160,8 +160,8 @@
     font-size: 0.813rem;
     font-weight: 500;
     color: var(--primary-color);
-    background: rgba(10, 128, 96, 0.1);
-    border: 1px solid rgba(10, 128, 96, 0.2);
+    background: rgba(9, 0, 92, 0.1);
+    border: 1px solid rgba(9, 0, 92, 0.2);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;

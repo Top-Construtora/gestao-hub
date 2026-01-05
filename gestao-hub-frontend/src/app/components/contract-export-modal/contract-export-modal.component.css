@@ -132,12 +132,12 @@
 
 .template-option.selected {
   border-color: var(--primary-green);
-  background: linear-gradient(135deg, rgba(14, 155, 113, 0.05) 0%, rgba(14, 155, 113, 0.02) 100%);
-  box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+  background: linear-gradient(135deg, rgba(9, 0, 92, 0.05) 0%, rgba(9, 0, 92, 0.02) 100%);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 :host-context(body.dark-mode) .template-option.selected {
-  background: linear-gradient(135deg, rgba(14, 155, 113, 0.1) 0%, rgba(14, 155, 113, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(9, 0, 92, 0.1) 0%, rgba(9, 0, 92, 0.05) 100%);
 }
 
 .template-radio {

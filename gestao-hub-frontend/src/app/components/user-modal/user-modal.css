@@ -147,7 +147,7 @@
 .form-control:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(14, 155, 113, 0.1);
+    box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .form-control::placeholder {
@@ -202,9 +202,9 @@ textarea.form-control {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+    background: #09005C;
     color: var(--white) !important;
-    box-shadow: 0 4px 12px rgba(14, 155, 113, 0.3);
+    box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-primary span {
@@ -212,8 +212,9 @@ textarea.form-control {
 }
 
 .btn-primary:hover {
+    background: #070048;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(14, 155, 113, 0.4);
+    box-shadow: 0 6px 16px rgba(9, 0, 92, 0.4);
 }
 
 .btn-secondary {

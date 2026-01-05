@@ -31,7 +31,7 @@
 }
 
 .page-title i {
-  color: var(--primary-green, #00b894);
+  color: var(--primary-green, #09005C);
   font-size: 1.75rem;
 }
 
@@ -82,7 +82,7 @@
   height: 3px;
   background: linear-gradient(90deg, 
     transparent, 
-    var(--primary-green, #00b894), 
+    var(--primary-green, #09005C), 
     transparent
   );
   animation: loading-bar 1.5s ease-in-out infinite;
@@ -115,31 +115,31 @@
 }
 
 .card-icon.monthly {
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
 }
 
 .card-icon.client {
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
 }
 
 .card-icon.services {
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
 }
 
 .card-icon.financial {
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
 }
 
 .card-icon.routines {
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
 }
 
 .card-icon.commercial {
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
 }
 
 .card-icon.active-clients {
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
 }
 
 
@@ -221,12 +221,12 @@
 
 .form-select:hover:not(:disabled),
 .form-input:hover:not(:disabled) {
-  border-color: var(--primary-green, #00b894);
+  border-color: var(--primary-green, #09005C);
 }
 
 .form-select:focus,
 .form-input:focus {
-  border-color: var(--primary-green, #00b894);
+  border-color: var(--primary-green, #09005C);
   box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
 }
 
@@ -265,14 +265,14 @@
 }
 
 .format-btn:hover:not(:disabled) {
-  border-color: var(--primary-green, #00b894);
-  color: var(--primary-green, #00b894);
-  background: rgba(0, 184, 148, 0.05);
+  border-color: #30ADFC;
+  color: #30ADFC;
+  background: rgba(48, 173, 252, 0.05);
 }
 
 .format-btn.active {
-  background: var(--primary-green, #00b894);
-  border-color: var(--primary-green, #00b894);
+  background: #30ADFC;
+  border-color: #30ADFC;
   color: white;
 }
 
@@ -296,7 +296,7 @@
 .btn-generate {
   width: 100%;
   padding: 0.625rem 1rem;
-  background: linear-gradient(135deg, var(--primary-green, #00b894) 0%, #088a5b 100%);
+  background: #09005C;
   color: white;
   border: none;
   border-radius: 6px;
@@ -328,8 +328,9 @@
 }
 
 .btn-generate:hover:not(:disabled) {
+  background: #070048;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(8, 138, 91, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-generate:active:not(:disabled) {

@@ -494,7 +494,7 @@
 
 .contract-card:hover {
   border-color: var(--primary-green);
-  box-shadow: 0 4px 12px rgba(0, 59, 43, 0.15);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.15);
   transform: translateY(-2px);
 }
 
@@ -608,12 +608,12 @@
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-green-dark) 0%, var(--success) 100%);
   color: var(--white);
-  box-shadow: 0 4px 12px rgba(0, 59, 43, 0.3);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 59, 43, 0.4);
+  box-shadow: 0 6px 16px rgba(9, 0, 92, 0.4);
   background: linear-gradient(135deg, #002419 0%, var(--primary-green-dark) 100%);
 }
 

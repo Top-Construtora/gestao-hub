@@ -57,7 +57,7 @@
 .config-input:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(0, 59, 43, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 /* Validação do Valor */
@@ -193,7 +193,7 @@
 .installment-input:focus {
   outline: none;
   border-color: var(--naue-primary);
-  box-shadow: 0 0 0 3px rgba(0, 59, 43, 0.1);
+  box-shadow: 0 0 0 3px rgba(9, 0, 92, 0.1);
 }
 
 .amount-input {
@@ -265,7 +265,7 @@
 }
 
 .installment-card.paid {
-  border-color: #10b981;
+  border-color: #09005C;
   background: #f0fff4;
 }
 
@@ -325,7 +325,7 @@
 
 .detail-value.amount {
   font-weight: 600;
-  color: #059669;
+  color: #070048;
 }
 
 .card-actions {

@@ -365,7 +365,7 @@ export class ContractService {
 
   getStatusColor(status: string): string {
     const colors: { [key: string]: string } = {
-      'active': '#10b981', 'completed': '#3b82f6', 'cancelled': '#ef4444', 'suspended': '#f59e0b'
+      'active': '#00EDB1', 'completed': '#3b82f6', 'cancelled': '#ef4444', 'suspended': '#f59e0b'
     };
     return colors[status] || '#6b7280';
   }
@@ -440,7 +440,7 @@ export class ContractService {
       'not_started': '#6b7280',
       'scheduled': '#3b82f6',
       'in_progress': '#f59e0b',
-      'completed': '#10b981',
+      'completed': '#00EDB1',
       'cancelled': '#ef4444'
     };
     return colors[status] || '#6b7280';
@@ -471,7 +471,7 @@ export class ContractService {
   // Métodos para status de pagamento
   getPaymentStatusColor(status: string): string {
     const colors: { [key: string]: string } = {
-      'pago': '#10b981',
+      'pago': '#00EDB1',
       'pendente': '#f59e0b'
     };
     return colors[status] || '#6b7280';
@@ -615,7 +615,7 @@ export class ContractService {
   // Helper para status de parcelas
   getInstallmentStatusColor(status: string): string {
     const colors: { [key: string]: string } = {
-      'pago': '#10b981',
+      'pago': '#00EDB1',
       'pendente': '#f59e0b',
       'atrasado': '#ef4444'
     };

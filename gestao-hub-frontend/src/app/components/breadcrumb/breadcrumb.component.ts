@@ -76,8 +76,8 @@ import { takeUntil } from 'rxjs/operators';
     }
 
     .breadcrumb-link:hover {
-      color: #003b2b;
-      background: rgba(0, 59, 43, 0.06);
+      color: #30ADFC;
+      background: rgba(48, 173, 252, 0.06);
     }
 
     .breadcrumb-link i {
@@ -89,7 +89,7 @@ import { takeUntil } from 'rxjs/operators';
       display: flex;
       align-items: center;
       gap: 0.375rem;
-      color: #003b2b;
+      color: #30ADFC;
       font-weight: 600;
       padding: 0.25rem 0.5rem;
     }
@@ -106,7 +106,7 @@ import { takeUntil } from 'rxjs/operators';
     }
 
     .breadcrumb-item.active .breadcrumb-text {
-      color: #003b2b;
+      color: #30ADFC;
       font-weight: 600;
       position: relative;
     }
@@ -118,7 +118,7 @@ import { takeUntil } from 'rxjs/operators';
       left: 0.5rem;
       right: 0.5rem;
       height: 2px;
-      background: linear-gradient(90deg, #003b2b 0%, #0a8560 100%);
+      background: #30ADFC;
       border-radius: 1px;
       animation: slideIn 0.3s ease;
     }
