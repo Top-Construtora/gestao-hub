@@ -41,6 +41,6 @@ temp/
 *.tsbuildinfo
 
 # Misc
-
+.claude/
 CLAUDE.md
 database/
