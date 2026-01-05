@@ -1,0 +1,302 @@
+<div class="page-header">
+  <h1 class="page-title">Acompanhamento de Serviço</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<!-- Loading State -->
+<div *ngIf="isLoading" class="loading-container">
+  <i class="fas fa-spinner fa-spin"></i>
+  <span>Carregando dados do serviço...</span>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error && !isLoading" class="error-container">
+  <div class="error-icon">
+    <i class="fas fa-exclamation-triangle"></i>
+  </div>
+  <h3>Erro ao carregar dados</h3>
+  <p>{{ error }}</p>
+</div>
+
+<!-- Main Content -->
+<div *ngIf="service && contract && !isLoading" class="content">
+  
+  <!-- Service Header with Actions -->
+  <div class="service-header">
+    <div class="service-info">
+      <h2 class="service-title">{{ service.service.name }}</h2>
+      <div class="service-meta">
+        <span class="meta-item">
+          <i class="fas fa-user"></i>
+          {{ contract.client.name }}
+        </span>
+        <span class="meta-item">
+          <i class="fas fa-tag"></i>
+          {{ service.service.category || 'Geral' }}
+        </span>
+        <span class="meta-item">
+          <i class="fas fa-hashtag"></i>
+          ID: {{ service.id }}
+        </span>
+        <span class="meta-item" *ngIf="service.updated_at">
+          <i class="fas fa-clock"></i>
+          Última atualização: {{ formatDate(service.updated_at) }}
+        </span>
+        <span class="meta-item" *ngIf="routine?.scheduled_date">
+          <i class="fas fa-calendar-check"></i>
+          Data prevista: {{ formatDate(routine?.scheduled_date) }}
+        </span>
+        <span class="meta-item" *ngIf="routine?.notes">
+          <i class="fas fa-sticky-note"></i>
+          {{ routine?.notes }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Grid Layout -->
+  <div class="main-grid">
+    
+    <!-- Control Panel Column -->
+    <div class="control-panel">
+      <!-- Service Stages Progress -->
+      <div class="panel-card full-height" *ngIf="serviceStages && serviceStages.length > 0">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <i class="fas fa-tasks"></i>
+            <h3>Etapas do Serviço</h3>
+          </div>
+          <button
+            class="btn-mark-all"
+            [disabled]="!canEdit || isMarkingAll || stageProgress === 100"
+            (click)="markAllStagesComplete()"
+            title="Marcar todas as etapas como concluídas">
+            <i class="fas fa-check-double"></i>
+            {{ isMarkingAll ? 'Marcando...' : 'Marcar Todas' }}
+          </button>
+        </div>
+        
+        <div class="panel-content">
+          <div class="stages-progress">
+            <div class="progress-bar-container">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="stageProgress"></div>
+              </div>
+              <span class="progress-text">{{ stageProgress }}% concluído</span>
+            </div>
+            
+            <div class="stages-list">
+              <div
+                *ngFor="let stage of serviceStages; let i = index"
+                class="stage-item"
+                [class.completed]="stage.status === 'completed'"
+                [class.pending]="stage.status === 'pending'"
+                [class.not-applicable]="stage.is_not_applicable">
+                <div class="stage-checkboxes-container">
+                  <div class="stage-checkbox">
+                    <input
+                      type="checkbox"
+                      [id]="'stage-' + stage.id"
+                      [checked]="stage.status === 'completed'"
+                      [disabled]="!canEdit || stage.is_not_applicable"
+                      (change)="toggleStageStatus(stage, $event)">
+                    <label [for]="'stage-' + stage.id" class="checkbox-label">
+                      <i class="fas"
+                         [ngClass]="stage.status === 'completed' ? 'fa-check-circle' : 'fa-circle'"
+                         [style.color]="stage.status === 'completed' ? '#28a745' : '#6c757d'"></i>
+                    </label>
+                  </div>
+                  <div class="stage-na-checkbox">
+                    <input
+                      type="checkbox"
+                      [id]="'stage-na-' + stage.id"
+                      [checked]="stage.is_not_applicable"
+                      [disabled]="!canEdit || stage.status === 'completed'"
+                      (change)="toggleStageNotApplicable(stage, $event)">
+                    <label [for]="'stage-na-' + stage.id" class="na-checkbox-label">
+                      <span class="na-label">N/A</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="stage-main-content">
+                  <div class="stage-number">
+                    {{ i + 1 }}
+                  </div>
+                  <div class="stage-content">
+                    <div class="stage-header-info">
+                      <div class="stage-name">{{ stage.name }}</div>
+                      <div class="stage-category" *ngIf="stage.category">{{ stage.category }}</div>
+                    </div>
+                    <div class="stage-description" *ngIf="stage.description">{{ stage.description }}</div>
+                  </div>
+                </div>
+                <div class="stage-connector" *ngIf="i < serviceStages.length - 1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments and History Column -->
+    <div class="history-panel">
+
+      <div class="panel-card full-height">
+        <div class="panel-header">
+          <i class="fas fa-comments"></i>
+          <h3>Comentários e Histórico</h3>
+        </div>
+        
+        <div class="panel-content chat-container">
+          <!-- Comments List -->
+          <div class="comments-list">
+            <div class="no-comments" *ngIf="!comments || comments.length === 0">
+              <i class="fas fa-comment-slash"></i>
+              <p>Nenhum comentário ainda</p>
+              <span>Seja o primeiro a comentar sobre este serviço</span>
+            </div>
+            
+            <div *ngFor="let comment of comments" class="comment-item">
+              <div class="comment-header">
+                <div class="comment-author">
+                  <i class="fas fa-user-circle"></i>
+                  <span>{{ comment.user ? comment.user.name : 'Usuário' }}</span>
+                  <span class="comment-stage-ref" *ngIf="comment.referenced_stage">
+                    {{ comment.referenced_stage.name }}{{ comment.referenced_stage.category ? ' (' + comment.referenced_stage.category + ')' : '' }}
+                  </span>
+                </div>
+                <div class="comment-actions">
+                  <span class="comment-date">
+                    {{ formatCommentDate(comment.created_at) }}
+                  </span>
+                  <button 
+                    *ngIf="canEdit && comment.user && comment.user.id === getCurrentUserId()" 
+                    class="btn-delete-comment"
+                    (click)="deleteComment(comment.id)"
+                    title="Excluir comentário">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="comment-body">
+                {{ comment.comment }}
+              </div>
+              <div class="comment-attachments" *ngIf="comment.attachments && comment.attachments.length > 0">
+                <div class="attachments-header">
+                  <i class="fas fa-paperclip"></i>
+                  <span>Arquivos anexados ({{ comment.attachments.length }})</span>
+                </div>
+                <div class="attachments-list">
+                  <div class="attachment-item" *ngFor="let attachment of comment.attachments">
+                    <div class="attachment-info">
+                      <i class="fas" [ngClass]="getFileIcon(attachment.mime_type)"></i>
+                      <div class="attachment-details">
+                        <span class="attachment-name" [title]="attachment.original_name">
+                          {{ attachment.original_name }}
+                        </span>
+                        <span class="attachment-size">
+                          {{ formatFileSize(attachment.file_size) }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="attachment-actions">
+                      <button 
+                        class="btn-download" 
+                        (click)="downloadAttachment(attachment)"
+                        title="Baixar arquivo">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Comment Input -->
+          <div class="comment-input-area">
+            <!-- Selected Files Preview -->
+            <div class="selected-files" *ngIf="selectedFiles.length > 0">
+              <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
+                <div class="file-info">
+                  <i class="fas fa-file"></i>
+                  <span class="file-name">{{ file.name }}</span>
+                  <span class="file-size">({{ formatFileSize(file.size) }})</span>
+                </div>
+                <button class="btn-remove-file" (click)="removeSelectedFile(i)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Upload Progress -->
+            <div class="upload-progress" *ngIf="uploadProgress && Object.keys(uploadProgress).length > 0">
+              <div *ngFor="let key of Object.keys(uploadProgress)" class="progress-item">
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width.%]="uploadProgress[key]"></div>
+                </div>
+                <span class="progress-text">{{ uploadProgress[key] }}%</span>
+              </div>
+            </div>
+            
+            <div class="input-wrapper">
+              <textarea
+                class="comment-input"
+                [(ngModel)]="newComment"
+                [disabled]="!canEdit || isSendingComment || isLoading"
+                placeholder="Digite seu comentário..."
+                (keydown)="onCommentKeydown($event)"
+                rows="3">
+              </textarea>
+              <div class="input-actions">
+                <input 
+                  type="file" 
+                  #fileInput
+                  style="display: none"
+                  multiple
+                  (change)="onFileSelect($event)"
+                  accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt,.csv">
+                
+                <div class="left-actions">
+                  <button 
+                    class="btn-attachment"
+                    [disabled]="!canEdit || isSendingComment"
+                    (click)="fileInput.click()"
+                    title="Adicionar anexo">
+                    <i class="fas fa-paperclip"></i>
+                    <span class="attachment-count" *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }}</span>
+                  </button>
+                  
+                  <!-- Stage Reference Selection -->
+                  <select
+                    *ngIf="serviceStages && serviceStages.length > 0"
+                    class="stage-reference-select-inline"
+                    [(ngModel)]="selectedStageId"
+                    [disabled]="!canEdit || isSendingComment"
+                    title="Referenciar etapa (opcional)">
+                    <option [value]="null">🏷️ Etapa</option>
+                    <option *ngFor="let stage of serviceStages" [value]="stage.service_stage_id">
+                      {{ stage.name }}{{ stage.category ? ' (' + stage.category + ')' : '' }}
+                    </option>
+                  </select>
+                </div>
+                
+                <button
+                  class="btn-send"
+                  (click)="sendComment()"
+                  [disabled]="!canEdit || !newComment.trim() || isSendingComment || isLoading">
+                  <i class="fas fa-paper-plane" *ngIf="!isSendingComment"></i>
+                  <i class="fas fa-spinner fa-spin" *ngIf="isSendingComment"></i>
+                  {{ isSendingComment ? 'Enviando...' : 'Enviar' }}
+                </button>
+              </div>
+            </div>
+            <div class="input-hint" *ngIf="canEdit">
+              <span>Ctrl+Enter para enviar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

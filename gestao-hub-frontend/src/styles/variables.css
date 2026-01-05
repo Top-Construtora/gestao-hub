@@ -1,0 +1,134 @@
+:root {
+    /* Cores da Identidade Visual HUB CRM */
+    --hub-primary: #09005C;         /* Azul escuro/roxo - cor principal */
+    --hub-secondary: #00EDB1;       /* Verde agua/turquesa - cor secundaria */
+    --hub-accent: #30ADFC;          /* Azul claro - cor de destaque */
+
+    /* Cores derivadas da primaria */
+    --hub-primary-hover: #070048;   /* Hover da cor primaria (mais escuro) */
+    --hub-primary-light: rgba(9, 0, 92, 0.15);
+    --hub-primary-lighter: rgba(9, 0, 92, 0.08);
+
+    /* Cores derivadas da secundaria */
+    --hub-secondary-hover: #00d4a0;
+    --hub-secondary-light: rgba(0, 237, 177, 0.15);
+
+    /* Cores derivadas do accent */
+    --hub-accent-hover: #1a9ee8;
+    --hub-accent-light: rgba(48, 173, 252, 0.15);
+
+    /* Cores neutras */
+    --hub-black: #1a1a2e;
+    --hub-gray-light: #f8f9fa;
+    --hub-gray-border: #e5e7eb;
+    --hub-text-gray: #6b7280;
+    --hub-white: #FFFFFF;
+
+    /* Sistema de cores para compatibilidade (mantendo nomes antigos) */
+    --naue-primary: #09005C;
+    --naue-secondary: #00EDB1;
+    --naue-primary-hover: #070048;
+    --naue-primary-light: rgba(9, 0, 92, 0.15);
+    --naue-neon-green: #00EDB1;
+    --naue-neon-green-hover: #00d4a0;
+    --naue-neon-green-light: rgba(0, 237, 177, 0.15);
+    --naue-black: #1a1a2e;
+    --naue-dark-green: #09005C;
+    --naue-dark-green-light: rgba(9, 0, 92, 0.1);
+    --naue-gray-light: #f8f9fa;
+    --naue-gray-border: #e5e7eb;
+    --naue-text-gray: #6b7280;
+    --naue-white: #FFFFFF;
+
+    /* Escala completa de cores primarias */
+    --primary-50: #ededf7;    /* Muito claro - backgrounds */
+    --primary-100: #d2d0ec;   /* Claro - hover backgrounds */
+    --primary-200: #a6a1d9;   /* Claro medio - badges */
+    --primary-300: #7a72c6;   /* Medio claro - bordas ativas */
+    --primary-400: #4e43b3;   /* Medio - icones secundarios */
+    --primary-500: #09005C;   /* PRIMARIA - botoes, links */
+    --primary-600: #070048;   /* Escuro - hover states */
+    --primary-700: #050034;   /* Muito escuro - enfase */
+    --primary-800: #030020;   /* Extra escuro - sombras */
+    --primary-900: #01000c;   /* Mais escuro */
+
+    /* Compatibilidade com sistema antigo */
+    --primary-green: #09005C;
+    --primary-green-alt: #0d0070;
+    --primary-green-dark: #070048;
+    --primary-green-darker: #050034;
+    --primary-green-light: #1a0080;
+
+    --green-50: #ededf7;
+    --green-100: #d2d0ec;
+    --green-200: #a6a1d9;
+    --green-300: #7a72c6;
+    --green-400: #4e43b3;
+    --green-500: #09005C;
+    --green-600: #070048;
+    --green-700: #050034;
+    --green-800: #030020;
+    --green-900: #01000c;
+
+    /* Cores neutras */
+    --dark-gray: #1a1a2e;
+    --medium-gray: #2C2C2C;
+    --light-gray: #f8f9fa;
+    --bg-light: #f9fafb;
+    --white: #FFFFFF;
+    --border-gray: #e5e7eb;
+    --text-gray: #6b7280;
+    --text-dark: #111827;
+
+    /* Cores de status */
+    --success: #00EDB1;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #30ADFC;
+
+    /* Sombras */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Dark mode variables */
+    --dark-bg: #0a0a1a;
+    --dark-card: #12122a;
+    --dark-text: #f0f0f0;
+    --dark-border: #2a2a4a;
+
+    /* Tipografia - Sistema de fontes */
+    --font-primary: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-secondary: Georgia, 'Times New Roman', serif;
+
+    /* Tamanhos de fonte */
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+    --text-2xl: 24px;
+    --text-3xl: 32px;
+    --text-4xl: 40px;
+
+    /* Espacamentos */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+
+    /* Border radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    /* Transicoes */
+    --transition-fast: 0.15s ease-in-out;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
