@@ -495,7 +495,8 @@
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(9, 0, 92, 0.4);
-    background: #0a5c42;
+    background: var(--primary-green);
+    filter: brightness(1.1);
 }
 
 .btn-secondary {

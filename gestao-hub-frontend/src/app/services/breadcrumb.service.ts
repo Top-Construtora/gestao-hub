@@ -76,26 +76,6 @@ export class BreadcrumbService {
       { label: 'Serviços', url: '/home/servicos' },
       { label: 'Editar Serviço' }
     ],
-    // Novas rotas em português - Propostas
-    '/home/propostas': [
-      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
-      { label: 'Propostas', url: '/home/propostas' }
-    ],
-    '/home/propostas/nova': [
-      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
-      { label: 'Propostas', url: '/home/propostas' },
-      { label: 'Nova Proposta' }
-    ],
-    '/home/propostas/editar': [
-      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
-      { label: 'Propostas', url: '/home/propostas' },
-      { label: 'Editar Proposta' }
-    ],
-    '/home/propostas/visualizar': [
-      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
-      { label: 'Propostas', url: '/home/propostas' },
-      { label: 'Visualizar Proposta' }
-    ],
     // Novas rotas em português - Usuários
     '/home/usuarios': [
       { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
@@ -389,14 +369,12 @@ export class BreadcrumbService {
       'contratos': 'Contrato',
       'clientes': 'Cliente',
       'servicos': 'Serviço',
-      'propostas': 'Proposta',
       'usuarios': 'Usuário',
       'planejamento-estrategico': 'Planejamento',
       // Manter mapeamento antigo para compatibilidade
       'contracts': 'Contrato',
       'clients': 'Cliente',
       'services': 'Serviço',
-      'proposals': 'Proposta',
       'users': 'Usuário'
     };
     return entityMap[entity] || entity;
@@ -407,7 +385,6 @@ export class BreadcrumbService {
       'contratos': 'Contratos',
       'clientes': 'Clientes',
       'servicos': 'Serviços',
-      'propostas': 'Propostas',
       'usuarios': 'Usuários',
       'rotinas': 'Rotinas',
       'dashboard': 'Dashboard',
@@ -425,7 +402,6 @@ export class BreadcrumbService {
       'contracts': 'Contratos',
       'clients': 'Clientes',
       'services': 'Serviços',
-      'proposals': 'Propostas',
       'users': 'Usuários',
       'routines': 'Rotinas',
       'reports': 'Relatórios',

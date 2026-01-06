@@ -109,6 +109,10 @@
   padding: 2rem;
 }
 
+.form-card:has(app-image-upload) .card-body {
+  padding: 1.5rem;
+}
+
 /* Mensagem de erro */
 .error-message {
   background-color: #fef2f2;
@@ -305,108 +309,50 @@
   line-height: 1.4;
 }
 
-/* Upload de Foto de Perfil */
-.profile-upload-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.profile-picture-preview {
-  position: relative;
-  width: 120px;
-  height: 120px;
-}
-
-.avatar-placeholder {
+/* Upload de Foto de Perfil - usando componente image-upload */
+.form-card .card-body app-image-upload {
+  display: block;
   width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #e2e8f0 0%, #f7fafc 100%);
+}
+
+.form-card .card-body app-image-upload ::ng-deep .image-upload-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-area {
+  min-height: 200px;
+  border-color: var(--naue-primary, #09005C);
+  border-width: 2px;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-area:hover:not(.disabled) {
+  border-color: var(--naue-primary, #09005C);
+  background-color: rgba(9, 0, 92, 0.05);
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-area.drag-over {
+  border-color: var(--naue-primary, #09005C);
+  background-color: rgba(9, 0, 92, 0.1);
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-icon {
+  color: var(--naue-primary, #09005C);
+  font-size: 48px;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .image-preview {
+  height: 180px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid #e2e8f0;
 }
 
-.avatar-placeholder i {
-  font-size: 3rem;
-  color: #a0aec0;
-}
-
-.profile-picture-preview img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--naue-primary, #09005C);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.remove-picture-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: #e53e3e;
-  color: white;
-  border: 2px solid white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.remove-picture-btn:hover {
-  background: #c53030;
-  transform: scale(1.1);
-}
-
-.upload-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.upload-controls input[type="file"] {
-  display: none;
-}
-
-.upload-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: var(--naue-primary, #09005C);
-  color: white;
+.form-card .card-body app-image-upload ::ng-deep .preview-image {
+  max-height: 180px;
+  width: auto;
   border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
-  justify-content: center;
-}
-
-.upload-button:hover {
-  background: #070048;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.2);
-}
-
-.upload-hint {
-  font-size: 0.75rem;
-  color: #718096;
-  text-align: center;
-  margin: 0;
 }
 
 /* Card de Informações */
@@ -478,14 +424,19 @@
 }
 
 .btn-primary {
-  background-color: var(--naue-primary, #09005C);
-  color: white;
+  background: var(--naue-primary, #09005C) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #070048;
+  background: #070048 !important;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(9, 0, 92, 0.2);
+}
+
+.btn-primary i {
+  color: white !important;
 }
 
 .btn-secondary {

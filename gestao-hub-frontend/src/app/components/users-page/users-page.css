@@ -391,6 +391,36 @@
   font-size: 0.875rem;
 }
 
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--naue-primary, #09005C) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.2);
+}
+
+.btn-primary:hover {
+  background: #070048 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
+}
+
+.btn-primary i {
+  color: white !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .page-title {

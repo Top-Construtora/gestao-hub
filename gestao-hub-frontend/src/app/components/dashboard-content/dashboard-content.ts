@@ -60,7 +60,6 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
     { id: 'routines', icon: 'fas fa-tasks', label: 'Rotinas', color: '#09005C', action: 'routines' },
     { id: 'new-service', icon: 'fas fa-briefcase', label: 'Novo Serviço', color: '#09005C', action: 'newService' },
     { id: 'new-client', icon: 'fas fa-users', label: 'Novo Cliente', color: '#09005C', action: 'newClient' },
-    { id: 'new-proposal', icon: 'fas fa-file-alt', label: 'Nova Proposta', color: '#09005C', action: 'newProposal' },
     { id: 'new-contract', icon: 'fas fa-file-contract', label: 'Novo Contrato', color: '#09005C', action: 'newContract' },
     { id: 'generate-report', icon: 'fas fa-chart-bar', label: 'Gerar Relatório', color: '#09005C', action: 'generateReport' }
   ];
@@ -910,7 +909,6 @@ export class DashboardContentComponent implements OnInit, AfterViewInit, OnDestr
 
   executeQuickAction(action: string) {
     const routes: { [key: string]: string } = {
-      'newProposal': '/home/propostas/nova',
       'newContract': '/home/contratos/novo',
       'newClient': '/home/clientes/novo',
       'newService': '/home/servicos/novo',

@@ -13,7 +13,7 @@ class EmailService {
     }
 
     const mailOptions = {
-      from: `"NAUE Consultoria" <${process.env.EMAIL_FROM || 'noreply@naue.com.br'}>`,
+      from: `"Hub Incorporações" <${process.env.EMAIL_FROM || 'noreply@hubinc.com.br'}>`,
       to: email,
       subject: 'Código de Recuperação de Senha - NAUE',
       html: `
@@ -86,9 +86,9 @@ class EmailService {
     }
 
     const mailOptions = {
-      from: `"NAUE Consultoria" <${process.env.EMAIL_FROM || 'noreply@naue.com.br'}>`,
+      from: `"Hub Incorporações" <${process.env.EMAIL_FROM || 'noreply@hubinc.com.br'}>`,
       to: email,
-      subject: 'Bem-vindo à NAUE Consultoria!',
+      subject: 'Bem-vindo à HUB Incorporações!',
       html: `
         <!DOCTYPE html>
         <html>
@@ -154,7 +154,7 @@ class EmailService {
     if (options.template === 'proposal') {
       const { data } = options;
       const mailOptions = {
-        from: `"NAUE Consultoria" <${process.env.EMAIL_FROM || 'noreply@naue.com.br'}>`,
+        from: `"Hub Incorporações" <${process.env.EMAIL_FROM || 'noreply@hubinc.com.br'}>`,
         to: options.to,
         subject: options.subject,
         html: `
@@ -260,7 +260,7 @@ class EmailService {
       return;
     }
     const mailOptions = {
-      from: `"NAUE Consultoria" <${process.env.EMAIL_FROM || 'noreply@naue.com.br'}>`,
+      from: `"Hub Incorporações" <${process.env.EMAIL_FROM || 'noreply@hubinc.com.br'}>`,
       to: email,
       subject: `Você foi atribuído a um novo contrato: ${details.contractNumber}`,
       html: `
@@ -284,13 +284,13 @@ class EmailService {
       return;
     }
     const mailOptions = {
-      from: `"NAUE Consultoria" <${process.env.EMAIL_FROM || 'noreply@naue.com.br'}>`,
+      from: `"Hub Incorporações" <${process.env.EMAIL_FROM || 'noreply@hubinc.com.br'}>`,
       to: email,
       subject: `Sua permissão no contrato ${details.contractNumber} foi alterada`,
       html: `
         <h2>Olá ${name},</h2>
         <p>Sua permissão no contrato <strong>${details.contractNumber}</strong> foi alterada para <strong>${details.newRole}</strong> por ${details.changedBy}.</p>
-        <p>Atenciosamente,<br>Equipe NAUE Consultoria</p>
+        <p>Atenciosamente,<br>Equipe HUB Incorporações</p>
       `
     };
     await transporter.sendMail(mailOptions);
@@ -306,7 +306,7 @@ class EmailService {
     }
 
     const mailOptions = {
-      from: `"NAUE Consultoria" <${process.env.EMAIL_FROM || 'noreply@naue.com.br'}>`,
+      from: `"Hub Incorporações" <${process.env.EMAIL_FROM || 'noreply@hubinc.com.br'}>`,
       to: email,
       subject: 'Sua senha na plataforma NAUE foi resetada',
       html: `

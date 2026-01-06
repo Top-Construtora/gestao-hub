@@ -306,14 +306,19 @@ textarea.form-control {
 }
 
 .btn-primary {
-  background-color: var(--naue-primary);
-  color: white;
+  background: var(--naue-primary, #09005C) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(9, 0, 92, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #13c99d;
+  background: #070048 !important;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(9, 0, 92, 0.3);
+}
+
+.btn-primary i {
+  color: white !important;
 }
 
 .btn-secondary {
@@ -339,12 +344,24 @@ textarea.form-control {
 
 .add-email-btn {
   padding: 8px 16px;
-  border: 1px solid var(--naue-primary);
-  background: var(--naue-primary);
-  color: white;
+  border: 1px solid var(--naue-primary, #09005C);
+  background: var(--naue-primary, #09005C) !important;
+  color: white !important;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-email-btn:hover {
+  background: #070048 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.2);
+}
+
+.add-email-btn i {
+  color: white !important;
 }
 
 .emails-list {
@@ -408,12 +425,24 @@ textarea.form-control {
 
 .add-phone-btn {
   padding: 8px 16px;
-  border: 1px solid var(--naue-primary);
-  background: var(--naue-primary);
-  color: white;
+  border: 1px solid var(--naue-primary, #09005C);
+  background: var(--naue-primary, #09005C) !important;
+  color: white !important;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-phone-btn:hover {
+  background: #070048 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(9, 0, 92, 0.2);
+}
+
+.add-phone-btn i {
+  color: white !important;
 }
 
 .phones-list {
@@ -547,6 +576,56 @@ textarea.form-control {
   .form-card {
     border-radius: 8px;
   }
+}
+
+/* Upload de Logo - customização do componente image-upload */
+.form-card .card-body app-image-upload {
+  display: block;
+  width: 100%;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .image-upload-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-area {
+  min-height: 200px;
+  border-color: var(--naue-primary, #09005C);
+  border-width: 2px;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-area:hover:not(.disabled) {
+  border-color: var(--naue-primary, #09005C);
+  background-color: rgba(9, 0, 92, 0.05);
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-area.drag-over {
+  border-color: var(--naue-primary, #09005C);
+  background-color: rgba(9, 0, 92, 0.1);
+}
+
+.form-card .card-body app-image-upload ::ng-deep .upload-icon {
+  color: var(--naue-primary, #09005C);
+  font-size: 48px;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .image-preview {
+  height: 180px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-card .card-body app-image-upload ::ng-deep .preview-image {
+  max-height: 180px;
+  width: auto;
+  border-radius: 8px;
+}
+
+.form-card:has(app-image-upload) .card-body {
+  padding: 1.5rem;
 }
 
 /* Card de informações */

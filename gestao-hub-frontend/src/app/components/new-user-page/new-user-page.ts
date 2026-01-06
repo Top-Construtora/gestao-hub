@@ -7,6 +7,7 @@ import { ProfilePictureService } from '../../services/profile-picture.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
 interface UserData {
   name: string;
@@ -19,7 +20,7 @@ interface UserData {
 @Component({
   selector: 'app-new-user-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, BreadcrumbComponent],
+  imports: [CommonModule, FormsModule, BreadcrumbComponent, ImageUploadComponent],
   templateUrl: './new-user-page.html',
   styleUrls: ['./new-user-page.css']
 })
@@ -197,23 +198,20 @@ export class NewUserPageComponent implements OnInit {
     return this.isEditMode ? 'Editar Usuário' : 'Novo Usuário';
   }
 
-  onProfilePictureSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedProfilePicture = input.files[0];
-      
-      // Preview the selected image
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.profilePictureUrl = e.target?.result as string;
-      };
-      reader.readAsDataURL(this.selectedProfilePicture);
-    }
+  onProfilePictureUploaded(file: File): void {
+    this.selectedProfilePicture = file;
+
+    // Preview the selected image
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.profilePictureUrl = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 
-  async removeProfilePicture(): Promise<void> {
+  async onProfilePictureRemoved(): Promise<void> {
     if (this.isEditMode && !this.editingUserId) return;
-    
+
     // Se está editando, remove do servidor
     if (this.isEditMode && this.editingUserId) {
       try {
@@ -229,7 +227,7 @@ export class NewUserPageComponent implements OnInit {
         this.isLoading = false;
       }
     }
-    
+
     // Em ambos os casos, limpa o preview local
     this.profilePictureUrl = '';
     this.selectedProfilePicture = null;
