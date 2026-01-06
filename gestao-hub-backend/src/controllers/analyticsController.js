@@ -1,7 +1,6 @@
 const Contract = require('../models/Contract');
 const Service = require('../models/Service');
 const Client = require('../models/Client');
-const Proposal = require('../models/Proposal');
 const { supabase } = require('../config/database');
 
 class AnalyticsController {
@@ -20,7 +19,6 @@ class AnalyticsController {
         contracts,
         services,
         clients,
-        proposals,
         revenue,
         servicesByUser,
         completedServices,
@@ -32,7 +30,6 @@ class AnalyticsController {
         this.getContractsAnalytics(dateFilter),
         this.getServicesAnalytics(dateFilter),
         this.getClientsAnalytics(dateFilter),
-        this.getProposalsAnalytics(dateFilter),
         this.getRevenueAnalytics(dateFilter),
         this.getServicesByUser(dateFilter),
         this.getCompletedServicesData(dateFilter),
@@ -46,7 +43,6 @@ class AnalyticsController {
         contracts,
         services,
         clients,
-        proposals,
         revenue,
         servicesByUser,
         completedServices,
@@ -116,9 +112,6 @@ class AnalyticsController {
       // Calcular duração média dos contratos (aproximada)
       const averageContractDuration = await this.calculateAverageContractDuration();
 
-      // Taxa de conversão (propostas -> contratos)
-      const conversionRate = await this.calculateConversionRate();
-
       // Taxa de crescimento
       const growthRate = await this.calculateGrowthRate(dateFilter);
 
@@ -130,7 +123,6 @@ class AnalyticsController {
         activeRevenue,
         averageContractValue,
         averageContractDuration,
-        conversionRate,
         growthRate,
         rsRevenue // Adicionar separadamente para visibilidade
       };
@@ -341,42 +333,6 @@ class AnalyticsController {
   }
 
   /**
-   * Obter analytics de propostas
-   */
-  async getProposalsAnalytics(dateFilter) {
-    try {
-      const { data: proposals } = await supabase
-        .from('proposals')
-        .select('status, created_at, total_value')
-        .gte('created_at', dateFilter.startDate)
-        .lte('created_at', dateFilter.endDate);
-
-      const byStatus = {
-        draft: proposals?.filter(p => p.status === 'draft').length || 0,
-        sent: proposals?.filter(p => p.status === 'sent').length || 0,
-        signed: proposals?.filter(p => p.status === 'signed').length || 0,
-        rejected: proposals?.filter(p => p.status === 'rejected').length || 0,
-        expired: proposals?.filter(p => p.status === 'expired').length || 0,
-        converted: proposals?.filter(p => p.status === 'converted').length || 0,
-        contraproposta: proposals?.filter(p => p.status === 'contraproposta').length || 0
-      };
-
-      const totalValue = proposals?.reduce((sum, p) => sum + (p.total_value || 0), 0) || 0;
-      const averageValue = proposals?.length > 0 ? totalValue / proposals.length : 0;
-
-      return {
-        total: proposals?.length || 0,
-        byStatus,
-        totalValue,
-        averageValue
-      };
-    } catch (error) {
-      console.error('❌ Erro ao obter analytics de propostas:', error);
-      throw error;
-    }
-  }
-
-  /**
    * Obter analytics de receita
    */
   async getRevenueAnalytics(dateFilter) {
@@ -455,45 +411,6 @@ class AnalyticsController {
       return Math.round(averageDuration);
     } catch (error) {
       console.error('❌ Erro ao calcular duração média:', error);
-      return 0;
-    }
-  }
-
-  /**
-   * Calcular taxa de conversão (Propostas Assinadas / (Propostas Enviadas + Propostas Assinadas + Propostas Rejeitadas))
-   */
-  async calculateConversionRate() {
-    try {
-      const { data: proposals, error: proposalsError } = await supabase
-        .from('proposals')
-        .select('status');
-
-      if (proposalsError) {
-        console.error('❌ Erro ao buscar propostas:', proposalsError);
-        return 0;
-      }
-
-      // Propostas assinadas (signed ou converted)
-      const signedProposals = proposals?.filter(p =>
-        p.status === 'signed' || p.status === 'converted'
-      ).length || 0;
-
-      // Propostas enviadas (apenas 'sent', não inclui as assinadas ou rejeitadas)
-      const sentProposals = proposals?.filter(p => p.status === 'sent').length || 0;
-
-      // Propostas rejeitadas
-      const rejectedProposals = proposals?.filter(p => p.status === 'rejected').length || 0;
-
-      // Total do denominador: enviadas + assinadas + rejeitadas
-      const totalDenominator = sentProposals + signedProposals + rejectedProposals;
-
-      if (totalDenominator === 0) return 0;
-
-      // Taxa de conversão = Assinadas / (Enviadas + Assinadas + Rejeitadas)
-      const rate = Math.round((signedProposals / totalDenominator) * 100);
-      return rate;
-    } catch (error) {
-      console.error('❌ Erro ao calcular taxa de conversão:', error);
       return 0;
     }
   }

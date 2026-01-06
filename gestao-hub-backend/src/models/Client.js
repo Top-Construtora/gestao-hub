@@ -482,21 +482,6 @@ class ClientModel {
         throw new Error('Não é possível excluir o cliente pois existem contratos associados. Por favor, exclua ou reassigne os contratos primeiro.');
       }
 
-      const { data: proposals, error: proposalError } = await supabase
-        .from('proposals')
-        .select('id')
-        .eq('client_id', id)
-        .limit(1);
-
-      if (proposalError) {
-        console.error('❌ Erro ao verificar propostas:', proposalError);
-        throw proposalError;
-      }
-
-      if (proposals && proposals.length > 0) {
-        throw new Error('Não é possível excluir o cliente pois existem propostas associadas. Por favor, exclua ou reassigne as propostas primeiro.');
-      }
-
       // Ordem correta de exclusão (respeitando constraints de foreign key)
       // 1. Deletar anexos do cliente
       await supabase.from('client_attachments').delete().eq('client_id', id);

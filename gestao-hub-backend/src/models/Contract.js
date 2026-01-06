@@ -908,23 +908,7 @@ class ContractModel {
     try {
       console.log('🗑️ Iniciando exclusão permanente do contrato:', id);
 
-      // 1. Limpar referência da proposta convertida (se houver)
-      console.log('🔄 Removendo referência da proposta...');
-      const { error: proposalError } = await supabase
-        .from('proposals')
-        .update({
-          converted_to_contract_id: null
-        })
-        .eq('converted_to_contract_id', id);
-
-      if (proposalError) {
-        console.warn('⚠️ Erro ao limpar referência da proposta:', proposalError);
-        // Continuar mesmo com erro, pois pode não existir proposta vinculada
-      } else {
-        console.log('✅ Referência da proposta removida');
-      }
-
-      // 2. Deletar percentuais de recrutamento dos serviços
+      // 1. Deletar percentuais de recrutamento dos serviços
       console.log('🗑️ Deletando percentuais de recrutamento...');
       const { data: contractServices } = await supabase
         .from('contract_services')
@@ -1445,23 +1429,7 @@ class ContractModel {
     try {
       console.log('🗑️ Iniciando soft delete do contrato:', id);
 
-      // 1. Limpar referência da proposta convertida (se houver)
-      console.log('🔄 Removendo referência da proposta...');
-      const { error: proposalError } = await supabase
-        .from('proposals')
-        .update({
-          converted_to_contract_id: null
-        })
-        .eq('converted_to_contract_id', id);
-
-      if (proposalError) {
-        console.warn('⚠️ Erro ao limpar referência da proposta:', proposalError);
-        // Continuar mesmo com erro
-      } else {
-        console.log('✅ Referência da proposta removida');
-      }
-
-      // 2. Marcar contrato como inativo
+      // 1. Marcar contrato como inativo
       const { error } = await supabase
         .from('contracts')
         .update({
