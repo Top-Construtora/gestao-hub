@@ -34,10 +34,13 @@ export class SidebarComponent {
   navSections: NavSection[] = [
     {
       title: 'PRINCIPAL',
-      items: []
+      items: [
+        { id: 'inicio', icon: 'fas fa-home', text: 'Início', route: '/home/inicio' },
+        { id: 'analytics', icon: 'fas fa-chart-pie', text: 'Analytics', route: '/home/analytics' }
+      ]
     },
     {
-      title: 'CONFIGURACOES',
+      title: 'CONFIGURAÇÕES',
       items: [
         { id: 'usuarios', icon: 'fas fa-users-cog', text: 'Usuários', route: '/home/usuarios', adminOnly: true, adminOnlyNotGerencial: true },
         { id: 'configuracoes', icon: 'fas fa-cog', text: 'Configuraçoes', route: '/home/configuracoes' }

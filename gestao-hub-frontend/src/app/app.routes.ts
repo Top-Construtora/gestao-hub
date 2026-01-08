@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { HomeComponent } from './pages/home/home';
+import { HomePageComponent } from './components/home-page/home-page';
+import { AnalyticsPageComponent } from './components/analytics-page/analytics-page';
 import { ChangePasswordComponent } from './components/change-password/change-password';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password';
 import { ResetPasswordComponent } from './components/reset-password/reset-password';
@@ -59,11 +61,25 @@ export const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard, MustChangePasswordGuard],
     children: [
-      // Rota padrão dentro de /home redireciona para usuarios
+      // Rota padrão dentro de /home redireciona para a página inicial
       {
         path: '',
-        redirectTo: 'usuarios',
+        redirectTo: 'inicio',
         pathMatch: 'full',
+      },
+
+      // Página inicial/Dashboard
+      {
+        path: 'inicio',
+        component: HomePageComponent,
+        title: 'Início - HUB CRM',
+      },
+
+      // Analytics
+      {
+        path: 'analytics',
+        component: AnalyticsPageComponent,
+        title: 'Analytics - HUB CRM',
       },
 
       // Gestão de usuários - Admin Gerencial pode APENAS visualizar

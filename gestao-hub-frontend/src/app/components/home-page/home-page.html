@@ -1,0 +1,81 @@
+<div class="page-header">
+  <h1 class="page-title">{{ getGreeting() }}, {{ userName }}!</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <h2 class="table-title">Bem-vindo ao HUB CRM</h2>
+  </div>
+
+  <div class="welcome-banner">
+    <div class="welcome-icon">
+      <i class="fas fa-home"></i>
+    </div>
+    <div class="welcome-content">
+      <h3>Sistema de gestão empresarial integrado</h3>
+      <div class="welcome-meta">
+        <span class="meta-item">
+          <i class="fas fa-user-shield"></i>
+          {{ userRole }}
+        </span>
+        <span class="meta-item">
+          <i class="fas fa-calendar"></i>
+          {{ currentYear }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3 class="section-title">
+      <i class="fas fa-bolt"></i>
+      Acesso Rápido
+    </h3>
+    <div class="quick-actions-grid">
+      <div
+        *ngFor="let action of quickActions"
+        class="quick-action-card"
+        (click)="navigateTo(action.route)">
+        <div class="action-icon" [style.background-color]="action.color + '20'" [style.color]="action.color">
+          <i [class]="action.icon"></i>
+        </div>
+        <div class="action-content">
+          <h4 class="action-label">{{ action.label }}</h4>
+          <p class="action-description">{{ action.description }}</p>
+        </div>
+        <div class="action-arrow">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section info-section">
+    <div class="info-header">
+      <i class="fas fa-info-circle"></i>
+      <h3>Sobre o Sistema</h3>
+    </div>
+    <div class="info-content">
+      <p>O HUB CRM é uma plataforma completa para gestão empresarial, oferecendo ferramentas para administração de usuários, análise de métricas e configuração do sistema.</p>
+      <div class="info-features">
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Gestão de usuários e permissões</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Analytics e métricas em tempo real</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Interface responsiva e intuitiva</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Segurança e controle de acesso</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
