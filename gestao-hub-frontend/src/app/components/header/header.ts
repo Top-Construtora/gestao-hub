@@ -5,13 +5,6 @@ import { RouterModule, Router } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { ProfilePictureService } from '../../services/profile-picture.service';
 
-interface Notification {
-  id: number;
-  time: string;
-  content: string;
-  isUnread: boolean;
-}
-
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -25,13 +18,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() userInitials = '';
   @Input() userId = 0;
   @Input() hasProfilePicture = false;
-  @Input() notifications: Notification[] = [];
-  @Input() unreadNotificationsCount = 0;
-  @Input() isNotificationOpen = false;
-  
+
   @Output() toggleMobileSidebar = new EventEmitter<void>();
-  @Output() toggleNotifications = new EventEmitter<void>();
-  @Output() clearNotifications = new EventEmitter<void>();
   @Output() logout = new EventEmitter<void>();
   
   @ViewChild('mobileSearchInput') mobileSearchInput!: ElementRef;
@@ -142,17 +130,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.logout.emit();
     this.closeUserMenu();
-  }
-  
-  viewAllNotifications(event: Event): void {
-    event.preventDefault();
-    console.log('Ver todas as notificações');
-  }
-  
-  markAsRead(notification: Notification): void {
-    if (notification.isUnread) {
-      notification.isUnread = false;
-      this.toggleNotifications.emit();
-    }
   }
 }

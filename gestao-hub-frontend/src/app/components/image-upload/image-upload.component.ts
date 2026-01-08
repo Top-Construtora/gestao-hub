@@ -74,11 +74,11 @@ export class ImageUploadComponent implements OnChanges {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
     if (file.size > maxSizeInBytes) {
-      this.modalService.showError('O ficheiro excede o tamanho máximo de 5MB.');
+      // Error notification removed
       return false;
     }
     if (!allowedTypes.includes(file.type)) {
-      this.modalService.showError('Tipo de ficheiro inválido. Apenas imagens são permitidas.');
+      // Error notification removed
       return false;
     }
     return true;

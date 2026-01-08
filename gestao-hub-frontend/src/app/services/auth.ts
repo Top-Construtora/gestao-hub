@@ -2,9 +2,7 @@ import { Injectable, inject, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { NotificationService } from './notification.service';
 import { environment } from '../../environments/environment';
-import { WebsocketService } from './websocket.service';
 
 export interface User {
   id: number;
@@ -68,11 +66,6 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
   private injector = inject(Injector);
-  private websocketService = inject(WebsocketService);
-  
-  private get notificationService(): NotificationService {
-    return this.injector.get(NotificationService);
-  }
 
   constructor() {
     this.loadUserFromStorage();
@@ -90,17 +83,11 @@ export class AuthService {
       tap(response => {
         if (response.token && response.user) {
           this.setSession(response.token, response.user);
-          this.websocketService.connect(response.user.id);
-          // Inicializar notificações após delay maior para evitar rate limiting
-          setTimeout(() => {
-            this.notificationService.initializeNotifications();
-          }, 3000);
         }
         this.isLoggingIn = false; // Reset flag após sucesso
       }),
       catchError(error => {
         this.isLoggingIn = false; // Reset flag após erro
-        this.notificationService.error('Email ou senha inválidos', 'Falha no Login');
         return throwError(() => error);
       })
     );
@@ -110,15 +97,10 @@ export class AuthService {
     const headers = this.getAuthHeaders();
     return this.http.post(`${this.API_URL}/logout`, {}, { headers }).pipe(
       tap(() => {
-        this.websocketService.disconnect();
-        this.notificationService.resetNotificationState(); // Reset do estado das notificações
         this.clearSession();
-        this.notificationService.info('Você foi desconectado.', 'Sessão Encerrada');
         this.router.navigate(['/login']);
       }),
       catchError(error => {
-        this.websocketService.disconnect();
-        this.notificationService.resetNotificationState(); // Reset mesmo em erro
         this.clearSession();
         this.router.navigate(['/login']);
         return throwError(() => error);
@@ -316,10 +298,6 @@ export class AuthService {
       try {
         const user = JSON.parse(userJson);
         this.currentUserSubject.next(user);
-        // Inicializar notificações se usuário já estiver autenticado (com delay maior)
-        setTimeout(() => {
-          this.notificationService.initializeNotifications();
-        }, 3000);
       } catch (error) {
         console.error('❌ Erro ao analisar dados do usuário no localStorage. Limpando sessão.', error);
         this.clearSession();
@@ -335,10 +313,6 @@ export class AuthService {
       tap(response => {
         if (response.token && response.user) {
           this.setSession(response.token, response.user);
-          // Reinicializar notificações após refresh do token (com delay)
-          setTimeout(() => {
-            this.notificationService.initializeNotifications();
-          }, 1500);
         }
       })
     );

@@ -1,6 +1,4 @@
-const Contract = require('../models/Contract');
-const Service = require('../models/Service');
-const Client = require('../models/Client');
+// Contract, Service and Client models removed
 const { supabase } = require('../config/database');
 
 class AnalyticsController {

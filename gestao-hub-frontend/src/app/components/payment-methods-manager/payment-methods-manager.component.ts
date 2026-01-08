@@ -74,7 +74,6 @@ export class PaymentMethodsManagerComponent implements OnInit {
       this.paymentMethodsChanged.emit(this.paymentMethods);
     } catch (error) {
       console.error('❌ Erro ao carregar formas de pagamento:', error);
-      this.modalService.showError('Erro ao carregar formas de pagamento');
     } finally {
       this.isLoading = false;
     }
@@ -101,13 +100,11 @@ export class PaymentMethodsManagerComponent implements OnInit {
         await firstValueFrom(
           this.paymentMethodService.updatePaymentMethod(paymentMethod.id!, this.newPaymentMethod)
         );
-        this.modalService.showSuccess('Forma de pagamento atualizada com sucesso');
       } else {
         // Criando
         await firstValueFrom(
           this.paymentMethodService.createContractPaymentMethod(this.contractId, this.newPaymentMethod)
         );
-        this.modalService.showSuccess('Forma de pagamento adicionada com sucesso');
       }
 
       this.hideAddPaymentMethod();
@@ -115,7 +112,6 @@ export class PaymentMethodsManagerComponent implements OnInit {
       await this.loadPaymentMethods();
     } catch (error) {
       console.error('❌ Erro ao salvar forma de pagamento:', error);
-      this.modalService.showError('Erro ao salvar forma de pagamento');
     } finally {
       this.isSaving = false;
     }
@@ -134,9 +130,9 @@ export class PaymentMethodsManagerComponent implements OnInit {
 
   async deletePaymentMethod(index: number) {
     const paymentMethod = this.paymentMethods[index];
-    
+
     if (this.paymentMethods.length === 1) {
-      this.modalService.showError('É necessário ter pelo menos uma forma de pagamento');
+      console.error('É necessário ter pelo menos uma forma de pagamento');
       return;
     }
 
@@ -144,11 +140,9 @@ export class PaymentMethodsManagerComponent implements OnInit {
       await firstValueFrom(
         this.paymentMethodService.deletePaymentMethod(paymentMethod.id!)
       );
-      this.modalService.showSuccess('Forma de pagamento removida');
       await this.loadPaymentMethods();
     } catch (error) {
       console.error('❌ Erro ao remover forma de pagamento:', error);
-      this.modalService.showError('Erro ao remover forma de pagamento');
     }
   }
 
@@ -162,18 +156,18 @@ export class PaymentMethodsManagerComponent implements OnInit {
 
   private validateForm(): boolean {
     if (!this.newPaymentMethod.payment_method.trim()) {
-      this.modalService.showError('Selecione uma forma de pagamento');
+      console.error('Selecione uma forma de pagamento');
       return false;
     }
 
     if (this.newPaymentMethod.value_type === 'percentage') {
       if (!this.newPaymentMethod.percentage || this.newPaymentMethod.percentage <= 0) {
-        this.modalService.showError('Percentual deve ser maior que 0');
+        console.error('Percentual deve ser maior que 0');
         return false;
       }
     } else {
       if (!this.newPaymentMethod.fixed_value || this.newPaymentMethod.fixed_value <= 0) {
-        this.modalService.showError('Valor fixo deve ser maior que 0');
+        console.error('Valor fixo deve ser maior que 0');
         return false;
       }
     }

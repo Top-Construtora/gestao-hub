@@ -4,25 +4,13 @@ const helmet = require('helmet');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const companyRoutes = require('./routes/companyRoutes');
-const clientRoutes = require('./routes/clientRoutes');
-const serviceRoutes = require('./routes/serviceRoutes');
-const serviceStageRoutes = require('./routes/serviceStageRoutes');
-const contractServiceStageRoutes = require('./routes/contractServiceStageRoutes');
-const contractRoutes = require('./routes/contractRoutes');
-const installmentRoutes = require('./routes/installmentRoutes');
-const attachmentRoutes = require('./routes/attachmentRoutes');
-const clientAttachmentRoutes = require('./routes/clientAttachmentRoutes');
-const clientLogoRoutes = require('./routes/clientLogoRoutes');
 const userProfilePictureRoutes = require('./routes/userProfilePictureRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const authMiddleware = require('./middleware/authMiddleware');
 const activityTracker = require('./middleware/activityTracker');
 const rateLimiters = require('./config/rateLimiter');
 const reportRoutes = require('./routes/reportRoutes');
-const notificationRoutes = require('./routes/notificationRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
-const clientEmailRoutes = require('./routes/clientEmailRoutes');
-const clientPhoneRoutes = require('./routes/clientPhoneRoutes');
 const http = require('http');
 const websocket = require('./config/websocket');
 
@@ -116,21 +104,8 @@ app.use('/api/users', userRoutes); // User routes públicas ANTES do middleware 
 // Rotas protegidas com middleware de tracking
 app.use('/api/users', userProfilePictureRoutes); // Profile picture routes (auth já incluído nas rotas)
 app.use('/api/companies', authMiddleware, activityTracker, companyRoutes);
-app.use('/api/clients', authMiddleware, activityTracker, clientRoutes);
-app.use('/api/services', authMiddleware, activityTracker, serviceRoutes);
-app.use('/api', authMiddleware, activityTracker, serviceStageRoutes);
-app.use('/api', authMiddleware, activityTracker, contractServiceStageRoutes);
-app.use('/api/contracts', authMiddleware, activityTracker, contractRoutes);
-app.use('/api', authMiddleware, activityTracker, installmentRoutes);
-app.use('/api/attachments', authMiddleware, activityTracker, attachmentRoutes);
-app.use('/api/client-attachments', authMiddleware, activityTracker, clientAttachmentRoutes);
-app.use('/api', clientLogoRoutes); // Logo routes com auth interno
 app.use('/api/reports', authMiddleware, activityTracker, reportRoutes);
-app.use('/api/notifications', authMiddleware, activityTracker, notificationRoutes);
 app.use('/api/analytics', authMiddleware, activityTracker, analyticsRoutes);
-app.use('/api', authMiddleware, activityTracker, clientEmailRoutes);
-app.use('/api', authMiddleware, activityTracker, clientPhoneRoutes);
-app.use('/api', authMiddleware, activityTracker, require('./routes/paymentMethodRoutes'));
 
 
 // Health check - importante para Render

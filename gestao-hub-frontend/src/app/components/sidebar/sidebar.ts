@@ -34,19 +34,7 @@ export class SidebarComponent {
   navSections: NavSection[] = [
     {
       title: 'PRINCIPAL',
-      items: [
-        { id: 'dashboard', icon: 'fas fa-chart-line', text: 'Dashboard', route: '/home/dashboard' },
-        { id: 'clientes', icon: 'fas fa-users', text: 'Clientes', route: '/home/clientes', adminOnly: true },
-        { id: 'contratos', icon: 'fas fa-file-contract', text: 'Contratos', route: '/home/contratos', adminOnly: true },
-        { id: 'servicos', icon: 'fas fa-briefcase', text: 'Serviços', route: '/home/servicos' }
-      ]
-    },
-    {
-      title: 'ANALISES',
-      items: [
-        { id: 'relatorios', icon: 'fas fa-chart-bar', text: 'Relatórios', route: '/home/relatorios', adminOnly: true, adminOnlyNotGerencial: true },
-        { id: 'analytics', icon: 'fas fa-chart-pie', text: 'Analytics', route: '/home/analytics', adminOnly: true, adminOnlyNotGerencial: true }
-      ]
+      items: []
     },
     {
       title: 'CONFIGURACOES',

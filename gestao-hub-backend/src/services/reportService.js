@@ -1,8 +1,6 @@
 const { format } = require('date-fns');
 const { ptBR } = require('date-fns/locale');
-const Contract = require('../models/Contract');
-const Client = require('../models/Client');
-const Service = require('../models/Service');
+// Contract, Client and Service models removed
 const pdfGenerator = require('../reportGenerators/pdfGenerator');
 const excelGenerator = require('../reportGenerators/excelGenerator');
 
@@ -130,7 +128,7 @@ class ReportService {
     }
 
     async generateClientReportPDF(clientId) {
-        const client = await Client.findById(clientId);
+        // const client = await Client.findById(clientId); // REMOVED
         if (!client) throw new Error('Cliente não encontrado');
         const contracts = await Contract.findAllByClientId(clientId);
 
@@ -252,7 +250,7 @@ class ReportService {
     }
     
     async generateServicesReportPDF(serviceId) {
-        const service = await Service.findById(serviceId);
+        // const service = await Service.findById(serviceId); // REMOVED
         if (!service) throw new Error('Serviço não encontrado');
         const contractServices = await Contract.findAllServicesByServiceId(serviceId);
         
@@ -425,7 +423,7 @@ class ReportService {
     }
 
     async generateClientReportExcel(clientId) {
-        const client = await Client.findById(clientId);
+        // const client = await Client.findById(clientId); // REMOVED
         if (!client) throw new Error('Cliente não encontrado');
         const contracts = await Contract.findAllByClientId(clientId);
 
@@ -516,7 +514,7 @@ class ReportService {
     }
     
     async generateServicesReportExcel(serviceId) {
-        const service = await Service.findById(serviceId);
+        // const service = await Service.findById(serviceId); // REMOVED
         if (!service) throw new Error('Serviço não encontrado');
         const contractServices = await Contract.findAllServicesByServiceId(serviceId);
 
@@ -822,7 +820,7 @@ class ReportService {
 
     // Relatório de Rotinas de Serviços por Cliente
     async generateServiceRoutinesReportPDF(clientId, contractId = null) {
-        const client = await Client.findById(clientId);
+        // const client = await Client.findById(clientId); // REMOVED
         if (!client) throw new Error('Cliente não encontrado');
         
         // Buscar contratos do cliente (filtrar por contrato específico se fornecido)
@@ -942,7 +940,7 @@ class ReportService {
     }
 
     async generateServiceRoutinesReportExcel(clientId, contractId = null) {
-        const client = await Client.findById(clientId);
+        // const client = await Client.findById(clientId); // REMOVED
         if (!client) throw new Error('Cliente não encontrado');
         
         // Buscar contratos do cliente (filtrar por contrato específico se fornecido)

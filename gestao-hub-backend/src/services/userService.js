@@ -2,7 +2,6 @@ const { User, Role } = require('../models');
 const bcrypt = require('bcryptjs');
 const authConfig = require('../config/auth');
 const emailService = require('./emailService');
-const NotificationService = require('./notificationService');
 
 const generateSecurePassword = () => {
   const length = 8;
@@ -54,11 +53,6 @@ class UserService {
     });
 
     await emailService.sendWelcomeEmailWithCredentials(email, name, temporaryPassword);
-
-    // Notificar administradores sobre novo usuário criado
-    if (creatorId) {
-      await NotificationService.notifyAdminsNewUser(user.id, creatorId);
-    }
 
     return {
       ...user,

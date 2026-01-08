@@ -4,14 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractContro
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { LoginLayout } from '../login-layout/login-layout';
 import { AuthService } from '../../services/auth';
-import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
   imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
+    CommonModule,
+    ReactiveFormsModule,
     RouterLink,
     LoginLayout
   ],
@@ -33,8 +32,7 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute,
-    private notificationService: NotificationService
+    private route: ActivatedRoute
   ) {
     this.resetPasswordForm = this.fb.group({
       code: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
@@ -111,11 +109,6 @@ export class ResetPasswordComponent implements OnInit {
 
       this.authService.resetPassword(code, password).subscribe({
         next: () => {
-          this.notificationService.success(
-            'Senha alterada!',
-            'Sua senha foi alterada com sucesso. Faça login com a nova senha.'
-          );
-          
           // Redirecionar para login
           this.router.navigate(['/login']);
         },

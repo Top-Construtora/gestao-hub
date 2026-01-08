@@ -433,12 +433,7 @@ class RoleModel {
   }
 }
 
-const ContractServiceComment = require('./ContractServiceComment');
-const ClientAttachment = require('./ClientAttachment');
-
 module.exports = {
   User: new UserModel(),
-  Role: new RoleModel(),
-  ContractServiceComment,
-  ClientAttachment
+  Role: new RoleModel()
 };

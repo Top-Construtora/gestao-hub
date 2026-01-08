@@ -6,7 +6,6 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth';
-import { NotificationService } from '../../services/notification.service';
 import { LoginLayout } from '../login-layout/login-layout';
 import { LoginPrimaryInput } from '../login-primary-input/login-primary-input';
 
@@ -25,7 +24,6 @@ export class ForgotPasswordComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private notificationService: NotificationService,
     private router: Router
   ) {
     this.requestForm = this.fb.group({
@@ -35,7 +33,7 @@ export class ForgotPasswordComponent {
 
   async requestReset() {
     if (this.requestForm.invalid) {
-      this.notificationService.warning('Por favor, informe um e-mail válido.');
+      this.error = 'Por favor, informe um e-mail válido.';
       return;
     }
     this.isLoading = true;
@@ -44,13 +42,11 @@ export class ForgotPasswordComponent {
     try {
       const email = this.requestForm.value.email;
       await firstValueFrom(this.authService.forgotPassword(email));
-      
-      this.notificationService.success('Código de recuperação enviado! Redirecionando...', 'Sucesso');
+
       this.router.navigate(['/reset-password'], { queryParams: { email: email } });
-      
+
     } catch (error: any) {
       const email = this.requestForm.value.email;
-      this.notificationService.success('Se o e-mail estiver cadastrado, você receberá um código.', 'Verifique sua caixa de entrada');
       this.router.navigate(['/reset-password'], { queryParams: { email: email } });
     } finally {
       this.isLoading = false;
