@@ -104,10 +104,6 @@ export class BreadcrumbService {
       { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
       { label: 'Relatórios' }
     ],
-    '/home/analytics': [
-      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
-      { label: 'Analytics' }
-    ],
     '/home/dashboard-executivo': [
       { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
       { label: 'Dashboard Executivo' }
@@ -418,7 +414,6 @@ export class BreadcrumbService {
       'fluxo-caixa': 'Fluxo de Caixa',
       'obra': 'Obra',
       'indicadores-financeiros': 'Indicadores Financeiros',
-      'analytics': 'Analytics',
       'relatorios': 'Relatórios',
       'notifications': 'Notificações',
       'configuracoes': 'Configurações',

@@ -41,8 +41,7 @@ export class SidebarComponent {
         { id: 'financeiro', icon: 'fas fa-dollar-sign', text: 'Financeiro', route: '/home/financeiro' },
         { id: 'fluxo-caixa', icon: 'fas fa-money-bill-wave', text: 'Fluxo de Caixa', route: '/home/fluxo-caixa' },
         { id: 'obra', icon: 'fas fa-hard-hat', text: 'Obra', route: '/home/obra' },
-        { id: 'indicadores-financeiros', icon: 'fas fa-percentage', text: 'Indicadores Financeiros', route: '/home/indicadores-financeiros' },
-        { id: 'analytics', icon: 'fas fa-chart-pie', text: 'Analytics', route: '/home/analytics' }
+        { id: 'indicadores-financeiros', icon: 'fas fa-percentage', text: 'Indicadores Financeiros', route: '/home/indicadores-financeiros' }
       ]
     },
     {

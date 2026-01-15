@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { HomeComponent } from './pages/home/home';
 import { HomePageComponent } from './components/home-page/home-page';
-import { AnalyticsPageComponent } from './components/analytics-page/analytics-page';
 import { ExecutiveDashboardPageComponent } from './components/executive-dashboard-page/executive-dashboard-page';
 import { EmpreendimentosPageComponent } from './components/empreendimentos-page/empreendimentos-page';
 import { FinanceiroPageComponent } from './components/financeiro-page/financeiro-page';
@@ -79,13 +78,6 @@ export const routes: Routes = [
         path: 'inicio',
         component: HomePageComponent,
         title: 'Início - HUB CRM',
-      },
-
-      // Analytics
-      {
-        path: 'analytics',
-        component: AnalyticsPageComponent,
-        title: 'Analytics - HUB CRM',
       },
 
       // Dashboard Executivo
