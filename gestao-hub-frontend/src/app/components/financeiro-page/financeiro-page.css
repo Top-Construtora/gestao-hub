@@ -55,6 +55,7 @@
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .period-btn {
@@ -66,6 +67,8 @@
   transition: all 0.2s ease;
   font-weight: 500;
   font-size: 0.875rem;
+  white-space: nowrap;
+  min-width: fit-content;
 }
 
 .period-btn:hover {
