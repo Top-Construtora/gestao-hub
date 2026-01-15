@@ -1,0 +1,154 @@
+<div class="page-header">
+  <h1 class="page-title">Financeiro</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <h2 class="table-title">Visão Financeira</h2>
+    <div class="header-actions">
+      <div class="period-selector">
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'mensal'"
+          (click)="changePeriodo('mensal')">
+          Mensal
+        </button>
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'acumulado'"
+          (click)="changePeriodo('acumulado')">
+          Acumulado
+        </button>
+      </div>
+      <button class="action-btn" (click)="refreshData()" title="Atualizar dados">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <span>Carregando dados financeiros...</span>
+  </div>
+
+  <div *ngIf="!isLoading" class="financeiro-content">
+    <!-- KPI Cards -->
+    <div class="kpi-section">
+      <div class="kpi-grid">
+        <div *ngFor="let card of kpiCards" class="kpi-card">
+          <div class="kpi-icon" [style.background-color]="card.bgColor" [style.color]="card.color">
+            <i [class]="card.icon"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">{{ card.label }}</span>
+            <span class="kpi-value">{{ card.value }}</span>
+            <span class="kpi-subvalue" *ngIf="card.subValue">{{ card.subValue }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico Pagar vs Receber -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>
+          <i class="fas fa-chart-bar"></i>
+          Total a Pagar e Receber
+        </h3>
+        <span class="chart-period">Últimos 12 meses</span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-container">
+          <canvas id="pagarReceberChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção de Comparativo -->
+    <div class="comparativo-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-balance-scale-right"></i>
+          Realizado vs. Previsto (Viabilidade)
+        </h3>
+        <div class="view-selector">
+          <button
+            class="view-btn"
+            [class.active]="selectedView === 'centro-custo'"
+            (click)="changeView('centro-custo')">
+            Centro de Custo
+          </button>
+          <button
+            class="view-btn"
+            [class.active]="selectedView === 'plano-financeiro'"
+            (click)="changeView('plano-financeiro')">
+            Plano Financeiro
+          </button>
+        </div>
+      </div>
+
+      <div class="comparativo-content">
+        <!-- Gráfico Comparativo -->
+        <div class="chart-card comparativo-chart">
+          <div class="chart-body">
+            <div class="chart-container">
+              <canvas id="comparativoChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de Itens -->
+        <div class="items-list-card">
+          <div class="items-list">
+            <div *ngFor="let item of getActiveList()" class="item-row">
+              <div class="item-info">
+                <span class="item-name">{{ item.nome }}</span>
+                <div class="item-values">
+                  <span class="item-previsto">Prev: {{ formatCurrency(item.previsto) }}</span>
+                  <span class="item-realizado">Real: {{ formatCurrency(item.realizado) }}</span>
+                </div>
+              </div>
+              <div class="item-status" [ngClass]="getStatusClass(item.percentual)">
+                <i [class]="getStatusIcon(item.percentual)"></i>
+                <span>{{ item.percentual | number:'1.1-1' }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumo -->
+    <div class="resumo-section">
+      <div class="resumo-card">
+        <div class="resumo-icon receber">
+          <i class="fas fa-arrow-circle-down"></i>
+        </div>
+        <div class="resumo-info">
+          <span class="resumo-label">Total Previsto a Receber</span>
+          <span class="resumo-value">{{ formatCurrency(totalReceberAcumulado) }}</span>
+        </div>
+      </div>
+      <div class="resumo-card">
+        <div class="resumo-icon pagar">
+          <i class="fas fa-arrow-circle-up"></i>
+        </div>
+        <div class="resumo-info">
+          <span class="resumo-label">Total Previsto a Pagar</span>
+          <span class="resumo-value">{{ formatCurrency(totalPagarAcumulado) }}</span>
+        </div>
+      </div>
+      <div class="resumo-card">
+        <div class="resumo-icon saldo">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <div class="resumo-info">
+          <span class="resumo-label">Resultado Projetado</span>
+          <span class="resumo-value positivo">{{ formatCurrency(totalReceberAcumulado - totalPagarAcumulado) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

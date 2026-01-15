@@ -1,0 +1,279 @@
+<div class="page-header">
+  <h1 class="page-title">Indicadores Financeiros</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <h2 class="table-title">Análise de Indicadores</h2>
+    <div class="header-actions">
+      <select
+        class="filter-select"
+        [(ngModel)]="selectedEmpreendimento"
+        (change)="changeEmpreendimento()">
+        <option *ngFor="let emp of empreendimentos" [value]="emp.id">{{ emp.nome }}</option>
+      </select>
+      <div class="period-selector">
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'mensal'"
+          (click)="changePeriodo('mensal')">
+          Mensal
+        </button>
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'trimestral'"
+          (click)="changePeriodo('trimestral')">
+          Trimestral
+        </button>
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'anual'"
+          (click)="changePeriodo('anual')">
+          Anual
+        </button>
+      </div>
+      <button class="action-btn" (click)="refreshData()" title="Atualizar dados">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <span>Carregando indicadores financeiros...</span>
+  </div>
+
+  <div *ngIf="!isLoading" class="indicadores-content">
+    <!-- KPI Cards -->
+    <div class="kpi-section">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(0, 237, 177, 0.15); color: #00EDB1;">
+            <i class="fas fa-percentage"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Margem Bruta</span>
+            <span class="kpi-value">{{ margemBrutaMedia | number:'1.1-1' }}%</span>
+            <span class="kpi-subvalue">realizada atual</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(48, 173, 252, 0.15); color: #30ADFC;">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Margem Líquida</span>
+            <span class="kpi-value">{{ margemLiquidaMedia | number:'1.1-1' }}%</span>
+            <span class="kpi-subvalue">realizada atual</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(9, 0, 92, 0.15); color: #09005C;">
+            <i class="fas fa-hand-holding-usd"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">ROI Médio</span>
+            <span class="kpi-value">{{ roiMedio | number:'1.1-1' }}%</span>
+            <span class="kpi-subvalue">consolidado</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(255, 193, 7, 0.15); color: #d68910;">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">TIR Média</span>
+            <span class="kpi-value">{{ tirMedia | number:'1.1-1' }}%</span>
+            <span class="kpi-subvalue">consolidada</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Margens Section -->
+    <div class="margens-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-chart-area"></i>
+          Margem Bruta e Líquida (Projetada vs Realizada)
+        </h3>
+      </div>
+      <div class="margens-grid">
+        <!-- Margem Bruta -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>
+              <span class="indicator-dot bruta"></span>
+              Margem Bruta
+            </h4>
+            <div class="chart-badges">
+              <span class="badge projetado">Proj: 37%</span>
+              <span class="badge realizado">Real: {{ margemBrutaMedia | number:'1.1-1' }}%</span>
+            </div>
+          </div>
+          <div class="chart-body">
+            <div class="chart-container">
+              <canvas id="margemBrutaChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Margem Líquida -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>
+              <span class="indicator-dot liquida"></span>
+              Margem Líquida
+            </h4>
+            <div class="chart-badges">
+              <span class="badge projetado">Proj: 23%</span>
+              <span class="badge realizado">Real: {{ margemLiquidaMedia | number:'1.1-1' }}%</span>
+            </div>
+          </div>
+          <div class="chart-body">
+            <div class="chart-container">
+              <canvas id="margemLiquidaChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Viabilidade Section -->
+    <div class="viabilidade-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-balance-scale"></i>
+          ROI, Payback e TIR (Dados de Viabilidade)
+        </h3>
+      </div>
+
+      <div class="viabilidade-content">
+        <!-- Gráfico ROI -->
+        <div class="chart-card viabilidade-chart">
+          <div class="chart-header">
+            <h4>ROI por Empreendimento</h4>
+          </div>
+          <div class="chart-body">
+            <div class="chart-container">
+              <canvas id="roiChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Viabilidade -->
+        <div class="viabilidade-table-card">
+          <div class="table-scroll">
+            <table class="viabilidade-table">
+              <thead>
+                <tr>
+                  <th>Empreendimento</th>
+                  <th class="text-center">ROI</th>
+                  <th class="text-center">Payback</th>
+                  <th class="text-center">TIR</th>
+                  <th class="text-center">VPL</th>
+                  <th class="text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let v of viabilidadeData">
+                  <td class="emp-nome">{{ v.empreendimento }}</td>
+                  <td class="text-center">
+                    <div class="valor-comparativo">
+                      <span class="valor-proj">{{ v.roiProjetado | number:'1.1-1' }}%</span>
+                      <span class="valor-real" [ngClass]="getVariacaoClass(v.roiRealizado - v.roiProjetado)">
+                        {{ v.roiRealizado | number:'1.1-1' }}%
+                      </span>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="valor-comparativo">
+                      <span class="valor-proj">{{ v.paybackProjetado }} m</span>
+                      <span class="valor-real" [ngClass]="getVariacaoClass(v.paybackRealizado - v.paybackProjetado, true)">
+                        {{ v.paybackRealizado }} m
+                      </span>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="valor-comparativo">
+                      <span class="valor-proj">{{ v.tirProjetada | number:'1.1-1' }}%</span>
+                      <span class="valor-real" [ngClass]="getVariacaoClass(v.tirRealizada - v.tirProjetada)">
+                        {{ v.tirRealizada | number:'1.1-1' }}%
+                      </span>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="valor-comparativo">
+                      <span class="valor-proj">{{ formatCurrency(v.vplProjetado) }}</span>
+                      <span class="valor-real" [ngClass]="getVariacaoClass(v.vplRealizado - v.vplProjetado)">
+                        {{ formatCurrency(v.vplRealizado) }}
+                      </span>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="status-badge" [ngClass]="getStatusClass(v.status)">
+                      {{ getStatusLabel(v.status) }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumo Comparativo -->
+    <div class="resumo-section">
+      <div class="resumo-content">
+        <!-- Gráfico Radar -->
+        <div class="radar-card">
+          <div class="chart-header">
+            <h4>
+              <i class="fas fa-bullseye"></i>
+              Comparativo Geral
+            </h4>
+          </div>
+          <div class="chart-body">
+            <div class="chart-container-radar">
+              <canvas id="comparativoChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards de Resumo -->
+        <div class="resumo-cards">
+          <div *ngFor="let ind of resumoIndicadores" class="resumo-card">
+            <div class="resumo-header">
+              <span class="resumo-label">{{ ind.label }}</span>
+              <span class="resumo-variacao" [ngClass]="getVariacaoClass(ind.variacao, ind.label === 'Payback Médio')">
+                <i class="fas" [ngClass]="ind.variacao >= 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                {{ ind.variacao | number:'1.1-1' }}%
+              </span>
+            </div>
+            <div class="resumo-valores">
+              <div class="resumo-valor-item">
+                <span class="valor-tipo">Projetado</span>
+                <span class="valor-numero">{{ ind.projetado | number:'1.1-1' }}{{ ind.unidade }}</span>
+              </div>
+              <div class="resumo-valor-item realizado">
+                <span class="valor-tipo">Realizado</span>
+                <span class="valor-numero">{{ ind.realizado | number:'1.1-1' }}{{ ind.unidade }}</span>
+              </div>
+            </div>
+            <div class="resumo-progress">
+              <div class="progress-bar-full">
+                <div class="progress-projetado" [style.width.%]="100"></div>
+                <div class="progress-realizado"
+                     [style.width.%]="(ind.realizado / ind.projetado) * 100"
+                     [ngClass]="getVariacaoClass(ind.variacao, ind.label === 'Payback Médio')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

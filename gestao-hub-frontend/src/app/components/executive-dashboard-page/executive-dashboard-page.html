@@ -1,0 +1,148 @@
+<div class="page-header">
+  <h1 class="page-title">Dashboard Executivo</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <h2 class="table-title">Visão Geral Consolidada</h2>
+    <div class="header-actions">
+      <button class="action-btn" (click)="refreshData()" title="Atualizar dados">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <span>Carregando dados...</span>
+  </div>
+
+  <div *ngIf="!isLoading" class="dashboard-content">
+    <!-- KPI Cards -->
+    <div class="kpi-section">
+      <div class="kpi-grid">
+        <div *ngFor="let card of kpiCards" class="kpi-card">
+          <div class="kpi-icon" [style.background-color]="card.bgColor" [style.color]="card.color">
+            <i [class]="card.icon"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">{{ card.label }}</span>
+            <span class="kpi-value">{{ card.value }}</span>
+            <span class="kpi-subvalue" *ngIf="card.subValue">{{ card.subValue }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <!-- Empreendimentos por Segmento -->
+      <div class="chart-card segmento-card">
+        <div class="chart-header">
+          <h3>
+            <i class="fas fa-building"></i>
+            Empreendimentos por Segmento
+          </h3>
+        </div>
+        <div class="chart-body segmento-body">
+          <div class="chart-container donut-container">
+            <canvas id="segmentoChart"></canvas>
+            <div class="donut-center">
+              <span class="donut-total">{{ totalEmpreendimentos }}</span>
+              <span class="donut-label">Total</span>
+            </div>
+          </div>
+          <div class="segmento-legend">
+            <div *ngFor="let segmento of empreendimentosPorSegmento" class="legend-item">
+              <span class="legend-color" [style.background-color]="segmento.cor"></span>
+              <div class="legend-info">
+                <span class="legend-name">{{ segmento.segmento }}</span>
+                <span class="legend-value">{{ segmento.quantidade }} empreendimentos</span>
+              </div>
+              <span class="legend-percentage">{{ getSegmentoPercentage(segmento.quantidade) | number:'1.0-0' }}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VGV Summary -->
+      <div class="chart-card vgv-card">
+        <div class="chart-header">
+          <h3>
+            <i class="fas fa-chart-pie"></i>
+            VGV - Valor Geral de Vendas
+          </h3>
+        </div>
+        <div class="chart-body vgv-body">
+          <div class="vgv-progress-container">
+            <div class="vgv-progress-bar">
+              <div class="vgv-progress-fill" [style.width.%]="percentualVendas"></div>
+            </div>
+            <div class="vgv-progress-labels">
+              <span>0%</span>
+              <span>{{ percentualVendas | number:'1.1-1' }}% vendido</span>
+              <span>100%</span>
+            </div>
+          </div>
+          <div class="vgv-stats">
+            <div class="vgv-stat">
+              <span class="vgv-stat-label">VGV Total</span>
+              <span class="vgv-stat-value total">{{ formatCurrency(vgvTotal) }}</span>
+            </div>
+            <div class="vgv-stat">
+              <span class="vgv-stat-label">VGV Vendido</span>
+              <span class="vgv-stat-value vendido">{{ formatCurrency(vgvVendido) }}</span>
+            </div>
+            <div class="vgv-stat">
+              <span class="vgv-stat-label">VGV Disponível</span>
+              <span class="vgv-stat-value disponivel">{{ formatCurrency(vgvTotal - vgvVendido) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fluxo de Caixa Section -->
+    <div class="fluxo-section">
+      <div class="chart-card fluxo-card">
+        <div class="chart-header">
+          <h3>
+            <i class="fas fa-money-bill-wave"></i>
+            Fluxo de Caixa Consolidado
+          </h3>
+          <span class="chart-period">Últimos 12 meses</span>
+        </div>
+        <div class="chart-body">
+          <div class="chart-container fluxo-container">
+            <canvas id="fluxoCaixaChart"></canvas>
+          </div>
+        </div>
+        <div class="fluxo-summary">
+          <div class="fluxo-stat entradas">
+            <i class="fas fa-arrow-up"></i>
+            <div class="fluxo-stat-info">
+              <span class="fluxo-stat-label">Total Entradas</span>
+              <span class="fluxo-stat-value">R$ 261,5M</span>
+            </div>
+          </div>
+          <div class="fluxo-stat saidas">
+            <i class="fas fa-arrow-down"></i>
+            <div class="fluxo-stat-info">
+              <span class="fluxo-stat-label">Total Saídas</span>
+              <span class="fluxo-stat-value">R$ 183,5M</span>
+            </div>
+          </div>
+          <div class="fluxo-stat saldo">
+            <i class="fas fa-equals"></i>
+            <div class="fluxo-stat-info">
+              <span class="fluxo-stat-label">Saldo Período</span>
+              <span class="fluxo-stat-value">R$ 78,0M</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

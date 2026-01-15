@@ -36,6 +36,12 @@ export class SidebarComponent {
       title: 'PRINCIPAL',
       items: [
         { id: 'inicio', icon: 'fas fa-home', text: 'Início', route: '/home/inicio' },
+        { id: 'dashboard-executivo', icon: 'fas fa-chart-bar', text: 'Dashboard Executivo', route: '/home/dashboard-executivo' },
+        { id: 'empreendimentos', icon: 'fas fa-building', text: 'Empreendimentos', route: '/home/empreendimentos' },
+        { id: 'financeiro', icon: 'fas fa-dollar-sign', text: 'Financeiro', route: '/home/financeiro' },
+        { id: 'fluxo-caixa', icon: 'fas fa-money-bill-wave', text: 'Fluxo de Caixa', route: '/home/fluxo-caixa' },
+        { id: 'obra', icon: 'fas fa-hard-hat', text: 'Obra', route: '/home/obra' },
+        { id: 'indicadores-financeiros', icon: 'fas fa-percentage', text: 'Indicadores Financeiros', route: '/home/indicadores-financeiros' },
         { id: 'analytics', icon: 'fas fa-chart-pie', text: 'Analytics', route: '/home/analytics' }
       ]
     },

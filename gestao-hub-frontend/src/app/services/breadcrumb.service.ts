@@ -108,6 +108,30 @@ export class BreadcrumbService {
       { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
       { label: 'Analytics' }
     ],
+    '/home/dashboard-executivo': [
+      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
+      { label: 'Dashboard Executivo' }
+    ],
+    '/home/empreendimentos': [
+      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
+      { label: 'Empreendimentos' }
+    ],
+    '/home/financeiro': [
+      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
+      { label: 'Financeiro' }
+    ],
+    '/home/fluxo-caixa': [
+      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
+      { label: 'Fluxo de Caixa' }
+    ],
+    '/home/obra': [
+      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
+      { label: 'Obra' }
+    ],
+    '/home/indicadores-financeiros': [
+      { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
+      { label: 'Indicadores Financeiros' }
+    ],
     '/home/planejamento-estrategico': [
       { label: 'Home', url: '/home/dashboard', icon: 'fas fa-home' },
       { label: 'Planejamento Estratégico' }
@@ -388,6 +412,12 @@ export class BreadcrumbService {
       'usuarios': 'Usuários',
       'rotinas': 'Rotinas',
       'dashboard': 'Dashboard',
+      'dashboard-executivo': 'Dashboard Executivo',
+      'empreendimentos': 'Empreendimentos',
+      'financeiro': 'Financeiro',
+      'fluxo-caixa': 'Fluxo de Caixa',
+      'obra': 'Obra',
+      'indicadores-financeiros': 'Indicadores Financeiros',
       'analytics': 'Analytics',
       'relatorios': 'Relatórios',
       'notifications': 'Notificações',

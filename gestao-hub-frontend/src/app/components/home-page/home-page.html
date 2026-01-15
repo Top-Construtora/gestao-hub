@@ -3,77 +3,146 @@
   <app-breadcrumb></app-breadcrumb>
 </div>
 
-<div class="table-section">
-  <div class="table-header">
-    <h2 class="table-title">Bem-vindo ao HUB CRM</h2>
-  </div>
-
-  <div class="welcome-banner">
-    <div class="welcome-icon">
-      <i class="fas fa-home"></i>
-    </div>
-    <div class="welcome-content">
-      <h3>Sistema de gestão empresarial integrado</h3>
-      <div class="welcome-meta">
-        <span class="meta-item">
-          <i class="fas fa-user-shield"></i>
-          {{ userRole }}
-        </span>
-        <span class="meta-item">
-          <i class="fas fa-calendar"></i>
-          {{ currentYear }}
-        </span>
+<!-- KPIs Section -->
+<div class="kpi-section">
+  <div class="kpi-grid">
+    <div
+      *ngFor="let kpi of kpiCards"
+      class="kpi-card"
+      [class.clickable]="kpi.route"
+      (click)="kpi.route && navigateTo(kpi.route)">
+      <div class="kpi-icon" [style.background-color]="kpi.bgColor" [style.color]="kpi.color">
+        <i [class]="kpi.icon"></i>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-label">{{ kpi.label }}</span>
+        <span class="kpi-value">{{ kpi.value }}</span>
+        <div class="kpi-footer">
+          <span class="kpi-subvalue">{{ kpi.subValue }}</span>
+          <span *ngIf="kpi.trend" class="kpi-trend" [class.positive]="kpi.trend > 0" [class.negative]="kpi.trend < 0">
+            <i class="fas" [ngClass]="kpi.trend > 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+            {{ kpi.trend | number:'1.1-1' }}%
+          </span>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="content-section">
-    <h3 class="section-title">
-      <i class="fas fa-bolt"></i>
-      Acesso Rápido
-    </h3>
-    <div class="quick-actions-grid">
-      <div
-        *ngFor="let action of quickActions"
-        class="quick-action-card"
-        (click)="navigateTo(action.route)">
-        <div class="action-icon" [style.background-color]="action.color + '20'" [style.color]="action.color">
-          <i [class]="action.icon"></i>
+<!-- Main Content Grid -->
+<div class="main-content-grid">
+  <!-- Left Column -->
+  <div class="left-column">
+    <!-- Modules Section -->
+    <div class="modules-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-th-large"></i>
+          Acesso Rápido
+        </h3>
+      </div>
+      <div class="modules-grid">
+        <div
+          *ngFor="let module of moduleCards"
+          class="module-card"
+          (click)="navigateTo(module.route)">
+          <div class="module-icon" [style.background-color]="module.color + '20'" [style.color]="module.color">
+            <i [class]="module.icon"></i>
+          </div>
+          <div class="module-content">
+            <h4>{{ module.label }}</h4>
+            <p>{{ module.description }}</p>
+          </div>
+          <div class="module-arrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
         </div>
-        <div class="action-content">
-          <h4 class="action-label">{{ action.label }}</h4>
-          <p class="action-description">{{ action.description }}</p>
-        </div>
-        <div class="action-arrow">
+      </div>
+    </div>
+
+    <!-- Mini Chart Section -->
+    <div class="chart-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-chart-area"></i>
+          Fluxo de Caixa - Últimos 6 Meses
+        </h3>
+        <button class="view-more-btn" (click)="navigateTo('/home/fluxo-caixa')">
+          Ver completo
           <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+      <div class="chart-body">
+        <div class="chart-container">
+          <canvas id="miniFluxoChart"></canvas>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="content-section info-section">
-    <div class="info-header">
-      <i class="fas fa-info-circle"></i>
-      <h3>Sobre o Sistema</h3>
+  <!-- Right Column -->
+  <div class="right-column">
+    <!-- Resumo Section -->
+    <div class="resumo-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-clipboard-list"></i>
+          Resumo
+        </h3>
+      </div>
+      <div class="resumo-cards">
+        <div class="resumo-item">
+          <div class="resumo-icon" style="background: rgba(9, 0, 92, 0.15); color: #09005C;">
+            <i class="fas fa-building"></i>
+          </div>
+          <div class="resumo-info">
+            <span class="resumo-value">{{ empreendimentosAtivos }}</span>
+            <span class="resumo-label">Empreendimentos Ativos</span>
+          </div>
+        </div>
+        <div class="resumo-item">
+          <div class="resumo-icon" style="background: rgba(255, 193, 7, 0.15); color: #d68910;">
+            <i class="fas fa-hard-hat"></i>
+          </div>
+          <div class="resumo-info">
+            <span class="resumo-value">{{ obrasEmAndamento }}</span>
+            <span class="resumo-label">Obras em Andamento</span>
+          </div>
+        </div>
+        <div class="resumo-item">
+          <div class="resumo-icon" style="background: rgba(0, 237, 177, 0.15); color: #00b894;">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <div class="resumo-info">
+            <span class="resumo-value">{{ vendasMes }}</span>
+            <span class="resumo-label">Vendas este Mês</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="info-content">
-      <p>O HUB CRM é uma plataforma completa para gestão empresarial, oferecendo ferramentas para administração de usuários, análise de métricas e configuração do sistema.</p>
-      <div class="info-features">
-        <div class="feature-item">
-          <i class="fas fa-check-circle"></i>
-          <span>Gestão de usuários e permissões</span>
-        </div>
-        <div class="feature-item">
-          <i class="fas fa-check-circle"></i>
-          <span>Analytics e métricas em tempo real</span>
-        </div>
-        <div class="feature-item">
-          <i class="fas fa-check-circle"></i>
-          <span>Interface responsiva e intuitiva</span>
-        </div>
-        <div class="feature-item">
-          <i class="fas fa-check-circle"></i>
-          <span>Segurança e controle de acesso</span>
+
+    <!-- Alerts Section -->
+    <div class="alerts-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-bell"></i>
+          Alertas Recentes
+        </h3>
+        <span class="alerts-count">{{ alertas.length }}</span>
+      </div>
+      <div class="alerts-list">
+        <div
+          *ngFor="let alerta of alertas"
+          class="alert-item"
+          [ngClass]="'alert-' + alerta.tipo">
+          <div class="alert-icon">
+            <i [class]="getAlertIcon(alerta.tipo)"></i>
+          </div>
+          <div class="alert-content">
+            <h4>{{ alerta.titulo }}</h4>
+            <p>{{ alerta.descricao }}</p>
+          </div>
+          <span class="alert-date">{{ formatDate(alerta.data) }}</span>
         </div>
       </div>
     </div>

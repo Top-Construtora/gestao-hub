@@ -1,0 +1,259 @@
+<div class="page-header">
+  <h1 class="page-title">Obra</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <h2 class="table-title">Acompanhamento de Obra</h2>
+    <div class="header-actions">
+      <select
+        class="filter-select"
+        [(ngModel)]="selectedEmpreendimento"
+        (change)="changeEmpreendimento()">
+        <option *ngFor="let emp of empreendimentos" [value]="emp.id">{{ emp.nome }}</option>
+      </select>
+      <button class="action-btn" (click)="refreshData()" title="Atualizar dados">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <span>Carregando dados da obra...</span>
+  </div>
+
+  <div *ngIf="!isLoading" class="obra-content">
+    <!-- KPI Cards -->
+    <div class="kpi-section">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(9, 0, 92, 0.15); color: #09005C;">
+            <i class="fas fa-file-invoice-dollar"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Orçamento Total</span>
+            <span class="kpi-value">{{ formatCurrency(orcamentoTotal) }}</span>
+            <span class="kpi-subvalue">valor atual</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(0, 237, 177, 0.15); color: #00EDB1;">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Executado</span>
+            <span class="kpi-value">{{ formatCurrency(executadoTotal) }}</span>
+            <span class="kpi-subvalue">{{ percentualFinanceiro | number:'1.1-1' }}% do orçamento</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(48, 173, 252, 0.15); color: #30ADFC;">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Saldo</span>
+            <span class="kpi-value">{{ formatCurrency(saldoTotal) }}</span>
+            <span class="kpi-subvalue">a executar</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(255, 193, 7, 0.15); color: #d68910;">
+            <i class="fas fa-ruler-combined"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Custo/m²</span>
+            <span class="kpi-value">R$ {{ custoM2Medio | number:'1.2-2' }}</span>
+            <span class="kpi-subvalue">{{ areaTotal | number:'1.0-0' }} m² totais</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Execução Físico vs Financeiro -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>
+          <i class="fas fa-chart-line"></i>
+          Execução Física vs Financeira
+        </h3>
+        <div class="execucao-badges">
+          <span class="badge-execucao fisico">
+            <i class="fas fa-hard-hat"></i>
+            Físico: {{ percentualFisico | number:'1.1-1' }}%
+          </span>
+          <span class="badge-execucao financeiro">
+            <i class="fas fa-dollar-sign"></i>
+            Financeiro: {{ percentualFinanceiro | number:'1.1-1' }}%
+          </span>
+          <span class="badge-execucao variacao" [ngClass]="getVariacaoClass()">
+            <i class="fas" [ngClass]="percentualFisico >= percentualFinanceiro ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+            {{ (percentualFisico - percentualFinanceiro) | number:'1.1-1' }}%
+          </span>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div class="chart-container">
+          <canvas id="execucaoChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Análise por Centro de Custo -->
+    <div class="analise-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-sitemap"></i>
+          Análise por Centro de Custo
+        </h3>
+      </div>
+
+      <div class="analise-content">
+        <!-- Gráfico -->
+        <div class="chart-card analise-chart">
+          <div class="chart-body">
+            <div class="chart-container">
+              <canvas id="centroCustoChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Centros de Custo -->
+        <div class="centros-table-card">
+          <div class="table-scroll">
+            <table class="centros-table">
+              <thead>
+                <tr>
+                  <th>Centro de Custo</th>
+                  <th class="text-right">Orçado</th>
+                  <th class="text-right">Realizado</th>
+                  <th class="text-center">Execução</th>
+                  <th class="text-right">Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cc of centrosCusto">
+                  <td class="cc-nome">{{ cc.nome }}</td>
+                  <td class="text-right">{{ formatCurrency(cc.orcadoAtual) }}</td>
+                  <td class="text-right">{{ formatCurrency(cc.realizado) }}</td>
+                  <td class="text-center">
+                    <div class="progress-cell">
+                      <div class="mini-progress">
+                        <div class="mini-progress-fill" [ngClass]="getProgressClass(cc.percentualExecutado)" [style.width.%]="cc.percentualExecutado"></div>
+                      </div>
+                      <span class="progress-text">{{ cc.percentualExecutado | number:'1.1-1' }}%</span>
+                    </div>
+                  </td>
+                  <td class="text-right saldo-cell" [class.negative]="cc.saldo < 0">{{ formatCurrency(cc.saldo) }}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td><strong>Total</strong></td>
+                  <td class="text-right"><strong>{{ formatCurrency(orcamentoTotal) }}</strong></td>
+                  <td class="text-right"><strong>{{ formatCurrency(executadoTotal) }}</strong></td>
+                  <td class="text-center"><strong>{{ percentualFinanceiro | number:'1.1-1' }}%</strong></td>
+                  <td class="text-right"><strong>{{ formatCurrency(saldoTotal) }}</strong></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revisões Orçamentárias -->
+    <div class="revisoes-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-history"></i>
+          Revisões Orçamentárias
+        </h3>
+        <div class="revisoes-resumo">
+          <span class="total-revisoes">
+            {{ revisoesOrcamentarias.length }} revisões |
+            <span [class.negative]="getTotalRevisoes() > 0">{{ formatCurrency(getTotalRevisoes()) }}</span> de variação
+          </span>
+        </div>
+      </div>
+
+      <div class="revisoes-list">
+        <div *ngFor="let rev of revisoesOrcamentarias" class="revisao-card">
+          <div class="revisao-header">
+            <div class="revisao-info">
+              <span class="revisao-numero">{{ rev.numero }}</span>
+              <span class="revisao-data">{{ formatDate(rev.data) }}</span>
+            </div>
+            <span class="revisao-status" [ngClass]="getStatusClass(rev.status)">{{ getStatusLabel(rev.status) }}</span>
+          </div>
+          <div class="revisao-body">
+            <p class="revisao-descricao">{{ rev.descricao }}</p>
+            <div class="revisao-valores">
+              <div class="valor-item">
+                <span class="valor-label">Anterior</span>
+                <span class="valor-number">{{ formatCurrency(rev.valorAnterior) }}</span>
+              </div>
+              <div class="valor-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+              <div class="valor-item">
+                <span class="valor-label">Novo</span>
+                <span class="valor-number">{{ formatCurrency(rev.valorNovo) }}</span>
+              </div>
+              <div class="valor-item diferenca">
+                <span class="valor-label">Diferença</span>
+                <span class="valor-number" [class.positive]="rev.diferenca < 0" [class.negative]="rev.diferenca > 0">
+                  {{ rev.diferenca > 0 ? '+' : '' }}{{ formatCurrency(rev.diferenca) }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="revisao-footer">
+            <span class="revisao-responsavel">
+              <i class="fas fa-user"></i>
+              {{ rev.responsavel }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custo por m² -->
+    <div class="custo-m2-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-th-large"></i>
+          Custo Total por m²
+        </h3>
+        <div class="custo-m2-total">
+          <span>Custo médio: <strong>R$ {{ custoM2Medio | number:'1.2-2' }}/m²</strong></span>
+        </div>
+      </div>
+
+      <div class="custo-m2-content">
+        <!-- Gráfico de Pizza -->
+        <div class="custo-m2-chart">
+          <div class="chart-container-pie">
+            <canvas id="custoM2Chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Lista de Custos -->
+        <div class="custo-m2-list">
+          <div *ngFor="let custo of custosM2" class="custo-m2-item">
+            <div class="custo-m2-info">
+              <span class="custo-m2-nome">{{ custo.centroCusto }}</span>
+              <span class="custo-m2-percentual">{{ custo.percentualTotal | number:'1.1-1' }}%</span>
+            </div>
+            <div class="custo-m2-valores">
+              <span class="custo-m2-total-valor">{{ formatCurrency(custo.custoTotal) }}</span>
+              <span class="custo-m2-valor">R$ {{ custo.custoM2 | number:'1.2-2' }}/m²</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

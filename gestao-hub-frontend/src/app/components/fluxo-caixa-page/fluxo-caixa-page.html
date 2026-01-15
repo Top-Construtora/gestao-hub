@@ -1,0 +1,257 @@
+<div class="page-header">
+  <h1 class="page-title">Fluxo de Caixa</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <h2 class="table-title">Movimentação Financeira</h2>
+    <div class="header-actions">
+      <div class="period-selector">
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'mensal'"
+          (click)="changePeriodo('mensal')">
+          Mensal
+        </button>
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'trimestral'"
+          (click)="changePeriodo('trimestral')">
+          Trimestral
+        </button>
+        <button
+          class="period-btn"
+          [class.active]="selectedPeriodo === 'anual'"
+          (click)="changePeriodo('anual')">
+          Anual
+        </button>
+      </div>
+      <button class="action-btn" (click)="refreshData()" title="Atualizar dados">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <span>Carregando fluxo de caixa...</span>
+  </div>
+
+  <div *ngIf="!isLoading" class="fluxo-content">
+    <!-- KPI Cards -->
+    <div class="kpi-section">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(0, 237, 177, 0.15); color: #00EDB1;">
+            <i class="fas fa-arrow-down"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Total Entradas</span>
+            <span class="kpi-value">{{ formatCurrency(totalEntradas) }}</span>
+            <span class="kpi-subvalue">no período</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(239, 68, 68, 0.15); color: #ef4444;">
+            <i class="fas fa-arrow-up"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Total Saídas</span>
+            <span class="kpi-value">{{ formatCurrency(totalSaidas) }}</span>
+            <span class="kpi-subvalue">no período</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(9, 0, 92, 0.15); color: #09005C;">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Saldo Atual</span>
+            <span class="kpi-value" [class.positive]="saldoAtual >= 0" [class.negative]="saldoAtual < 0">
+              {{ formatCurrency(saldoAtual) }}
+            </span>
+            <span class="kpi-subvalue">{{ saldoAtual >= 0 ? 'positivo' : 'negativo' }}</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background-color: rgba(48, 173, 252, 0.15); color: #30ADFC;">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-label">Saldo Projetado</span>
+            <span class="kpi-value">{{ formatCurrency(saldoProjetado) }}</span>
+            <span class="kpi-subvalue">fim do ano</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico Entradas vs Saídas -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>
+          <i class="fas fa-exchange-alt"></i>
+          Entradas vs Saídas
+        </h3>
+        <span class="chart-period">Últimos 12 meses</span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-container">
+          <canvas id="fluxoChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projeção de Fluxo Futuro -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>
+          <i class="fas fa-chart-area"></i>
+          Projeção de Fluxo Futuro (Curva de Saldo)
+        </h3>
+        <span class="chart-period">Projeção anual</span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-container">
+          <canvas id="projecaoChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção de Detalhamento -->
+    <div class="detalhamento-section">
+      <div class="section-header">
+        <h3>
+          <i class="fas fa-list-alt"></i>
+          Detalhamento por Categoria
+        </h3>
+        <div class="view-selector">
+          <button
+            class="view-btn"
+            [class.active]="selectedView === 'entradas'"
+            (click)="changeView('entradas')">
+            Entradas
+          </button>
+          <button
+            class="view-btn"
+            [class.active]="selectedView === 'saidas'"
+            (click)="changeView('saidas')">
+            Saídas
+          </button>
+        </div>
+      </div>
+
+      <div class="detalhamento-content">
+        <!-- Gráfico de Pizza -->
+        <div class="pie-chart-section">
+          <div class="chart-container-small" *ngIf="selectedView === 'entradas'">
+            <canvas id="entradasPieChart"></canvas>
+          </div>
+          <div class="chart-container-small" *ngIf="selectedView === 'saidas'">
+            <canvas id="saidasPieChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Lista de Itens -->
+        <div class="items-section">
+          <!-- Entradas -->
+          <div *ngIf="selectedView === 'entradas'" class="items-list-container">
+            <div class="items-filter">
+              <select [(ngModel)]="selectedTipoEntrada" class="filter-select">
+                <option value="">Todos os tipos</option>
+                <option value="receita">Receitas</option>
+                <option value="aporte">Aportes</option>
+                <option value="juros">Juros</option>
+                <option value="multa">Multas</option>
+              </select>
+            </div>
+            <div class="items-list">
+              <div *ngFor="let item of filterEntradas()" class="item-row entrada">
+                <div class="item-info">
+                  <div class="item-header">
+                    <span class="item-descricao">{{ item.descricao }}</span>
+                    <span class="item-tipo" [ngClass]="getTipoClass(item.tipo)">{{ getTipoLabel(item.tipo) }}</span>
+                  </div>
+                  <div class="item-meta">
+                    <span class="item-categoria">{{ item.categoria }}</span>
+                    <span class="item-data">{{ formatDate(item.data) }}</span>
+                  </div>
+                </div>
+                <div class="item-valor positive">
+                  +{{ formatCurrency(item.valor) }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Saídas -->
+          <div *ngIf="selectedView === 'saidas'" class="items-list-container">
+            <div class="items-list">
+              <div *ngFor="let item of saidas" class="item-row saida">
+                <div class="item-info">
+                  <div class="item-header">
+                    <span class="item-descricao">{{ item.descricao }}</span>
+                    <span class="item-plano">{{ item.planoConta }}</span>
+                  </div>
+                  <div class="item-meta">
+                    <span class="item-categoria">{{ item.categoria }}</span>
+                    <span class="item-data">{{ formatDate(item.data) }}</span>
+                  </div>
+                </div>
+                <div class="item-valor negative">
+                  -{{ formatCurrency(item.valor) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumo por Categoria -->
+    <div class="resumo-section">
+      <div class="resumo-card entradas">
+        <div class="resumo-header">
+          <i class="fas fa-arrow-circle-down"></i>
+          <h4>Composição das Entradas</h4>
+        </div>
+        <div class="resumo-items">
+          <div class="resumo-item">
+            <span class="resumo-label">Receitas</span>
+            <span class="resumo-value">{{ formatCurrency(entradasPorTipo.receitas) }}</span>
+          </div>
+          <div class="resumo-item">
+            <span class="resumo-label">Aportes</span>
+            <span class="resumo-value">{{ formatCurrency(entradasPorTipo.aportes) }}</span>
+          </div>
+          <div class="resumo-item">
+            <span class="resumo-label">Juros</span>
+            <span class="resumo-value">{{ formatCurrency(entradasPorTipo.juros) }}</span>
+          </div>
+          <div class="resumo-item">
+            <span class="resumo-label">Multas</span>
+            <span class="resumo-value">{{ formatCurrency(entradasPorTipo.multas) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resumo-card saidas">
+        <div class="resumo-header">
+          <i class="fas fa-arrow-circle-up"></i>
+          <h4>Saídas por Plano de Contas</h4>
+        </div>
+        <div class="resumo-items">
+          <div *ngFor="let plano of saidasPorPlano" class="resumo-item">
+            <div class="resumo-item-info">
+              <span class="resumo-label">{{ plano.nome }}</span>
+              <span class="resumo-percentual">{{ plano.percentual | number:'1.1-1' }}%</span>
+            </div>
+            <span class="resumo-value">{{ formatCurrency(plano.valor) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

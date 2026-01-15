@@ -3,6 +3,12 @@ import { Login } from './pages/login/login';
 import { HomeComponent } from './pages/home/home';
 import { HomePageComponent } from './components/home-page/home-page';
 import { AnalyticsPageComponent } from './components/analytics-page/analytics-page';
+import { ExecutiveDashboardPageComponent } from './components/executive-dashboard-page/executive-dashboard-page';
+import { EmpreendimentosPageComponent } from './components/empreendimentos-page/empreendimentos-page';
+import { FinanceiroPageComponent } from './components/financeiro-page/financeiro-page';
+import { FluxoCaixaPageComponent } from './components/fluxo-caixa-page/fluxo-caixa-page';
+import { ObraPageComponent } from './components/obra-page/obra-page';
+import { IndicadoresFinanceirosPageComponent } from './components/indicadores-financeiros-page/indicadores-financeiros-page';
 import { ChangePasswordComponent } from './components/change-password/change-password';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password';
 import { ResetPasswordComponent } from './components/reset-password/reset-password';
@@ -80,6 +86,48 @@ export const routes: Routes = [
         path: 'analytics',
         component: AnalyticsPageComponent,
         title: 'Analytics - HUB CRM',
+      },
+
+      // Dashboard Executivo
+      {
+        path: 'dashboard-executivo',
+        component: ExecutiveDashboardPageComponent,
+        title: 'Dashboard Executivo - HUB CRM',
+      },
+
+      // Empreendimentos
+      {
+        path: 'empreendimentos',
+        component: EmpreendimentosPageComponent,
+        title: 'Empreendimentos - HUB CRM',
+      },
+
+      // Financeiro
+      {
+        path: 'financeiro',
+        component: FinanceiroPageComponent,
+        title: 'Financeiro - HUB CRM',
+      },
+
+      // Fluxo de Caixa
+      {
+        path: 'fluxo-caixa',
+        component: FluxoCaixaPageComponent,
+        title: 'Fluxo de Caixa - HUB CRM',
+      },
+
+      // Obra
+      {
+        path: 'obra',
+        component: ObraPageComponent,
+        title: 'Obra - HUB CRM',
+      },
+
+      // Indicadores Financeiros
+      {
+        path: 'indicadores-financeiros',
+        component: IndicadoresFinanceirosPageComponent,
+        title: 'Indicadores Financeiros - HUB CRM',
       },
 
       // Gestão de usuários - Admin Gerencial pode APENAS visualizar

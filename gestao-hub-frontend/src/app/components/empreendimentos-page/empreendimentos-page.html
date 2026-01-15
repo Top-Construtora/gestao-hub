@@ -1,0 +1,210 @@
+<div class="page-header">
+  <h1 class="page-title">Empreendimentos</h1>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <h2 class="table-title">Visão Geral de Empreendimentos</h2>
+    <div class="search-center">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          placeholder="Buscar empreendimento..."
+          [(ngModel)]="searchTerm"
+          (input)="filterEmpreendimentos()">
+      </div>
+    </div>
+    <div class="header-actions">
+      <select
+        class="filter-select"
+        [(ngModel)]="selectedSegmento"
+        (change)="filterEmpreendimentos()">
+        <option value="">Todos os Segmentos</option>
+        <option value="Vertical">Vertical</option>
+        <option value="Horizontal">Horizontal</option>
+        <option value="Loteamento">Loteamento</option>
+      </select>
+      <button class="action-btn" (click)="refreshData()" title="Atualizar dados">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <span>Carregando empreendimentos...</span>
+  </div>
+
+  <!-- Empreendimentos Grid -->
+  <div *ngIf="!isLoading" class="empreendimentos-content">
+    <div class="empreendimentos-grid">
+      <div
+        *ngFor="let emp of filteredEmpreendimentos"
+        class="empreendimento-card"
+        (click)="selectEmpreendimento(emp)"
+        [class.selected]="selectedEmpreendimento?.id === emp.id">
+
+        <!-- Header do Card -->
+        <div class="card-header">
+          <div class="card-title-section">
+            <h3 class="card-title">{{ emp.nome }}</h3>
+            <span class="card-spe">{{ emp.spe }}</span>
+          </div>
+          <div class="card-badges">
+            <span class="badge" [ngClass]="getSegmentoClass(emp.segmento)">{{ emp.segmento }}</span>
+            <span class="badge" [ngClass]="getFaseClass(emp.fase)">{{ emp.fase }}</span>
+          </div>
+        </div>
+
+        <!-- VGV Section -->
+        <div class="card-section">
+          <div class="vgv-row">
+            <div class="vgv-item">
+              <span class="vgv-label">VGV Total</span>
+              <span class="vgv-value">{{ formatCurrency(emp.vgvTotal) }}</span>
+            </div>
+            <div class="vgv-item">
+              <span class="vgv-label">VGV Vendido</span>
+              <span class="vgv-value vendido">{{ formatCurrency(emp.vgvVendido) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bars -->
+        <div class="card-section progress-section">
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">Vendas</span>
+              <span class="progress-value">{{ emp.percentualVendas }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill vendas" [style.width.%]="emp.percentualVendas"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">Obras</span>
+              <span class="progress-value">{{ emp.percentualObras }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill obras" [style.width.%]="emp.percentualObras"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">Recebíveis</span>
+              <span class="progress-value">{{ emp.percentualRecebiveis }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill recebiveis" [style.width.%]="emp.percentualRecebiveis"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Caixa e Resultado -->
+        <div class="card-section metrics-section">
+          <div class="metric-item">
+            <i class="fas fa-wallet"></i>
+            <div class="metric-info">
+              <span class="metric-label">Caixa</span>
+              <span class="metric-value">{{ formatCurrency(emp.caixaDisponivel) }}</span>
+            </div>
+          </div>
+          <div class="metric-item resultado">
+            <i class="fas fa-chart-line"></i>
+            <div class="metric-info">
+              <span class="metric-label">Resultado</span>
+              <span class="metric-value" [class.positive]="emp.resultadoRealizado >= emp.resultadoProjetado" [class.negative]="emp.resultadoRealizado < emp.resultadoProjetado">
+                {{ getResultadoPercentual(emp) | number:'1.0-0' }}%
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="view-details">
+            <i class="fas fa-chart-bar"></i>
+            Ver fluxo de caixa
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredEmpreendimentos.length === 0" class="empty-state">
+      <i class="fas fa-building"></i>
+      <p>Nenhum empreendimento encontrado</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Detalhes -->
+<div class="modal-overlay" *ngIf="selectedEmpreendimento" (click)="closeDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title-section">
+        <h2>{{ selectedEmpreendimento.nome }}</h2>
+        <span class="modal-subtitle">{{ selectedEmpreendimento.spe }} | {{ selectedEmpreendimento.fase }}</span>
+      </div>
+      <button class="modal-close" (click)="closeDetails()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- KPIs do Empreendimento -->
+      <div class="modal-kpis">
+        <div class="modal-kpi">
+          <span class="modal-kpi-label">VGV Total</span>
+          <span class="modal-kpi-value">{{ formatCurrency(selectedEmpreendimento.vgvTotal) }}</span>
+        </div>
+        <div class="modal-kpi">
+          <span class="modal-kpi-label">VGV Vendido</span>
+          <span class="modal-kpi-value vendido">{{ formatCurrency(selectedEmpreendimento.vgvVendido) }}</span>
+        </div>
+        <div class="modal-kpi">
+          <span class="modal-kpi-label">Caixa Disponível</span>
+          <span class="modal-kpi-value">{{ formatCurrency(selectedEmpreendimento.caixaDisponivel) }}</span>
+        </div>
+        <div class="modal-kpi">
+          <span class="modal-kpi-label">Resultado Realizado</span>
+          <span class="modal-kpi-value" [class.positive]="selectedEmpreendimento.resultadoRealizado >= selectedEmpreendimento.resultadoProjetado">
+            {{ formatCurrency(selectedEmpreendimento.resultadoRealizado) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Resultado Projetado vs Realizado -->
+      <div class="resultado-comparison">
+        <h4>Resultado Projetado vs Realizado</h4>
+        <div class="comparison-bar-container">
+          <div class="comparison-labels">
+            <span>Realizado: {{ formatCurrency(selectedEmpreendimento.resultadoRealizado) }}</span>
+            <span>Projetado: {{ formatCurrency(selectedEmpreendimento.resultadoProjetado) }}</span>
+          </div>
+          <div class="comparison-bar">
+            <div class="comparison-fill" [style.width.%]="getResultadoPercentual(selectedEmpreendimento)"></div>
+            <div class="comparison-marker" [style.left.%]="100"></div>
+          </div>
+          <div class="comparison-percentage">
+            {{ getResultadoPercentual(selectedEmpreendimento) | number:'1.1-1' }}% do projetado
+          </div>
+        </div>
+      </div>
+
+      <!-- Fluxo de Caixa Individual -->
+      <div class="fluxo-caixa-section">
+        <h4>
+          <i class="fas fa-money-bill-wave"></i>
+          Fluxo de Caixa - {{ selectedEmpreendimento.nome }}
+        </h4>
+        <div class="chart-container">
+          <canvas id="fluxoCaixaIndividualChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
