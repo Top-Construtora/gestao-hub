@@ -18,8 +18,6 @@ class UserModel {
         name,
         role_id: roleId,
         must_change_password: true,
-        email_verified: false,
-        login_count: 0,
         cargo
       }])
       .select('id, email, name, role_id, is_active, must_change_password, created_at, cargo')
