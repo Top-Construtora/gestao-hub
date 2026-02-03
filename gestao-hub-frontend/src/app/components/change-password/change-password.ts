@@ -110,13 +110,18 @@ export class ChangePasswordComponent implements OnInit {
       this.loading = true;
       this.error = '';
 
-      const endpoint = this.isFirstLogin 
+      const endpoint = this.isFirstLogin
         ? 'change-password-first-login'
         : 'change-password';
 
-      const data = this.isFirstLogin 
-        ? { new_password: this.changePasswordForm.value.new_password }
-        : this.changePasswordForm.value;
+      let data;
+      if (this.isFirstLogin) {
+        data = { new_password: this.changePasswordForm.value.new_password };
+      } else {
+        // Remover confirm_password antes de enviar
+        const { confirm_password, ...dataToSend } = this.changePasswordForm.value;
+        data = dataToSend;
+      }
 
       this.authService.changePassword(endpoint, data).subscribe({
         next: (response) => {

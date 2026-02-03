@@ -80,7 +80,6 @@ class UserService {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, authConfig.bcrypt.saltRounds);
       data.must_change_password = true;
-      data.last_password_change = null;
     }
 
     // Se está atualizando role, buscar o ID
@@ -147,8 +146,7 @@ class UserService {
 
     await User.update(userIdToReset, {
       password: hashedPassword,
-      must_change_password: true,
-      last_password_change: null
+      must_change_password: true
     });
 
     await emailService.sendAdminPasswordResetEmail(user.email, user.name, temporaryPassword);

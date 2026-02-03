@@ -88,8 +88,7 @@ class AuthService {
     // Atualizar senha e flags
     await User.updatePassword(userId, hashedPassword);
     await User.update(userId, {
-      must_change_password: false,
-      last_password_change: new Date().toISOString()
+      must_change_password: false
     });
 
     return { message: 'Senha alterada com sucesso' };
@@ -113,9 +112,7 @@ class AuthService {
     // Atualizar senha e flags
     await User.updatePassword(userId, hashedPassword);
     await User.update(userId, {
-      must_change_password: false,
-      last_password_change: new Date().toISOString(),
-      first_login_at: user.first_login_at || new Date().toISOString()
+      must_change_password: false
     });
 
     // Gerar novo token
