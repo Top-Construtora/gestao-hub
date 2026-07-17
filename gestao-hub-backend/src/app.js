@@ -9,8 +9,7 @@ const errorHandler = require('./middleware/errorHandler');
 const authMiddleware = require('./middleware/authMiddleware');
 const activityTracker = require('./middleware/activityTracker');
 const rateLimiters = require('./config/rateLimiter');
-const reportRoutes = require('./routes/reportRoutes');
-const analyticsRoutes = require('./routes/analyticsRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const http = require('http');
 const websocket = require('./config/websocket');
 
@@ -43,13 +42,7 @@ const corsOptions = {
       console.warn(`CORS bloqueou origem: ${origin}`);
       console.log('Origens permitidas:', allowedOrigins);
       console.log('FRONTEND_URL env:', process.env.FRONTEND_URL);
-      // Em produção, temporariamente permitir todas as origens para debug
-      if (process.env.NODE_ENV === 'production') {
-        console.warn('⚠️ CORS temporariamente liberado em produção para debug');
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
@@ -104,8 +97,10 @@ app.use('/api/users', userRoutes); // User routes públicas ANTES do middleware 
 // Rotas protegidas com middleware de tracking
 app.use('/api/users', userProfilePictureRoutes); // Profile picture routes (auth já incluído nas rotas)
 app.use('/api/companies', authMiddleware, activityTracker, companyRoutes);
-app.use('/api/reports', authMiddleware, activityTracker, reportRoutes);
-app.use('/api/analytics', authMiddleware, activityTracker, analyticsRoutes);
+
+// Rotas de domínio (dashboards, empreendimentos, financeiro, obra, indicadores).
+// Auth aplicado por rota dentro do router (montado em /api junto às rotas públicas).
+app.use('/api', dashboardRoutes);
 
 
 // Health check - importante para Render

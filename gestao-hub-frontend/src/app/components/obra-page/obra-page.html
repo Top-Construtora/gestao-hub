@@ -11,7 +11,7 @@
         class="filter-select"
         [(ngModel)]="selectedEmpreendimento"
         (change)="changeEmpreendimento()">
-        <option *ngFor="let emp of empreendimentos" [value]="emp.id">{{ emp.nome }}</option>
+        <option *ngFor="let emp of empreendimentos" [ngValue]="emp.id">{{ emp.nome }}</option>
       </select>
       <button class="action-btn" (click)="refreshData()" title="Atualizar dados">
         <i class="fas fa-sync-alt"></i>

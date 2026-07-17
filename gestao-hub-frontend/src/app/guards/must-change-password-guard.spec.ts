@@ -1,17 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
-import { mustChangePasswordGuard } from './must-change-password-guard';
+import { MustChangePasswordGuard } from './must-change-password-guard';
 
-describe('mustChangePasswordGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => mustChangePasswordGuard(...guardParameters));
+describe('MustChangePasswordGuard', () => {
+  let guard: MustChangePasswordGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
+    });
+    guard = TestBed.inject(MustChangePasswordGuard);
   });
 
   it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+    expect(guard).toBeTruthy();
   });
 });

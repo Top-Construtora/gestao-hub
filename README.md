@@ -162,7 +162,7 @@ gestao-hub-frontend/src/app/
 │   └── access-denied/              # Acesso negado
 ├── services/                # 20+ serviços Angular
 │   ├── auth.ts, login.ts
-│   ├── analytics.ts, report.ts
+│   ├── dashboard.service.ts    # consome os endpoints de domínio (telas de negócio)
 │   ├── attachment.service.ts, upload.ts
 │   ├── company.ts
 │   ├── mentoria.service.ts, mentoria-templates.service.ts
@@ -244,19 +244,17 @@ gestao-hub-backend/
     │   ├── email.js          # Nodemailer SMTP
     │   ├── rateLimiter.js    # Rate limiting
     │   └── websocket.js      # Socket.io
-    ├── controllers/          # 7 controllers
-    │   ├── analyticsController.js
+    ├── controllers/          # controllers
     │   ├── authController.js
     │   ├── companyController.js
+    │   ├── dashboardController.js   # dashboards / domínio de negócio
     │   ├── paymentMethodController.js
-    │   ├── reportController.js
     │   ├── userController.js
     │   └── userProfilePictureController.js
-    ├── routes/               # 6 arquivos de rotas
-    │   ├── analyticsRoutes.js
+    ├── routes/               # arquivos de rotas
     │   ├── authRoutes.js
     │   ├── companyRoutes.js
-    │   ├── reportRoutes.js
+    │   ├── dashboardRoutes.js       # /api/empreendimentos, /dashboard, etc.
     │   ├── userRoutes.js
     │   └── userProfilePictureRoutes.js
     ├── middleware/            # 5 middlewares
@@ -264,20 +262,16 @@ gestao-hub-backend/
     │   ├── roleMiddleware.js
     │   ├── errorHandler.js
     │   └── activityTracker.js
-    ├── models/               # 6 modelos de dados
+    ├── models/               # modelos de dados
     │   ├── Candidato.js, Company.js, Entrevista.js
     │   ├── Routine.js, Vaga.js
     │   └── index.js
-    ├── services/             # 6 serviços de negócio
+    ├── services/             # serviços de negócio
     │   ├── activityService.js
     │   ├── authService.js
+    │   ├── dashboardDataService.js  # agregações das telas de negócio
     │   ├── emailService.js
-    │   ├── reportService.js
-    │   ├── rsReportService.js
     │   └── userService.js
-    ├── reportGenerators/     # Geração de relatórios
-    │   ├── pdfGenerator.js
-    │   └── excelGenerator.js
     ├── utils/                # Utilitários
     │   ├── tokenGenerator.js
     │   └── validators.js
@@ -290,9 +284,9 @@ gestao-hub-backend/
 | Método | Rota | Descrição |
 |---|---|---|
 | POST | `/login` | Login com email/senha |
-| POST | `/register` | Cadastro de usuário |
 | POST | `/forgot-password` | Solicitar reset de senha |
 | POST | `/reset-password` | Resetar senha |
+| POST | `/validate-reset-token` | Validar código de recuperação |
 
 #### Usuários (`/api/users`)
 | Método | Rota | Descrição |
@@ -309,11 +303,24 @@ gestao-hub-backend/
 | GET | `/` | Dados da empresa |
 | PUT | `/` | Atualizar empresa |
 
+#### Domínio de negócio (dashboards) — requer autenticação
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/api/dashboard/home` | KPIs, alertas e mini fluxo da tela Início |
+| GET | `/api/dashboard/executivo` | Visão consolidada (VGV, caixa, segmentos, fluxo) |
+| GET | `/api/empreendimentos` | Lista de empreendimentos + fluxo projetado |
+| GET | `/api/financeiro` | A pagar/receber, centros de custo, plano financeiro |
+| GET | `/api/fluxo-caixa` | Entradas, saídas e projeção mensal |
+| GET | `/api/obras` | Empreendimentos com dados de obra (seletor) |
+| GET | `/api/obras/:id` | Detalhe de obra (centros, execução, revisões) |
+| GET | `/api/indicadores` | Margens mensais e viabilidade por empreendimento |
+
+Esses endpoints leem as tabelas criadas por `database/migrations/001_dashboard_domain.sql`
+(rode uma vez no SQL Editor do Supabase). Sem as tabelas, retornam vazio/zeros sem quebrar.
+
 #### Outros
 | Método | Rota | Descrição |
 |---|---|---|
-| GET | `/api/analytics` | Dados analíticos |
-| GET | `/api/reports/*` | Geração de relatórios |
 | GET | `/health` | Health check |
 
 ### Variáveis de Ambiente
@@ -357,7 +364,17 @@ cd gestao-hub-backend && npm run generate-jwt
 
 ## Banco de Dados
 
-### Tabelas principais (23 tabelas)
+### Domínio de dashboards (obrigatório para as telas de negócio)
+
+As telas de negócio (Início, Dashboard Executivo, Empreendimentos, Financeiro,
+Fluxo de Caixa, Obra, Indicadores) leem estas tabelas, criadas e populadas por
+`database/migrations/001_dashboard_domain.sql` (rode uma vez no SQL Editor do Supabase):
+
+`empreendimentos`, `financeiro_mensal`, `financeiro_centros_custo`,
+`lancamentos_financeiros`, `obra_centros_custo`, `obra_execucao_mensal`,
+`obra_revisoes`, `indicadores_margens`, `home_alertas`.
+
+### Tabelas principais (legado / autenticação)
 
 | Grupo | Tabelas |
 |---|---|

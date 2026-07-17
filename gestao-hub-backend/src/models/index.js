@@ -167,23 +167,19 @@ class UserModel {
   }
 
   async hardDelete(id) {
-    try {
-      const { error } = await supabase
-        .from('users')
-        .delete()
-        .eq('id', id);
-      
-      if (error) {
-        if (error.code === '23503') { 
-          throw new Error('Não é possível excluir este usuário pois ele está associado a outros registros (contratos, etc.). Considere desativá-lo.');
-        }
-        console.error('❌ Erro ao excluir usuário permanentemente:', error);
-        throw error;
+    const { error } = await supabase
+      .from('users')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      if (error.code === '23503') {
+        throw new Error('Não é possível excluir este usuário pois ele está associado a outros registros (contratos, etc.). Considere desativá-lo.');
       }
-      return { success: true };
-    } catch (error) {
+      console.error('❌ Erro ao excluir usuário permanentemente:', error);
       throw error;
     }
+    return { success: true };
   }
 
   async findAll(filters = {}) {

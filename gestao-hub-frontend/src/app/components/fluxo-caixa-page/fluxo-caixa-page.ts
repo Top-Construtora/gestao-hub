@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { Chart } from 'chart.js';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { DashboardService } from '../../services/dashboard.service';
 
 interface EntradaItem {
   id: number;
@@ -71,6 +72,8 @@ export class FluxoCaixaPageComponent implements OnInit, AfterViewInit, OnDestroy
   entradasPieChart: Chart | null = null;
   saidasPieChart: Chart | null = null;
 
+  private dashboardService = inject(DashboardService);
+
   ngOnInit() {
     this.loadFluxoCaixaData();
   }
@@ -92,61 +95,22 @@ export class FluxoCaixaPageComponent implements OnInit, AfterViewInit, OnDestroy
     if (this.saidasPieChart) this.saidasPieChart.destroy();
   }
 
-  async loadFluxoCaixaData() {
+  loadFluxoCaixaData() {
     this.isLoading = true;
-    try {
-      await this.loadMockData();
-    } catch (error) {
-      console.error('Erro ao carregar dados do fluxo de caixa:', error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
-  private async loadMockData() {
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // Entradas
-    this.entradas = [
-      { id: 1, categoria: 'Vendas', descricao: 'Venda Unidade 101 - Ed. Aurora', valor: 450000, data: '2024-01-15', tipo: 'receita' },
-      { id: 2, categoria: 'Vendas', descricao: 'Venda Unidade 205 - Ed. Aurora', valor: 520000, data: '2024-01-18', tipo: 'receita' },
-      { id: 3, categoria: 'Aporte', descricao: 'Aporte Sócio - Capital', valor: 1000000, data: '2024-01-10', tipo: 'aporte' },
-      { id: 4, categoria: 'Financeiro', descricao: 'Juros sobre aplicação', valor: 15000, data: '2024-01-20', tipo: 'juros' },
-      { id: 5, categoria: 'Financeiro', descricao: 'Multa contratual - Cliente', valor: 8500, data: '2024-01-22', tipo: 'multa' },
-      { id: 6, categoria: 'Vendas', descricao: 'Parcela financiamento - Un. 102', valor: 35000, data: '2024-01-25', tipo: 'receita' },
-      { id: 7, categoria: 'Aporte', descricao: 'Aporte Sócio - Investimento', valor: 500000, data: '2024-01-28', tipo: 'aporte' },
-      { id: 8, categoria: 'Financeiro', descricao: 'Rendimento CDB', valor: 12000, data: '2024-01-30', tipo: 'juros' }
-    ];
-
-    // Saídas
-    this.saidas = [
-      { id: 1, planoConta: 'Mão de Obra', descricao: 'Folha de pagamento - Janeiro', valor: 280000, data: '2024-01-05', categoria: 'Custos Diretos' },
-      { id: 2, planoConta: 'Materiais', descricao: 'Compra de cimento e aço', valor: 450000, data: '2024-01-08', categoria: 'Custos Diretos' },
-      { id: 3, planoConta: 'Serviços Terceirizados', descricao: 'Instalação elétrica', valor: 85000, data: '2024-01-12', categoria: 'Custos Diretos' },
-      { id: 4, planoConta: 'Administrativo', descricao: 'Aluguel escritório', valor: 15000, data: '2024-01-10', categoria: 'Despesas Operacionais' },
-      { id: 5, planoConta: 'Marketing', descricao: 'Campanha digital', valor: 45000, data: '2024-01-15', categoria: 'Despesas Operacionais' },
-      { id: 6, planoConta: 'Impostos', descricao: 'ISSQN', valor: 32000, data: '2024-01-20', categoria: 'Tributário' },
-      { id: 7, planoConta: 'Financeiro', descricao: 'Juros empréstimo', valor: 28000, data: '2024-01-25', categoria: 'Despesas Financeiras' },
-      { id: 8, planoConta: 'Equipamentos', descricao: 'Locação de equipamentos', valor: 65000, data: '2024-01-28', categoria: 'Custos Diretos' }
-    ];
-
-    // Projeção
-    this.projecao = [
-      { mes: 'Jan', entradas: 2540500, saidas: 1000000, saldo: 1540500, saldoAcumulado: 1540500 },
-      { mes: 'Fev', entradas: 1850000, saidas: 1200000, saldo: 650000, saldoAcumulado: 2190500 },
-      { mes: 'Mar', entradas: 2100000, saidas: 1350000, saldo: 750000, saldoAcumulado: 2940500 },
-      { mes: 'Abr', entradas: 1950000, saidas: 1100000, saldo: 850000, saldoAcumulado: 3790500 },
-      { mes: 'Mai', entradas: 2300000, saidas: 1450000, saldo: 850000, saldoAcumulado: 4640500 },
-      { mes: 'Jun', entradas: 2150000, saidas: 1300000, saldo: 850000, saldoAcumulado: 5490500 },
-      { mes: 'Jul', entradas: 1800000, saidas: 1250000, saldo: 550000, saldoAcumulado: 6040500 },
-      { mes: 'Ago', entradas: 2400000, saidas: 1400000, saldo: 1000000, saldoAcumulado: 7040500 },
-      { mes: 'Set', entradas: 2200000, saidas: 1350000, saldo: 850000, saldoAcumulado: 7890500 },
-      { mes: 'Out', entradas: 2500000, saidas: 1500000, saldo: 1000000, saldoAcumulado: 8890500 },
-      { mes: 'Nov', entradas: 2350000, saidas: 1400000, saldo: 950000, saldoAcumulado: 9840500 },
-      { mes: 'Dez', entradas: 2800000, saidas: 1600000, saldo: 1200000, saldoAcumulado: 11040500 }
-    ];
-
-    this.calculateTotals();
+    this.dashboardService.getFluxoCaixa().subscribe({
+      next: (data) => {
+        this.entradas = data.entradas as EntradaItem[];
+        this.saidas = data.saidas as SaidaItem[];
+        this.projecao = data.projecao;
+        this.calculateTotals();
+        this.isLoading = false;
+        this.updateCharts();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar dados do fluxo de caixa:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   private calculateTotals() {
@@ -208,6 +172,7 @@ export class FluxoCaixaPageComponent implements OnInit, AfterViewInit, OnDestroy
     try {
       const Chart = await import('chart.js/auto').then(m => m.default);
 
+      this.destroyCharts();
       this.initFluxoChart(Chart);
       this.initProjecaoChart(Chart);
       this.initEntradasPieChart(Chart);

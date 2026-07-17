@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { Chart } from 'chart.js';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { DashboardService } from '../../services/dashboard.service';
 
 interface KPICard {
   id: string;
@@ -61,6 +62,8 @@ export class FinanceiroPageComponent implements OnInit, AfterViewInit, OnDestroy
     receber: [] as number[]
   };
 
+  private dashboardService = inject(DashboardService);
+
   ngOnInit() {
     this.loadFinanceiroData();
   }
@@ -80,59 +83,33 @@ export class FinanceiroPageComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  async loadFinanceiroData() {
+  loadFinanceiroData() {
     this.isLoading = true;
-    try {
-      await this.loadMockData();
-    } catch (error) {
-      console.error('Erro ao carregar dados financeiros:', error);
-    } finally {
-      this.isLoading = false;
-    }
+    this.dashboardService.getFinanceiro().subscribe({
+      next: (data) => {
+        this.totalPagar = data.totalPagar;
+        this.totalReceber = data.totalReceber;
+        this.saldoLiquido = this.totalReceber - this.totalPagar;
+        this.totalPagarAcumulado = data.totalPagarAcumulado;
+        this.totalReceberAcumulado = data.totalReceberAcumulado;
+        this.centrosCusto = data.centrosCusto;
+        this.planosFinanceiros = data.planosFinanceiros;
+        this.pagarReceberData = data.pagarReceberMensal;
+        this.updateKPICards();
+        this.isLoading = false;
+        this.destroyCharts();
+        setTimeout(() => this.initCharts(), 50);
+      },
+      error: (error) => {
+        console.error('Erro ao carregar dados financeiros:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
-  private async loadMockData() {
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // Totais Mensais
-    this.totalPagar = 4850000;
-    this.totalReceber = 7200000;
-    this.saldoLiquido = this.totalReceber - this.totalPagar;
-
-    // Totais Acumulados (ano)
-    this.totalPagarAcumulado = 52300000;
-    this.totalReceberAcumulado = 78500000;
-
-    // Centros de Custo
-    this.centrosCusto = [
-      { id: 1, nome: 'Construção Civil', previsto: 2500000, realizado: 2380000, percentual: 95.2 },
-      { id: 2, nome: 'Administrativo', previsto: 450000, realizado: 485000, percentual: 107.8 },
-      { id: 3, nome: 'Marketing', previsto: 350000, realizado: 320000, percentual: 91.4 },
-      { id: 4, nome: 'Comercial', previsto: 280000, realizado: 295000, percentual: 105.4 },
-      { id: 5, nome: 'Jurídico', previsto: 180000, realizado: 165000, percentual: 91.7 },
-      { id: 6, nome: 'RH', previsto: 220000, realizado: 218000, percentual: 99.1 },
-      { id: 7, nome: 'TI', previsto: 150000, realizado: 142000, percentual: 94.7 },
-      { id: 8, nome: 'Financeiro', previsto: 120000, realizado: 125000, percentual: 104.2 }
-    ];
-
-    // Planos Financeiros
-    this.planosFinanceiros = [
-      { id: 1, nome: 'Receitas de Vendas', previsto: 6500000, realizado: 7200000, percentual: 110.8 },
-      { id: 2, nome: 'Custos Diretos', previsto: 3200000, realizado: 3050000, percentual: 95.3 },
-      { id: 3, nome: 'Despesas Operacionais', previsto: 1200000, realizado: 1280000, percentual: 106.7 },
-      { id: 4, nome: 'Investimentos', previsto: 800000, realizado: 720000, percentual: 90.0 },
-      { id: 5, nome: 'Receitas Financeiras', previsto: 150000, realizado: 185000, percentual: 123.3 },
-      { id: 6, nome: 'Despesas Financeiras', previsto: 280000, realizado: 265000, percentual: 94.6 }
-    ];
-
-    // Dados do gráfico mensal
-    this.pagarReceberData = {
-      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-      pagar: [4.2, 4.5, 4.8, 4.3, 5.1, 4.7, 5.2, 4.9, 5.5, 5.0, 5.8, 4.85],
-      receber: [6.5, 6.8, 7.2, 6.9, 7.5, 7.1, 7.8, 7.4, 8.2, 7.6, 8.5, 7.2]
-    };
-
-    this.updateKPICards();
+  private destroyCharts() {
+    if (this.pagarReceberChart) { this.pagarReceberChart.destroy(); this.pagarReceberChart = null; }
+    if (this.comparativoChart) { this.comparativoChart.destroy(); this.comparativoChart = null; }
   }
 
   private updateKPICards() {
@@ -195,6 +172,7 @@ export class FinanceiroPageComponent implements OnInit, AfterViewInit, OnDestroy
     try {
       const Chart = await import('chart.js/auto').then(m => m.default);
 
+      this.destroyCharts();
       this.initPagarReceberChart(Chart);
       this.initComparativoChart(Chart);
     } catch (error) {
@@ -370,14 +348,5 @@ export class FinanceiroPageComponent implements OnInit, AfterViewInit, OnDestroy
 
   refreshData() {
     this.loadFinanceiroData();
-    setTimeout(() => {
-      if (this.pagarReceberChart) {
-        this.pagarReceberChart.destroy();
-      }
-      if (this.comparativoChart) {
-        this.comparativoChart.destroy();
-      }
-      this.initCharts();
-    }, 600);
   }
 }

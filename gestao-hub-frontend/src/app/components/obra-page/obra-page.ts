@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { Chart } from 'chart.js';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { DashboardService } from '../../services/dashboard.service';
 
 interface CentroCusto {
   id: number;
@@ -49,7 +50,7 @@ interface CustoM2 {
 })
 export class ObraPageComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = true;
-  selectedEmpreendimento: string = '';
+  selectedEmpreendimento: number | null = null;
 
   // KPIs
   orcamentoTotal = 0;
@@ -66,21 +67,32 @@ export class ObraPageComponent implements OnInit, AfterViewInit, OnDestroy {
   revisoesOrcamentarias: RevisaoOrcamentaria[] = [];
   custosM2: CustoM2[] = [];
 
-  // Empreendimentos disponíveis
-  empreendimentos = [
-    { id: 'aurora', nome: 'Edifício Aurora' },
-    { id: 'solar', nome: 'Residencial Solar' },
-    { id: 'parque', nome: 'Parque das Flores' }
-  ];
+  // Empreendimentos disponíveis (carregados do backend)
+  empreendimentos: { id: number; nome: string }[] = [];
 
   // Charts
   centroCustoChart: Chart | null = null;
   execucaoChart: Chart | null = null;
   custoM2Chart: Chart | null = null;
 
+  private dashboardService = inject(DashboardService);
+
   ngOnInit() {
-    this.selectedEmpreendimento = this.empreendimentos[0].id;
-    this.loadObraData();
+    this.dashboardService.getObraEmpreendimentos().subscribe({
+      next: (data) => {
+        this.empreendimentos = data.empreendimentos;
+        if (this.empreendimentos.length) {
+          this.selectedEmpreendimento = this.empreendimentos[0].id;
+          this.loadObraData();
+        } else {
+          this.isLoading = false;
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao carregar empreendimentos de obra:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -99,73 +111,34 @@ export class ObraPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.custoM2Chart) this.custoM2Chart.destroy();
   }
 
-  async loadObraData() {
+  loadObraData() {
+    if (this.selectedEmpreendimento == null) return;
     this.isLoading = true;
-    try {
-      await this.loadMockData();
-    } catch (error) {
-      console.error('Erro ao carregar dados da obra:', error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
+    this.dashboardService.getObra(this.selectedEmpreendimento).subscribe({
+      next: (data) => {
+        this.areaTotal = data.areaTotal;
+        this.centrosCusto = data.centrosCusto;
+        this.execucaoComparativo = data.execucaoComparativo;
+        this.revisoesOrcamentarias = data.revisoesOrcamentarias;
 
-  private async loadMockData() {
-    await new Promise(resolve => setTimeout(resolve, 500));
+        // Custo por m² derivado dos centros de custo reais
+        this.custosM2 = this.centrosCusto.map(cc => ({
+          centroCusto: cc.nome,
+          custoTotal: cc.realizado,
+          areaTotal: this.areaTotal,
+          custoM2: this.areaTotal > 0 ? cc.realizado / this.areaTotal : 0,
+          percentualTotal: 0
+        }));
 
-    // Área total do empreendimento
-    this.areaTotal = 12500; // m²
-
-    // Centros de Custo
-    this.centrosCusto = [
-      { id: 1, nome: 'Fundação', orcadoOriginal: 1200000, orcadoAtual: 1250000, realizado: 1180000, percentualExecutado: 94.4, saldo: 70000 },
-      { id: 2, nome: 'Estrutura', orcadoOriginal: 3500000, orcadoAtual: 3650000, realizado: 2920000, percentualExecutado: 80.0, saldo: 730000 },
-      { id: 3, nome: 'Alvenaria', orcadoOriginal: 800000, orcadoAtual: 820000, realizado: 574000, percentualExecutado: 70.0, saldo: 246000 },
-      { id: 4, nome: 'Instalações Elétricas', orcadoOriginal: 650000, orcadoAtual: 680000, realizado: 340000, percentualExecutado: 50.0, saldo: 340000 },
-      { id: 5, nome: 'Instalações Hidráulicas', orcadoOriginal: 550000, orcadoAtual: 570000, realizado: 256500, percentualExecutado: 45.0, saldo: 313500 },
-      { id: 6, nome: 'Revestimento', orcadoOriginal: 900000, orcadoAtual: 950000, realizado: 285000, percentualExecutado: 30.0, saldo: 665000 },
-      { id: 7, nome: 'Pintura', orcadoOriginal: 400000, orcadoAtual: 420000, realizado: 84000, percentualExecutado: 20.0, saldo: 336000 },
-      { id: 8, nome: 'Esquadrias', orcadoOriginal: 750000, orcadoAtual: 780000, realizado: 156000, percentualExecutado: 20.0, saldo: 624000 },
-      { id: 9, nome: 'Impermeabilização', orcadoOriginal: 350000, orcadoAtual: 360000, realizado: 252000, percentualExecutado: 70.0, saldo: 108000 },
-      { id: 10, nome: 'Elevadores', orcadoOriginal: 600000, orcadoAtual: 620000, realizado: 186000, percentualExecutado: 30.0, saldo: 434000 }
-    ];
-
-    // Execução Físico vs Financeiro
-    this.execucaoComparativo = [
-      { mes: 'Jan', fisicoAcumulado: 5, financeiroAcumulado: 4 },
-      { mes: 'Fev', fisicoAcumulado: 12, financeiroAcumulado: 10 },
-      { mes: 'Mar', fisicoAcumulado: 20, financeiroAcumulado: 18 },
-      { mes: 'Abr', fisicoAcumulado: 28, financeiroAcumulado: 25 },
-      { mes: 'Mai', fisicoAcumulado: 36, financeiroAcumulado: 33 },
-      { mes: 'Jun', fisicoAcumulado: 44, financeiroAcumulado: 40 },
-      { mes: 'Jul', fisicoAcumulado: 52, financeiroAcumulado: 48 },
-      { mes: 'Ago', fisicoAcumulado: 58, financeiroAcumulado: 54 },
-      { mes: 'Set', fisicoAcumulado: 65, financeiroAcumulado: 60 },
-      { mes: 'Out', fisicoAcumulado: 72, financeiroAcumulado: 67 },
-      { mes: 'Nov', fisicoAcumulado: 78, financeiroAcumulado: 73 },
-      { mes: 'Dez', fisicoAcumulado: 85, financeiroAcumulado: 80 }
-    ];
-
-    // Revisões Orçamentárias
-    this.revisoesOrcamentarias = [
-      { id: 1, numero: 'REV-001', data: '2024-02-15', descricao: 'Ajuste fundação - solo rochoso', valorAnterior: 1200000, valorNovo: 1250000, diferenca: 50000, status: 'aprovada', responsavel: 'João Silva' },
-      { id: 2, numero: 'REV-002', data: '2024-03-20', descricao: 'Reforço estrutural - aumento de carga', valorAnterior: 3500000, valorNovo: 3650000, diferenca: 150000, status: 'aprovada', responsavel: 'Maria Santos' },
-      { id: 3, numero: 'REV-003', data: '2024-05-10', descricao: 'Alteração projeto elétrico', valorAnterior: 650000, valorNovo: 680000, diferenca: 30000, status: 'aprovada', responsavel: 'Carlos Oliveira' },
-      { id: 4, numero: 'REV-004', data: '2024-06-25', descricao: 'Melhoria acabamento fachada', valorAnterior: 900000, valorNovo: 950000, diferenca: 50000, status: 'pendente', responsavel: 'Ana Costa' },
-      { id: 5, numero: 'REV-005', data: '2024-07-15', descricao: 'Substituição material hidráulico', valorAnterior: 550000, valorNovo: 570000, diferenca: 20000, status: 'aprovada', responsavel: 'Pedro Lima' },
-      { id: 6, numero: 'REV-006', data: '2024-08-01', descricao: 'Inclusão sistema automação', valorAnterior: 0, valorNovo: 180000, diferenca: 180000, status: 'pendente', responsavel: 'Roberto Alves' }
-    ];
-
-    // Custo por m²
-    this.custosM2 = this.centrosCusto.map(cc => ({
-      centroCusto: cc.nome,
-      custoTotal: cc.realizado,
-      areaTotal: this.areaTotal,
-      custoM2: cc.realizado / this.areaTotal,
-      percentualTotal: 0
-    }));
-
-    this.calculateTotals();
+        this.calculateTotals();
+        this.isLoading = false;
+        this.updateCharts();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar dados da obra:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   private calculateTotals() {
@@ -184,12 +157,12 @@ export class ObraPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.percentualFinanceiro = ultimoMes?.financeiroAcumulado || 0;
 
     // Custo m² médio
-    this.custoM2Medio = this.executadoTotal / this.areaTotal;
+    this.custoM2Medio = this.areaTotal > 0 ? this.executadoTotal / this.areaTotal : 0;
 
     // Calcular percentual de cada custo no total
     const custoTotalM2 = this.custosM2.reduce((sum, c) => sum + c.custoM2, 0);
     this.custosM2.forEach(c => {
-      c.percentualTotal = (c.custoM2 / custoTotalM2) * 100;
+      c.percentualTotal = custoTotalM2 > 0 ? (c.custoM2 / custoTotalM2) * 100 : 0;
     });
 
     // Ordenar por custo m²
@@ -198,15 +171,13 @@ export class ObraPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeEmpreendimento() {
     this.loadObraData();
-    setTimeout(() => {
-      this.updateCharts();
-    }, 600);
   }
 
   private async initCharts() {
     try {
       const Chart = await import('chart.js/auto').then(m => m.default);
 
+      this.destroyCharts();
       this.initCentroCustoChart(Chart);
       this.initExecucaoChart(Chart);
       this.initCustoM2Chart(Chart);
@@ -486,8 +457,5 @@ export class ObraPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   refreshData() {
     this.loadObraData();
-    setTimeout(() => {
-      this.updateCharts();
-    }, 600);
   }
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { Chart } from 'chart.js';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { DashboardService } from '../../services/dashboard.service';
 
 interface MargemData {
   mes: string;
@@ -57,13 +58,12 @@ export class IndicadoresFinanceirosPageComponent implements OnInit, AfterViewIni
   viabilidadeData: ViabilidadeData[] = [];
   resumoIndicadores: ResumoIndicador[] = [];
 
-  // Empreendimentos
-  empreendimentos = [
-    { id: '', nome: 'Todos os Empreendimentos' },
-    { id: 'aurora', nome: 'Edifício Aurora' },
-    { id: 'solar', nome: 'Residencial Solar' },
-    { id: 'parque', nome: 'Parque das Flores' }
+  // Empreendimentos (preenchido a partir dos dados de viabilidade reais)
+  empreendimentos: { id: string; nome: string }[] = [
+    { id: '', nome: 'Todos os Empreendimentos' }
   ];
+
+  private dashboardService = inject(DashboardService);
 
   // Charts
   margemBrutaChart: Chart | null = null;
@@ -92,106 +92,28 @@ export class IndicadoresFinanceirosPageComponent implements OnInit, AfterViewIni
     if (this.comparativoChart) this.comparativoChart.destroy();
   }
 
-  async loadIndicadoresData() {
+  loadIndicadoresData() {
     this.isLoading = true;
-    try {
-      await this.loadMockData();
-    } catch (error) {
-      console.error('Erro ao carregar indicadores financeiros:', error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
+    this.dashboardService.getIndicadores().subscribe({
+      next: (data) => {
+        this.margensData = data.margens;
+        this.viabilidadeData = data.viabilidade;
 
-  private async loadMockData() {
-    await new Promise(resolve => setTimeout(resolve, 500));
+        // Seletor de empreendimentos a partir dos dados reais
+        this.empreendimentos = [
+          { id: '', nome: 'Todos os Empreendimentos' },
+          ...data.viabilidade.map(v => ({ id: String(v.id), nome: v.empreendimento }))
+        ];
 
-    // Margens mensais
-    this.margensData = [
-      { mes: 'Jan', margemBrutaProjetada: 32, margemBrutaRealizada: 30.5, margemLiquidaProjetada: 18, margemLiquidaRealizada: 16.8 },
-      { mes: 'Fev', margemBrutaProjetada: 32, margemBrutaRealizada: 31.2, margemLiquidaProjetada: 18, margemLiquidaRealizada: 17.5 },
-      { mes: 'Mar', margemBrutaProjetada: 33, margemBrutaRealizada: 32.8, margemLiquidaProjetada: 19, margemLiquidaRealizada: 18.2 },
-      { mes: 'Abr', margemBrutaProjetada: 33, margemBrutaRealizada: 33.5, margemLiquidaProjetada: 19, margemLiquidaRealizada: 19.1 },
-      { mes: 'Mai', margemBrutaProjetada: 34, margemBrutaRealizada: 33.2, margemLiquidaProjetada: 20, margemLiquidaRealizada: 18.9 },
-      { mes: 'Jun', margemBrutaProjetada: 34, margemBrutaRealizada: 34.8, margemLiquidaProjetada: 20, margemLiquidaRealizada: 20.5 },
-      { mes: 'Jul', margemBrutaProjetada: 35, margemBrutaRealizada: 34.2, margemLiquidaProjetada: 21, margemLiquidaRealizada: 19.8 },
-      { mes: 'Ago', margemBrutaProjetada: 35, margemBrutaRealizada: 35.5, margemLiquidaProjetada: 21, margemLiquidaRealizada: 21.2 },
-      { mes: 'Set', margemBrutaProjetada: 36, margemBrutaRealizada: 35.1, margemLiquidaProjetada: 22, margemLiquidaRealizada: 20.8 },
-      { mes: 'Out', margemBrutaProjetada: 36, margemBrutaRealizada: 36.2, margemLiquidaProjetada: 22, margemLiquidaRealizada: 21.5 },
-      { mes: 'Nov', margemBrutaProjetada: 37, margemBrutaRealizada: 36.8, margemLiquidaProjetada: 23, margemLiquidaRealizada: 22.1 },
-      { mes: 'Dez', margemBrutaProjetada: 37, margemBrutaRealizada: 37.5, margemLiquidaProjetada: 23, margemLiquidaRealizada: 23.2 }
-    ];
-
-    // Dados de Viabilidade por Empreendimento
-    this.viabilidadeData = [
-      {
-        id: 1,
-        empreendimento: 'Edifício Aurora',
-        roiProjetado: 28.5,
-        roiRealizado: 31.2,
-        paybackProjetado: 36,
-        paybackRealizado: 32,
-        tirProjetada: 18.5,
-        tirRealizada: 20.1,
-        vplProjetado: 12500000,
-        vplRealizado: 14200000,
-        status: 'acima'
+        this.calculateTotals();
+        this.isLoading = false;
+        this.updateCharts();
       },
-      {
-        id: 2,
-        empreendimento: 'Residencial Solar',
-        roiProjetado: 25.0,
-        roiRealizado: 24.2,
-        paybackProjetado: 42,
-        paybackRealizado: 44,
-        tirProjetada: 16.0,
-        tirRealizada: 15.2,
-        vplProjetado: 8500000,
-        vplRealizado: 7800000,
-        status: 'dentro'
-      },
-      {
-        id: 3,
-        empreendimento: 'Parque das Flores',
-        roiProjetado: 22.0,
-        roiRealizado: 18.5,
-        paybackProjetado: 48,
-        paybackRealizado: 56,
-        tirProjetada: 14.5,
-        tirRealizada: 11.8,
-        vplProjetado: 6200000,
-        vplRealizado: 4500000,
-        status: 'abaixo'
-      },
-      {
-        id: 4,
-        empreendimento: 'Torre Business Center',
-        roiProjetado: 30.0,
-        roiRealizado: 29.5,
-        paybackProjetado: 30,
-        paybackRealizado: 31,
-        tirProjetada: 21.0,
-        tirRealizada: 20.5,
-        vplProjetado: 18000000,
-        vplRealizado: 17200000,
-        status: 'dentro'
-      },
-      {
-        id: 5,
-        empreendimento: 'Condomínio Verde Valle',
-        roiProjetado: 20.0,
-        roiRealizado: 22.8,
-        paybackProjetado: 54,
-        paybackRealizado: 48,
-        tirProjetada: 13.0,
-        tirRealizada: 15.2,
-        vplProjetado: 4800000,
-        vplRealizado: 5900000,
-        status: 'acima'
+      error: (error) => {
+        console.error('Erro ao carregar indicadores financeiros:', error);
+        this.isLoading = false;
       }
-    ];
-
-    this.calculateTotals();
+    });
   }
 
   private calculateTotals() {
@@ -265,6 +187,7 @@ export class IndicadoresFinanceirosPageComponent implements OnInit, AfterViewIni
     try {
       const Chart = await import('chart.js/auto').then(m => m.default);
 
+      this.destroyCharts();
       this.initMargemBrutaChart(Chart);
       this.initMargemLiquidaChart(Chart);
       this.initRoiChart(Chart);

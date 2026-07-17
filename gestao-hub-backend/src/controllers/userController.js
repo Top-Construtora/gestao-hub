@@ -1,4 +1,5 @@
 const userService = require('../services/userService');
+const { User } = require('../models');
 const { validateCreateUser, validateUpdateUser } = require('../utils/validators');
 
 class UserController {

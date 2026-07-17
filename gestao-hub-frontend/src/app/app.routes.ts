@@ -161,6 +161,7 @@ export const routes: Routes = [
       },
 
       // Redirecionamentos para compatibilidade com rotas antigas
+      { path: 'dashboard', redirectTo: 'inicio', pathMatch: 'full' },
       { path: 'users', redirectTo: 'usuarios', pathMatch: 'full' },
       { path: 'users/new', redirectTo: 'usuarios/novo', pathMatch: 'full' },
       { path: 'users/edit/:id', redirectTo: 'usuarios/editar/:id', pathMatch: 'full' },

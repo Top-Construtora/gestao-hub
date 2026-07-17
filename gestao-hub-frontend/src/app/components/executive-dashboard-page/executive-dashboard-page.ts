@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { Chart } from 'chart.js';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { DashboardService } from '../../services/dashboard.service';
 
 interface KPICard {
   id: string;
@@ -49,13 +50,15 @@ export class ExecutiveDashboardPageComponent implements OnInit, AfterViewInit, O
   segmentoChart: Chart | null = null;
   fluxoCaixaChart: Chart | null = null;
 
-  // Dados do fluxo de caixa (mock)
+  // Dados do fluxo de caixa
   fluxoCaixaData = {
     labels: [] as string[],
     entradas: [] as number[],
     saidas: [] as number[],
     saldo: [] as number[]
   };
+
+  private dashboardService = inject(DashboardService);
 
   ngOnInit() {
     this.loadDashboardData();
@@ -76,48 +79,32 @@ export class ExecutiveDashboardPageComponent implements OnInit, AfterViewInit, O
     }
   }
 
-  async loadDashboardData() {
+  loadDashboardData() {
     this.isLoading = true;
-    try {
-      // Dados mockados para demonstração
-      await this.loadMockData();
-    } catch (error) {
-      console.error('Erro ao carregar dashboard:', error);
-    } finally {
-      this.isLoading = false;
-    }
+    this.dashboardService.getDashboardExecutivo().subscribe({
+      next: (data) => {
+        this.empreendimentosPorSegmento = data.empreendimentosPorSegmento;
+        this.totalEmpreendimentos = data.totalEmpreendimentos;
+        this.vgvTotal = data.vgvTotal;
+        this.vgvVendido = data.vgvVendido;
+        this.percentualVendas = data.percentualVendas;
+        this.caixaConsolidado = data.caixaConsolidado;
+        this.fluxoCaixaData = data.fluxoCaixa;
+        this.updateKPICards();
+        this.isLoading = false;
+        this.destroyCharts();
+        setTimeout(() => this.initCharts(), 50);
+      },
+      error: (error) => {
+        console.error('Erro ao carregar dashboard:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
-  private async loadMockData() {
-    // Simular delay de API
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // Empreendimentos por segmento
-    this.empreendimentosPorSegmento = [
-      { segmento: 'Vertical', quantidade: 8, cor: '#09005C' },
-      { segmento: 'Horizontal', quantidade: 12, cor: '#00EDB1' },
-      { segmento: 'Loteamento', quantidade: 5, cor: '#30ADFC' }
-    ];
-    this.totalEmpreendimentos = this.empreendimentosPorSegmento.reduce((acc, e) => acc + e.quantidade, 0);
-
-    // VGV (Valor Geral de Vendas)
-    this.vgvTotal = 850000000; // R$ 850 milhões
-    this.vgvVendido = 612000000; // R$ 612 milhões
-    this.percentualVendas = (this.vgvVendido / this.vgvTotal) * 100;
-
-    // Caixa consolidado
-    this.caixaConsolidado = 45800000; // R$ 45,8 milhões
-
-    // Fluxo de caixa mensal
-    this.fluxoCaixaData = {
-      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-      entradas: [12.5, 15.2, 18.3, 14.8, 22.1, 19.5, 25.3, 21.8, 28.4, 24.6, 31.2, 27.8],
-      saidas: [8.2, 10.5, 12.1, 9.8, 15.3, 13.2, 18.4, 16.2, 20.1, 17.5, 22.8, 19.4],
-      saldo: [4.3, 4.7, 6.2, 5.0, 6.8, 6.3, 6.9, 5.6, 8.3, 7.1, 8.4, 8.4]
-    };
-
-    // Atualizar cards KPI
-    this.updateKPICards();
+  private destroyCharts() {
+    if (this.segmentoChart) { this.segmentoChart.destroy(); this.segmentoChart = null; }
+    if (this.fluxoCaixaChart) { this.fluxoCaixaChart.destroy(); this.fluxoCaixaChart = null; }
   }
 
   private updateKPICards() {
@@ -165,6 +152,7 @@ export class ExecutiveDashboardPageComponent implements OnInit, AfterViewInit, O
     try {
       const Chart = await import('chart.js/auto').then(m => m.default);
 
+      this.destroyCharts();
       this.initSegmentoChart(Chart);
       this.initFluxoCaixaChart(Chart);
     } catch (error) {
@@ -309,15 +297,6 @@ export class ExecutiveDashboardPageComponent implements OnInit, AfterViewInit, O
 
   refreshData() {
     this.loadDashboardData();
-    setTimeout(() => {
-      if (this.segmentoChart) {
-        this.segmentoChart.destroy();
-      }
-      if (this.fluxoCaixaChart) {
-        this.fluxoCaixaChart.destroy();
-      }
-      this.initCharts();
-    }, 600);
   }
 
   getSegmentoPercentage(quantidade: number): number {

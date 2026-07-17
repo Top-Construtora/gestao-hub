@@ -1,18 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
-import { SettingsPage } from './settings-page';
+import { SettingsPageComponent } from './settings-page';
 
-describe('SettingsPage', () => {
-  let component: SettingsPage;
-  let fixture: ComponentFixture<SettingsPage>;
+describe('SettingsPageComponent', () => {
+  let component: SettingsPageComponent;
+  let fixture: ComponentFixture<SettingsPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsPage]
+      imports: [SettingsPageComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([]), provideNoopAnimations(), provideToastr()]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SettingsPage);
+    fixture = TestBed.createComponent(SettingsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

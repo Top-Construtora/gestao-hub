@@ -70,7 +70,7 @@ class EmailService {
       await transporter.sendMail(mailOptions);
     } catch (error) {
       console.error('❌ Erro ao enviar código:', error);
-      throw new Error('Erro ao enviar email de recuperação');
+      throw new Error('Erro ao enviar email de recuperação', { cause: error });
     }
   }
    
@@ -132,7 +132,7 @@ class EmailService {
       await transporter.sendMail(mailOptions);
     } catch (error) {
       console.error('❌ Error sending welcome email:', error);
-      throw new Error('Error sending welcome email');
+      throw new Error('Error sending welcome email', { cause: error });
     }
   }
 
@@ -245,7 +245,7 @@ class EmailService {
         await transporter.sendMail(mailOptions);
       } catch (error) {
         console.error('❌ Erro ao enviar proposta:', error);
-        throw new Error('Erro ao enviar email da proposta');
+        throw new Error('Erro ao enviar email da proposta', { cause: error });
       }
     }
   }
@@ -324,7 +324,7 @@ class EmailService {
       await transporter.sendMail(mailOptions);
     } catch (error) {
       console.error('❌ Error sending admin password reset email:', error);
-      throw new Error('Error sending password reset email');
+      throw new Error('Error sending password reset email', { cause: error });
     }
   }
 }

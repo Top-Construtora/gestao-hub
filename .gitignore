@@ -43,4 +43,7 @@ temp/
 # Misc
 .claude/
 CLAUDE.md
-database/
+
+# Banco de dados: dumps/dados locais ignorados; migrations versionadas
+database/*
+!database/migrations/

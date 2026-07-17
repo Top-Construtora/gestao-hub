@@ -1,18 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
-import { NewUserPage } from './new-user-page';
+import { NewUserPageComponent } from './new-user-page';
 
-describe('NewUserPage', () => {
-  let component: NewUserPage;
-  let fixture: ComponentFixture<NewUserPage>;
+describe('NewUserPageComponent', () => {
+  let component: NewUserPageComponent;
+  let fixture: ComponentFixture<NewUserPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NewUserPage]
+      imports: [NewUserPageComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([]), provideNoopAnimations(), provideToastr()]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NewUserPage);
+    fixture = TestBed.createComponent(NewUserPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,24 +1,11 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { Chart } from 'chart.js';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { DashboardService, EmpreendimentoDTO } from '../../services/dashboard.service';
 
-interface Empreendimento {
-  id: number;
-  nome: string;
-  fase: string;
-  spe: string;
-  segmento: 'Vertical' | 'Horizontal' | 'Loteamento';
-  vgvTotal: number;
-  vgvVendido: number;
-  percentualVendas: number;
-  percentualObras: number;
-  percentualRecebiveis: number;
-  caixaDisponivel: number;
-  resultadoProjetado: number;
-  resultadoRealizado: number;
-}
+type Empreendimento = EmpreendimentoDTO;
 
 @Component({
   selector: 'app-empreendimentos-page',
@@ -61,114 +48,21 @@ export class EmpreendimentosPageComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  async loadEmpreendimentos() {
+  private dashboardService = inject(DashboardService);
+
+  loadEmpreendimentos() {
     this.isLoading = true;
-    try {
-      await this.loadMockData();
-    } catch (error) {
-      console.error('Erro ao carregar empreendimentos:', error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
-  private async loadMockData() {
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    this.empreendimentos = [
-      {
-        id: 1,
-        nome: 'Residencial Aurora',
-        fase: 'Lançamento',
-        spe: 'Aurora SPE Ltda',
-        segmento: 'Vertical',
-        vgvTotal: 85000000,
-        vgvVendido: 42500000,
-        percentualVendas: 50,
-        percentualObras: 25,
-        percentualRecebiveis: 35,
-        caixaDisponivel: 12500000,
-        resultadoProjetado: 15000000,
-        resultadoRealizado: 8500000
+    this.dashboardService.getEmpreendimentos().subscribe({
+      next: (data) => {
+        this.empreendimentos = data.empreendimentos;
+        this.filteredEmpreendimentos = [...this.empreendimentos];
+        this.isLoading = false;
       },
-      {
-        id: 2,
-        nome: 'Condomínio Verde Vale',
-        fase: 'Construção',
-        spe: 'Verde Vale SPE Ltda',
-        segmento: 'Horizontal',
-        vgvTotal: 120000000,
-        vgvVendido: 96000000,
-        percentualVendas: 80,
-        percentualObras: 65,
-        percentualRecebiveis: 55,
-        caixaDisponivel: 8200000,
-        resultadoProjetado: 22000000,
-        resultadoRealizado: 18500000
-      },
-      {
-        id: 3,
-        nome: 'Loteamento Sol Nascente',
-        fase: 'Pré-lançamento',
-        spe: 'Sol Nascente SPE Ltda',
-        segmento: 'Loteamento',
-        vgvTotal: 45000000,
-        vgvVendido: 9000000,
-        percentualVendas: 20,
-        percentualObras: 10,
-        percentualRecebiveis: 15,
-        caixaDisponivel: 5800000,
-        resultadoProjetado: 8000000,
-        resultadoRealizado: 1200000
-      },
-      {
-        id: 4,
-        nome: 'Edifício Metropolitan',
-        fase: 'Entrega',
-        spe: 'Metropolitan SPE Ltda',
-        segmento: 'Vertical',
-        vgvTotal: 180000000,
-        vgvVendido: 171000000,
-        percentualVendas: 95,
-        percentualObras: 100,
-        percentualRecebiveis: 78,
-        caixaDisponivel: 3500000,
-        resultadoProjetado: 35000000,
-        resultadoRealizado: 32800000
-      },
-      {
-        id: 5,
-        nome: 'Parque das Palmeiras',
-        fase: 'Construção',
-        spe: 'Palmeiras SPE Ltda',
-        segmento: 'Horizontal',
-        vgvTotal: 75000000,
-        vgvVendido: 52500000,
-        percentualVendas: 70,
-        percentualObras: 45,
-        percentualRecebiveis: 40,
-        caixaDisponivel: 6200000,
-        resultadoProjetado: 12000000,
-        resultadoRealizado: 7800000
-      },
-      {
-        id: 6,
-        nome: 'Loteamento Bosque Real',
-        fase: 'Lançamento',
-        spe: 'Bosque Real SPE Ltda',
-        segmento: 'Loteamento',
-        vgvTotal: 32000000,
-        vgvVendido: 14400000,
-        percentualVendas: 45,
-        percentualObras: 30,
-        percentualRecebiveis: 28,
-        caixaDisponivel: 4100000,
-        resultadoProjetado: 6500000,
-        resultadoRealizado: 3200000
+      error: (error) => {
+        console.error('Erro ao carregar empreendimentos:', error);
+        this.isLoading = false;
       }
-    ];
-
-    this.filteredEmpreendimentos = [...this.empreendimentos];
+    });
   }
 
   filterEmpreendimentos() {
@@ -186,7 +80,13 @@ export class EmpreendimentosPageComponent implements OnInit, AfterViewInit, OnDe
 
   selectEmpreendimento(emp: Empreendimento) {
     this.selectedEmpreendimento = emp;
-    this.generateFluxoCaixaData(emp);
+    // Fluxo projetado vem calculado do backend a partir do VGV real
+    this.fluxoCaixaData = {
+      labels: emp.fluxoProjetado.labels,
+      entradas: emp.fluxoProjetado.entradas,
+      saidas: emp.fluxoProjetado.saidas,
+      saldo: emp.fluxoProjetado.saldo
+    };
 
     setTimeout(() => {
       this.initFluxoCaixaChart();
@@ -199,31 +99,6 @@ export class EmpreendimentosPageComponent implements OnInit, AfterViewInit, OnDe
       this.fluxoCaixaChart.destroy();
       this.fluxoCaixaChart = null;
     }
-  }
-
-  private generateFluxoCaixaData(emp: Empreendimento) {
-    // Gera dados mock baseados no empreendimento
-    const baseValue = emp.vgvTotal / 12000000;
-
-    this.fluxoCaixaData = {
-      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-      entradas: [
-        baseValue * 0.8, baseValue * 1.2, baseValue * 1.0, baseValue * 0.9,
-        baseValue * 1.4, baseValue * 1.1, baseValue * 1.3, baseValue * 1.0,
-        baseValue * 1.5, baseValue * 1.2, baseValue * 1.6, baseValue * 1.4
-      ],
-      saidas: [
-        baseValue * 0.6, baseValue * 0.8, baseValue * 0.7, baseValue * 0.65,
-        baseValue * 0.9, baseValue * 0.75, baseValue * 0.85, baseValue * 0.7,
-        baseValue * 1.0, baseValue * 0.8, baseValue * 1.1, baseValue * 0.95
-      ],
-      saldo: []
-    };
-
-    // Calcula saldo
-    this.fluxoCaixaData.saldo = this.fluxoCaixaData.entradas.map((entrada, i) =>
-      entrada - this.fluxoCaixaData.saidas[i]
-    );
   }
 
   private async initFluxoCaixaChart() {

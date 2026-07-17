@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { DashboardService } from '../../services/dashboard.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 import type { Chart } from 'chart.js';
 
@@ -106,11 +107,16 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Chart
   miniChart: Chart | null = null;
+  private miniFluxo: { labels: string[]; entradas: number[]; saidas: number[] } = {
+    labels: [], entradas: [], saidas: []
+  };
 
   // Dados resumo
-  empreendimentosAtivos = 5;
-  obrasEmAndamento = 3;
-  vendasMes = 12;
+  empreendimentosAtivos = 0;
+  obrasEmAndamento = 0;
+  vendasMes = 0;
+
+  private dashboardService = inject(DashboardService);
 
   constructor(
     private router: Router,
@@ -140,84 +146,85 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private loadData() {
-    // KPIs
-    this.kpiCards = [
-      {
-        id: 'vgv',
-        label: 'VGV Total',
-        value: 'R$ 285M',
-        subValue: '5 empreendimentos',
-        icon: 'fas fa-city',
-        color: '#09005C',
-        bgColor: 'rgba(9, 0, 92, 0.15)',
-        trend: 12.5,
-        route: '/home/empreendimentos'
-      },
-      {
-        id: 'caixa',
-        label: 'Caixa Disponível',
-        value: 'R$ 18.5M',
-        subValue: 'consolidado',
-        icon: 'fas fa-wallet',
-        color: '#00EDB1',
-        bgColor: 'rgba(0, 237, 177, 0.15)',
-        trend: 8.2,
-        route: '/home/fluxo-caixa'
-      },
-      {
-        id: 'obras',
-        label: 'Obras em Andamento',
-        value: '3',
-        subValue: '68% média execução',
-        icon: 'fas fa-hard-hat',
-        color: '#30ADFC',
-        bgColor: 'rgba(48, 173, 252, 0.15)',
-        route: '/home/obra'
-      },
-      {
-        id: 'margem',
-        label: 'Margem Líquida',
-        value: '23.2%',
-        subValue: 'realizada',
-        icon: 'fas fa-chart-line',
-        color: '#ffc107',
-        bgColor: 'rgba(255, 193, 7, 0.15)',
-        trend: 2.1,
-        route: '/home/indicadores-financeiros'
-      }
-    ];
+    this.dashboardService.getHome().subscribe({
+      next: (data) => {
+        const k = data.kpis;
+        this.empreendimentosAtivos = k.empreendimentosAtivos;
+        this.obrasEmAndamento = k.obrasEmAndamento;
 
-    // Alertas
-    this.alertas = [
-      {
-        id: 1,
-        tipo: 'warning',
-        titulo: 'Revisão orçamentária pendente',
-        descricao: 'Edifício Aurora - REV-004 aguardando aprovação',
-        data: '2024-01-15'
+        this.kpiCards = [
+          {
+            id: 'vgv',
+            label: 'VGV Total',
+            value: this.formatCurrencyShort(k.vgvTotal),
+            subValue: `${k.empreendimentosAtivos} empreendimentos`,
+            icon: 'fas fa-city',
+            color: '#09005C',
+            bgColor: 'rgba(9, 0, 92, 0.15)',
+            route: '/home/empreendimentos'
+          },
+          {
+            id: 'caixa',
+            label: 'Caixa Disponível',
+            value: this.formatCurrencyShort(k.caixaDisponivel),
+            subValue: 'consolidado',
+            icon: 'fas fa-wallet',
+            color: '#00EDB1',
+            bgColor: 'rgba(0, 237, 177, 0.15)',
+            route: '/home/fluxo-caixa'
+          },
+          {
+            id: 'obras',
+            label: 'Obras em Andamento',
+            value: `${k.obrasEmAndamento}`,
+            subValue: 'em construção',
+            icon: 'fas fa-hard-hat',
+            color: '#30ADFC',
+            bgColor: 'rgba(48, 173, 252, 0.15)',
+            route: '/home/obra'
+          },
+          {
+            id: 'margem',
+            label: 'Margem Líquida',
+            value: `${k.margemLiquida.toFixed(1)}%`,
+            subValue: 'realizada',
+            icon: 'fas fa-chart-line',
+            color: '#ffc107',
+            bgColor: 'rgba(255, 193, 7, 0.15)',
+            route: '/home/indicadores-financeiros'
+          }
+        ];
+
+        this.alertas = data.alertas.map((a) => ({
+          id: a.id,
+          tipo: a.tipo as AlertItem['tipo'],
+          titulo: a.titulo,
+          descricao: a.descricao,
+          data: a.data
+        }));
+
+        this.miniFluxo = data.miniFluxo;
+        this.refreshChart();
       },
-      {
-        id: 2,
-        tipo: 'info',
-        titulo: 'Meta de vendas atingida',
-        descricao: 'Residencial Solar alcançou 85% das vendas',
-        data: '2024-01-14'
-      },
-      {
-        id: 3,
-        tipo: 'success',
-        titulo: 'Obra concluída',
-        descricao: 'Parque das Flores - Fase de acabamento finalizada',
-        data: '2024-01-12'
-      },
-      {
-        id: 4,
-        tipo: 'danger',
-        titulo: 'Fluxo de caixa negativo',
-        descricao: 'Torre Business - Projeção março requer atenção',
-        data: '2024-01-10'
+      error: (err) => {
+        console.error('Erro ao carregar dados da home:', err);
       }
-    ];
+    });
+  }
+
+  private formatCurrencyShort(value: number): string {
+    if (value >= 1000000000) return `R$ ${(value / 1000000000).toFixed(1)}B`;
+    if (value >= 1000000) return `R$ ${(value / 1000000).toFixed(1)}M`;
+    if (value >= 1000) return `R$ ${(value / 1000).toFixed(1)}K`;
+    return `R$ ${value.toFixed(0)}`;
+  }
+
+  private refreshChart() {
+    if (this.miniChart) {
+      this.miniChart.destroy();
+      this.miniChart = null;
+    }
+    setTimeout(() => this.initChart(), 50);
   }
 
   private async initChart() {
@@ -229,11 +236,11 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.miniChart = new Chart(canvas, {
         type: 'line',
         data: {
-          labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+          labels: this.miniFluxo.labels,
           datasets: [
             {
               label: 'Entradas',
-              data: [2.5, 2.8, 3.1, 2.9, 3.4, 3.2],
+              data: this.miniFluxo.entradas,
               borderColor: '#00EDB1',
               backgroundColor: 'rgba(0, 237, 177, 0.1)',
               borderWidth: 2,
@@ -243,7 +250,7 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             {
               label: 'Saídas',
-              data: [1.8, 2.1, 2.3, 2.0, 2.5, 2.2],
+              data: this.miniFluxo.saidas,
               borderColor: '#ef4444',
               backgroundColor: 'rgba(239, 68, 68, 0.1)',
               borderWidth: 2,

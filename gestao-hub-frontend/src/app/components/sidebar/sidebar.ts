@@ -48,7 +48,7 @@ export class SidebarComponent {
       title: 'CONFIGURAÇÕES',
       items: [
         { id: 'usuarios', icon: 'fas fa-users-cog', text: 'Usuários', route: '/home/usuarios', adminOnly: true, adminOnlyNotGerencial: true },
-        { id: 'configuracoes', icon: 'fas fa-cog', text: 'Configuraçoes', route: '/home/configuracoes' }
+        { id: 'configuracoes', icon: 'fas fa-cog', text: 'Configurações', route: '/home/configuracoes' }
       ]
     },
     {

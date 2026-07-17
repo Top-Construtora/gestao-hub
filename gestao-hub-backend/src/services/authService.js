@@ -5,23 +5,26 @@ const authConfig = require('../config/auth');
 const { User } = require('../models');
 const emailService = require('./emailService');
 
+// Erros de negócio precisam carregar o status HTTP; sem ele o errorHandler responde 500
+const httpError = (status, message) => Object.assign(new Error(message), { status });
+
 class AuthService {
   async login(email, password) {
     // Buscar usuário com todos os campos necessários
     const user = await User.findByEmail(email);
     if (!user) {
-      throw new Error('Credenciais inválidas');
+      throw httpError(401, 'Credenciais inválidas');
     }
 
     // Verificar se usuário está ativo
     if (!user.is_active) {
-      throw new Error('Usuário inativo. Entre em contato com o administrador.');
+      throw httpError(403, 'Usuário inativo. Entre em contato com o administrador.');
     }
 
     // Verificar senha
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new Error('Credenciais inválidas');
+      throw httpError(401, 'Credenciais inválidas');
     }
 
     // *** ATUALIZAR ÚLTIMO LOGIN ***
@@ -67,19 +70,19 @@ class AuthService {
     // Buscar usuário com senha
     const user = await User.findById(userId);
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw httpError(404, 'Usuário não encontrado');
     }
 
     // Verificar senha atual
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) {
-      throw new Error('Senha atual incorreta');
+      throw httpError(400, 'Senha atual incorreta');
     }
 
     // Verificar se a nova senha é diferente da atual
     const isSamePassword = await bcrypt.compare(newPassword, user.password);
     if (isSamePassword) {
-      throw new Error('A nova senha deve ser diferente da senha atual');
+      throw httpError(400, 'A nova senha deve ser diferente da senha atual');
     }
 
     // Hash da nova senha
@@ -98,12 +101,12 @@ class AuthService {
     // Buscar usuário
     const user = await User.findById(userId);
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw httpError(404, 'Usuário não encontrado');
     }
 
     // Verificar se realmente precisa trocar a senha
     if (!user.must_change_password) {
-      throw new Error('Usuário não precisa trocar a senha');
+      throw httpError(400, 'Usuário não precisa trocar a senha');
     }
 
     // Hash da nova senha
@@ -169,7 +172,7 @@ class AuthService {
     // Buscar usuário pelo token
     const user = await User.findByResetToken(hashedToken);
     if (!user) {
-      throw new Error('Código inválido ou expirado');
+      throw httpError(400, 'Código inválido ou expirado');
     }
 
     // Hash da nova senha
@@ -188,7 +191,7 @@ class AuthService {
     // Verificar se o token existe e não expirou
     const user = await User.findByResetToken(hashedToken);
     if (!user) {
-      throw new Error('Código inválido ou expirado');
+      throw httpError(400, 'Código inválido ou expirado');
     }
 
     return { valid: true, email: user.email };

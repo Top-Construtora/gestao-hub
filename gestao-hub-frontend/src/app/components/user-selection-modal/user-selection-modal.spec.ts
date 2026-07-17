@@ -1,18 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { UserSelectionModal } from './user-selection-modal';
+import { UserSelectionModalComponent } from './user-selection-modal';
 
-describe('UserSelectionModal', () => {
-  let component: UserSelectionModal;
-  let fixture: ComponentFixture<UserSelectionModal>;
+describe('UserSelectionModalComponent', () => {
+  let component: UserSelectionModalComponent;
+  let fixture: ComponentFixture<UserSelectionModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserSelectionModal]
+      imports: [UserSelectionModalComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserSelectionModal);
+    fixture = TestBed.createComponent(UserSelectionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
